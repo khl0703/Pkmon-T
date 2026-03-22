@@ -3,7 +3,7 @@ import { ck, ckAny, ckDir, initInput } from "./core/input.js";
 import { beginFrame, ctx, drawFade, drawPokeball, drawText, drawTextCentered, drawWin } from "./core/renderer.js";
 import { loadSettingsFromStorage, saveSettingsToStorage } from "./core/storage.js";
 import { clamp } from "./core/utils.js";
-import { GS, optState, proState, resetPrologueState, screenState, setScreen, startFade, titleState, updateFade, PD } from "./core/state.js";
+import { GS, fadeState, optState, proState, resetPrologueState, screenState, setScreen, startFade, titleState, updateFade, PD } from "./core/state.js";
 import { t } from "./data/i18n.js";
 import { updateBattle, renderBattle } from "./systems/battleSystem.js";
 import { renderDialog, showDialog, updateDialog } from "./systems/dialogSystem.js";
@@ -211,6 +211,9 @@ function renderPrologue() {
 
 function update() {
   updateFade();
+  if (fadeState.active) {
+    return;
+  }
   if (screenState.current === "title") updateTitle();
   if (screenState.current === "options") updateOptions();
   if (screenState.current === "prologue") updatePrologue();
