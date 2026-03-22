@@ -2,15 +2,39 @@
 export const keys = {};
 export const kp = {};
 
+function markKey(name, value) {
+  if (!name) {
+    return;
+  }
+  keys[name] = value;
+  if (value) {
+    kp[name] = true;
+  }
+}
+
+function setKeyState(event, value) {
+  markKey(event.key, value);
+
+  // Use physical key codes too so controls still work when the user
+  // is typing with a Korean IME or another keyboard layout.
+  if (event.code === "KeyX") markKey("x", value);
+  if (event.code === "KeyZ") markKey("z", value);
+  if (event.code === "KeyS") markKey("s", value);
+  if (event.code === "KeyA") markKey("a", value);
+  if (event.code === "KeyQ") markKey("q", value);
+  if (event.code === "KeyW") markKey("w", value);
+  if (event.code === "Enter") markKey("Enter", value);
+  if (event.code === "ShiftLeft" || event.code === "ShiftRight") markKey("Shift", value);
+}
+
 export function initInput() {
   document.addEventListener("keydown", (event) => {
-    keys[event.key] = true;
-    kp[event.key] = true;
+    setKeyState(event, true);
     event.preventDefault();
   });
 
   document.addEventListener("keyup", (event) => {
-    keys[event.key] = false;
+    setKeyState(event, false);
   });
 }
 
