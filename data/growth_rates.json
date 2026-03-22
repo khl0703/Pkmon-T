@@ -1,0 +1,40 @@
+{
+  "schema": "growth-rates.v1",
+  "source_model": "official-growth-formulas",
+  "rates": [
+    {
+      "id": "fast",
+      "formula": "4 * level^3 / 5",
+      "notes": "Floored at each final result."
+    },
+    {
+      "id": "medium-fast",
+      "formula": "level^3",
+      "notes": "Floored at each final result."
+    },
+    {
+      "id": "medium-slow",
+      "formula": "6/5 * level^3 - 15 * level^2 + 100 * level - 140",
+      "notes": "Floored at each final result."
+    },
+    {
+      "id": "slow",
+      "formula": "5 * level^3 / 4",
+      "notes": "Floored at each final result."
+    },
+    {
+      "id": "erratic",
+      "formula": "Piecewise official erratic formula",
+      "notes": "See js/formulas.js for the exact piecewise implementation."
+    },
+    {
+      "id": "fluctuating",
+      "formula": "Piecewise official fluctuating formula",
+      "notes": "See js/formulas.js for the exact piecewise implementation."
+    }
+  ],
+  "manual_review": {
+    "species_assignments": true,
+    "notes": "Species-to-growth-rate mapping has not yet been filled for the current roster."
+  }
+}
