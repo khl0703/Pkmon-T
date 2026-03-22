@@ -77,6 +77,7 @@ export const i18n = {
   "npc.item.ball": { ko: "포켓볼을 5개 받았다!", en: "Received POKé BALL x5!" },
   "item.potion": { ko: "상처약", en: "Potion" },
   "item.superpotion": { ko: "좋은상처약", en: "Super Potion" },
+  "item.hyperpotion": { ko: "고급상처약", en: "Hyper Potion" },
   "item.pokeball": { ko: "포켓볼", en: "POKé BALL" },
   "item.greatball": { ko: "슈퍼볼", en: "Great Ball" },
   "item.antidote": { ko: "해독제", en: "Antidote" },

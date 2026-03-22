@@ -21,7 +21,7 @@ export const MAPS = {
     ],
     spawns: { default: { x: 7, y: 5, dir: "up" } },
     npcs: [
-      { id: "ash", x: 12, y: 5, dir: "left", sprite: "ash", dialog: ["npc.ash1", "npc.ash2", "npc.ash3"], action: "starter_choice", flag: "ash_talked" },
+      { id: "ash", x: 12, y: 5, dir: "left", sprite: "ash", spriteSheet: "NPC_Z01_Bird_Keeper_M", dialog: ["npc.ash1", "npc.ash2", "npc.ash3"], action: "starter_choice", flag: "ash_talked" },
     ],
     exits: [{ x: 7, y: 10, to: "robarts-4f", spawn: "from5f" }],
     encounter: null,
@@ -100,7 +100,7 @@ export const MAPS = {
     ],
     spawns: { entrance: { x: 7, y: 9, dir: "up" } },
     npcs: [
-      { id: "nurse", x: 7, y: 3, dir: "down", sprite: "nurse", dialog_raw: [{ ko: "포켓몬을 맡겨주세요.", en: "Please hand over your POKéMON." }], action: "heal", flag: null },
+      { id: "nurse", x: 7, y: 3, dir: "down", sprite: "nurse", spriteSheet: "NPC_115_Nurse_1", dialog_raw: [{ ko: "포켓몬을 맡겨주세요.", en: "Please hand over your POKéMON." }], action: "heal", flag: null },
     ],
     exits: [{ x: 7, y: 10, to: "robarts-2f", spawn: "fromPCenter" }],
     encounter: null,

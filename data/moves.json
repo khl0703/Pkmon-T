@@ -1,56 +1,1438 @@
 {
-  "schema": "moves.v1",
+  "schema": "moves.v2",
   "source_model": "pokeapi-compatible",
+  "import_scope": {
+    "internal_keys": [
+      "거품",
+      "고속스핀",
+      "광합성",
+      "그림자분신",
+      "기충전",
+      "껍질에숨기",
+      "꼬리흔들기",
+      "날개치기",
+      "달콤한향기",
+      "덩굴채찍",
+      "독가루",
+      "돌진",
+      "로케트박치기",
+      "명상",
+      "모래뿌리기",
+      "몸통박치기",
+      "무서운얼굴",
+      "물기",
+      "물대포",
+      "물의파동",
+      "바람일으키기",
+      "박치기",
+      "방어",
+      "벌레먹기",
+      "베어가르기",
+      "분노",
+      "분발",
+      "불꽃세례",
+      "불꽃엄니",
+      "비바라기",
+      "사이코키네시스",
+      "성장",
+      "속이다",
+      "손톱갈기",
+      "솔라빔",
+      "수면가루",
+      "순간이동",
+      "스파크",
+      "실뿜기",
+      "씨뿌리기",
+      "에코보이스",
+      "연막",
+      "염동력",
+      "용의분노",
+      "울음소리",
+      "웅크리기",
+      "잎날가르기",
+      "전광석화",
+      "전기자석파",
+      "전기충격",
+      "집단구타",
+      "째려보기",
+      "쪼기",
+      "차밍보이스",
+      "최면술",
+      "충전",
+      "파도타기",
+      "하이드로펌프",
+      "할퀴기",
+      "화염방사",
+      "회오리불꽃",
+      "흉내쟁이"
+    ],
+    "source": "https://pokeapi.co/api/v2"
+  },
   "moves": [
-    { "move_id": "tackle", "internal_key": "몸통박치기", "names": { "ko": "몸통박치기", "en": "Tackle" }, "type": "normal", "localized_type": "노말", "damage_class": "physical", "localized_damage_class": "물리", "power": 40, "accuracy": 100, "pp": 35, "priority": 0, "effect_ref": null },
-    { "move_id": "tail-whip", "internal_key": "꼬리흔들기", "names": { "ko": "꼬리흔들기", "en": "Tail Whip" }, "type": "normal", "localized_type": "노말", "damage_class": "status", "localized_damage_class": "변화", "power": null, "accuracy": 100, "pp": 30, "priority": 0, "effect_ref": "def-1" },
-    { "move_id": "scratch", "internal_key": "할퀴기", "names": { "ko": "할퀴기", "en": "Scratch" }, "type": "normal", "localized_type": "노말", "damage_class": "physical", "localized_damage_class": "물리", "power": 40, "accuracy": 100, "pp": 35, "priority": 0, "effect_ref": null },
-    { "move_id": "growl", "internal_key": "울음소리", "names": { "ko": "울음소리", "en": "Growl" }, "type": "normal", "localized_type": "노말", "damage_class": "status", "localized_damage_class": "변화", "power": null, "accuracy": 100, "pp": 40, "priority": 0, "effect_ref": "atk-1" },
-    { "move_id": "ember", "internal_key": "불꽃세례", "names": { "ko": "불꽃세례", "en": "Ember" }, "type": "fire", "localized_type": "불꽃", "damage_class": "special", "localized_damage_class": "특수", "power": 40, "accuracy": 100, "pp": 25, "priority": 0, "effect_ref": null },
-    { "move_id": "water-gun", "internal_key": "물대포", "names": { "ko": "물대포", "en": "Water Gun" }, "type": "water", "localized_type": "물", "damage_class": "special", "localized_damage_class": "특수", "power": 40, "accuracy": 100, "pp": 25, "priority": 0, "effect_ref": null },
-    { "move_id": "vine-whip", "internal_key": "덩굴채찍", "names": { "ko": "덩굴채찍", "en": "Vine Whip" }, "type": "grass", "localized_type": "풀", "damage_class": "physical", "localized_damage_class": "물리", "power": 45, "accuracy": 100, "pp": 25, "priority": 0, "effect_ref": null },
-    { "move_id": "quick-attack", "internal_key": "전광석화", "names": { "ko": "전광석화", "en": "Quick Attack" }, "type": "normal", "localized_type": "노말", "damage_class": "physical", "localized_damage_class": "물리", "power": 40, "accuracy": 100, "pp": 30, "priority": 1, "effect_ref": null },
-    { "move_id": "bite", "internal_key": "물기", "names": { "ko": "물기", "en": "Bite" }, "type": "dark", "localized_type": "악", "damage_class": "physical", "localized_damage_class": "물리", "power": 60, "accuracy": 100, "pp": 25, "priority": 0, "effect_ref": null },
-    { "move_id": "fire-fang", "internal_key": "불꽃엄니", "names": { "ko": "불꽃엄니", "en": "Fire Fang" }, "type": "fire", "localized_type": "불꽃", "damage_class": "physical", "localized_damage_class": "물리", "power": 65, "accuracy": 95, "pp": 15, "priority": 0, "effect_ref": null },
-    { "move_id": "water-pulse", "internal_key": "물의파동", "names": { "ko": "물의파동", "en": "Water Pulse" }, "type": "water", "localized_type": "물", "damage_class": "special", "localized_damage_class": "특수", "power": 60, "accuracy": 100, "pp": 20, "priority": 0, "effect_ref": null },
-    { "move_id": "leech-seed", "internal_key": "씨뿌리기", "names": { "ko": "씨뿌리기", "en": "Leech Seed" }, "type": "grass", "localized_type": "풀", "damage_class": "status", "localized_damage_class": "변화", "power": null, "accuracy": 90, "pp": 10, "priority": 0, "effect_ref": null },
-    { "move_id": "razor-leaf", "internal_key": "잎날가르기", "names": { "ko": "잎날가르기", "en": "Razor Leaf" }, "type": "grass", "localized_type": "풀", "damage_class": "physical", "localized_damage_class": "물리", "power": 55, "accuracy": 95, "pp": 25, "priority": 0, "effect_ref": null },
-    { "move_id": "flamethrower", "internal_key": "화염방사", "names": { "ko": "화염방사", "en": "Flamethrower" }, "type": "fire", "localized_type": "불꽃", "damage_class": "special", "localized_damage_class": "특수", "power": 90, "accuracy": 100, "pp": 15, "priority": 0, "effect_ref": null },
-    { "move_id": "surf", "internal_key": "파도타기", "names": { "ko": "파도타기", "en": "Surf" }, "type": "water", "localized_type": "물", "damage_class": "special", "localized_damage_class": "특수", "power": 90, "accuracy": 100, "pp": 15, "priority": 0, "effect_ref": null },
-    { "move_id": "solar-beam", "internal_key": "솔라빔", "names": { "ko": "솔라빔", "en": "Solar Beam" }, "type": "grass", "localized_type": "풀", "damage_class": "special", "localized_damage_class": "특수", "power": 120, "accuracy": 100, "pp": 10, "priority": 0, "effect_ref": null },
-    { "move_id": "psychic", "internal_key": "사이코키네시스", "names": { "ko": "사이코키네시스", "en": "Psychic" }, "type": "psychic", "localized_type": "에스퍼", "damage_class": "special", "localized_damage_class": "특수", "power": 90, "accuracy": 100, "pp": 10, "priority": 0, "effect_ref": null },
-    { "move_id": "confusion", "internal_key": "염동력", "names": { "ko": "염동력", "en": "Confusion" }, "type": "psychic", "localized_type": "에스퍼", "damage_class": "special", "localized_damage_class": "특수", "power": 50, "accuracy": 100, "pp": 25, "priority": 0, "effect_ref": null },
-    { "move_id": "teleport", "internal_key": "순간이동", "names": { "ko": "순간이동", "en": "Teleport" }, "type": "psychic", "localized_type": "에스퍼", "damage_class": "status", "localized_damage_class": "변화", "power": null, "accuracy": null, "pp": 20, "priority": 0, "effect_ref": "flee" },
-    { "move_id": "thunder-shock", "internal_key": "전기충격", "names": { "ko": "전기충격", "en": "Thunder Shock" }, "type": "electric", "localized_type": "전기", "damage_class": "special", "localized_damage_class": "특수", "power": 40, "accuracy": 100, "pp": 30, "priority": 0, "effect_ref": null },
-    { "move_id": "spark", "internal_key": "스파크", "names": { "ko": "스파크", "en": "Spark" }, "type": "electric", "localized_type": "전기", "damage_class": "physical", "localized_damage_class": "물리", "power": 65, "accuracy": 100, "pp": 20, "priority": 0, "effect_ref": null },
-    { "move_id": "string-shot", "internal_key": "실뿜기", "names": { "ko": "실뿜기", "en": "String Shot" }, "type": "bug", "localized_type": "벌레", "damage_class": "status", "localized_damage_class": "변화", "power": null, "accuracy": 95, "pp": 40, "priority": 0, "effect_ref": "spe-1" },
-    { "move_id": "bug-bite", "internal_key": "벌레먹기", "names": { "ko": "벌레먹기", "en": "Bug Bite" }, "type": "bug", "localized_type": "벌레", "damage_class": "physical", "localized_damage_class": "물리", "power": 60, "accuracy": 100, "pp": 20, "priority": 0, "effect_ref": null },
-    { "move_id": "peck", "internal_key": "쪼기", "names": { "ko": "쪼기", "en": "Peck" }, "type": "flying", "localized_type": "비행", "damage_class": "physical", "localized_damage_class": "물리", "power": 35, "accuracy": 100, "pp": 35, "priority": 0, "effect_ref": null },
-    { "move_id": "sand-attack", "internal_key": "모래뿌리기", "names": { "ko": "모래뿌리기", "en": "Sand Attack" }, "type": "ground", "localized_type": "땅", "damage_class": "status", "localized_damage_class": "변화", "power": null, "accuracy": 100, "pp": 15, "priority": 0, "effect_ref": "acc-1" },
-    { "move_id": "headbutt", "internal_key": "박치기", "names": { "ko": "박치기", "en": "Headbutt" }, "type": "normal", "localized_type": "노말", "damage_class": "physical", "localized_damage_class": "물리", "power": 70, "accuracy": 100, "pp": 15, "priority": 0, "effect_ref": null },
-    { "move_id": "take-down", "internal_key": "돌진", "names": { "ko": "돌진", "en": "Take Down" }, "type": "normal", "localized_type": "노말", "damage_class": "physical", "localized_damage_class": "물리", "power": 90, "accuracy": 85, "pp": 20, "priority": 0, "effect_ref": null },
-    { "move_id": "bubble", "internal_key": "거품", "names": { "ko": "거품", "en": "Bubble" }, "type": "water", "localized_type": "물", "damage_class": "special", "localized_damage_class": "특수", "power": 40, "accuracy": 100, "pp": 30, "priority": 0, "effect_ref": null },
-    { "move_id": "withdraw", "internal_key": "껍질에숨기", "names": { "ko": "껍질에숨기", "en": "Withdraw" }, "type": "water", "localized_type": "물", "damage_class": "status", "localized_damage_class": "변화", "power": null, "accuracy": null, "pp": 40, "priority": 0, "effect_ref": "def+1" },
-    { "move_id": "growth", "internal_key": "성장", "names": { "ko": "성장", "en": "Growth" }, "type": "normal", "localized_type": "노말", "damage_class": "status", "localized_damage_class": "변화", "power": null, "accuracy": null, "pp": 20, "priority": 0, "effect_ref": "spa+1" },
-    { "move_id": "smokescreen", "internal_key": "연막", "names": { "ko": "연막", "en": "Smokescreen" }, "type": "normal", "localized_type": "노말", "damage_class": "status", "localized_damage_class": "변화", "power": null, "accuracy": 100, "pp": 20, "priority": 0, "effect_ref": "acc-1" },
-    { "move_id": "focus-energy", "internal_key": "기충전", "names": { "ko": "기충전", "en": "Focus Energy" }, "type": "normal", "localized_type": "노말", "damage_class": "status", "localized_damage_class": "변화", "power": null, "accuracy": null, "pp": 30, "priority": 0, "effect_ref": null },
-    { "move_id": "hypnosis", "internal_key": "최면술", "names": { "ko": "최면술", "en": "Hypnosis" }, "type": "psychic", "localized_type": "에스퍼", "damage_class": "status", "localized_damage_class": "변화", "power": null, "accuracy": 60, "pp": 20, "priority": 0, "effect_ref": null },
-    { "move_id": "calm-mind", "internal_key": "명상", "names": { "ko": "명상", "en": "Calm Mind" }, "type": "psychic", "localized_type": "에스퍼", "damage_class": "status", "localized_damage_class": "변화", "power": null, "accuracy": null, "pp": 20, "priority": 0, "effect_ref": null },
-    { "move_id": "thunder-wave", "internal_key": "전기자석파", "names": { "ko": "전기자석파", "en": "Thunder Wave" }, "type": "electric", "localized_type": "전기", "damage_class": "status", "localized_damage_class": "변화", "power": null, "accuracy": 90, "pp": 20, "priority": 0, "effect_ref": null },
-    { "move_id": "disarming-voice", "internal_key": "차밍보이스", "names": { "ko": "차밍보이스", "en": "Disarming Voice" }, "type": "fairy", "localized_type": "페어리", "damage_class": "special", "localized_damage_class": "특수", "power": 40, "accuracy": null, "pp": 15, "priority": 0, "effect_ref": null },
-    { "move_id": "double-team", "internal_key": "그림자분신", "names": { "ko": "그림자분신", "en": "Double Team" }, "type": "normal", "localized_type": "노말", "damage_class": "status", "localized_damage_class": "변화", "power": null, "accuracy": null, "pp": 15, "priority": 0, "effect_ref": null },
-    { "move_id": "wing-attack", "internal_key": "날개치기", "names": { "ko": "날개치기", "en": "Wing Attack" }, "type": "flying", "localized_type": "비행", "damage_class": "physical", "localized_damage_class": "물리", "power": 60, "accuracy": 100, "pp": 35, "priority": 0, "effect_ref": null },
-    { "move_id": "leer", "internal_key": "째려보기", "names": { "ko": "째려보기", "en": "Leer" }, "type": "normal", "localized_type": "노말", "damage_class": "status", "localized_damage_class": "변화", "power": null, "accuracy": 100, "pp": 30, "priority": 0, "effect_ref": "def-1" },
-    { "move_id": "charge", "internal_key": "충전", "names": { "ko": "충전", "en": "Charge" }, "type": "electric", "localized_type": "전기", "damage_class": "status", "localized_damage_class": "변화", "power": null, "accuracy": null, "pp": 20, "priority": 0, "effect_ref": null },
-    { "move_id": "work-up", "internal_key": "분발", "names": { "ko": "분발", "en": "Work Up" }, "type": "normal", "localized_type": "노말", "damage_class": "status", "localized_damage_class": "변화", "power": null, "accuracy": null, "pp": 30, "priority": 0, "effect_ref": null },
-    { "move_id": "gust", "internal_key": "바람일으키기", "names": { "ko": "바람일으키기", "en": "Gust" }, "type": "flying", "localized_type": "비행", "damage_class": "special", "localized_damage_class": "특수", "power": 40, "accuracy": 100, "pp": 35, "priority": 0, "effect_ref": null },
-    { "move_id": "fake-out", "internal_key": "속이다", "names": { "ko": "속이다", "en": "Fake Out" }, "type": "normal", "localized_type": "노말", "damage_class": "physical", "localized_damage_class": "물리", "power": 40, "accuracy": 100, "pp": 10, "priority": 3, "effect_ref": null },
-    { "move_id": "hone-claws", "internal_key": "손톱갈기", "names": { "ko": "손톱갈기", "en": "Hone Claws" }, "type": "dark", "localized_type": "악", "damage_class": "status", "localized_damage_class": "변화", "power": null, "accuracy": null, "pp": 15, "priority": 0, "effect_ref": null },
-    { "move_id": "defense-curl", "internal_key": "웅크리기", "names": { "ko": "웅크리기", "en": "Defense Curl" }, "type": "normal", "localized_type": "노말", "damage_class": "status", "localized_damage_class": "변화", "power": null, "accuracy": null, "pp": 40, "priority": 0, "effect_ref": "def+1" },
-    { "move_id": "echoed-voice", "internal_key": "에코보이스", "names": { "ko": "에코보이스", "en": "Echoed Voice" }, "type": "normal", "localized_type": "노말", "damage_class": "special", "localized_damage_class": "특수", "power": 40, "accuracy": 100, "pp": 15, "priority": 0, "effect_ref": null }
+    {
+      "move_id": "bubble",
+      "internal_key": "거품",
+      "names": {
+        "ko": "거품",
+        "en": "Bubble"
+      },
+      "type": "water",
+      "localized_type": "물",
+      "damage_class": "special",
+      "localized_damage_class": "특수",
+      "power": 40,
+      "accuracy": 100,
+      "pp": 30,
+      "priority": 0,
+      "target": "all-opponents",
+      "effect_text": {
+        "en": "Has a $effect_chance% chance to lower the target’s Speed by one stage.",
+        "ko": null
+      },
+      "implemented_in_runtime": true
+    },
+    {
+      "move_id": "rapid-spin",
+      "internal_key": "고속스핀",
+      "names": {
+        "ko": "고속스핀",
+        "en": "Rapid Spin"
+      },
+      "type": "normal",
+      "localized_type": "노말",
+      "damage_class": "physical",
+      "localized_damage_class": "물리",
+      "power": 50,
+      "accuracy": 100,
+      "pp": 40,
+      "priority": 0,
+      "target": "selected-pokemon",
+      "effect_text": {
+        "en": "Frees the user from binding moves, removes Leech Seed, and blows away Spikes.",
+        "ko": null
+      },
+      "implemented_in_runtime": true
+    },
+    {
+      "move_id": "synthesis",
+      "internal_key": "광합성",
+      "names": {
+        "ko": "광합성",
+        "en": "Synthesis"
+      },
+      "type": "grass",
+      "localized_type": "풀",
+      "damage_class": "status",
+      "localized_damage_class": "변화",
+      "power": null,
+      "accuracy": null,
+      "pp": 5,
+      "priority": 0,
+      "target": "user",
+      "effect_text": {
+        "en": "Heals the user by half its max HP.  Affected by weather.",
+        "ko": null
+      },
+      "implemented_in_runtime": true
+    },
+    {
+      "move_id": "double-team",
+      "internal_key": "그림자분신",
+      "names": {
+        "ko": "그림자분신",
+        "en": "Double Team"
+      },
+      "type": "normal",
+      "localized_type": "노말",
+      "damage_class": "status",
+      "localized_damage_class": "변화",
+      "power": null,
+      "accuracy": null,
+      "pp": 15,
+      "priority": 0,
+      "target": "user",
+      "effect_text": {
+        "en": "Raises the user’s evasion by one stage.",
+        "ko": null
+      },
+      "implemented_in_runtime": true
+    },
+    {
+      "move_id": "focus-energy",
+      "internal_key": "기충전",
+      "names": {
+        "ko": "기충전",
+        "en": "Focus Energy"
+      },
+      "type": "normal",
+      "localized_type": "노말",
+      "damage_class": "status",
+      "localized_damage_class": "변화",
+      "power": null,
+      "accuracy": null,
+      "pp": 30,
+      "priority": 0,
+      "target": "user",
+      "effect_text": {
+        "en": "Increases the user’s chance to score a critical hit.",
+        "ko": null
+      },
+      "implemented_in_runtime": true
+    },
+    {
+      "move_id": "withdraw",
+      "internal_key": "껍질에숨기",
+      "names": {
+        "ko": "껍질에숨기",
+        "en": "Withdraw"
+      },
+      "type": "water",
+      "localized_type": "물",
+      "damage_class": "status",
+      "localized_damage_class": "변화",
+      "power": null,
+      "accuracy": null,
+      "pp": 40,
+      "priority": 0,
+      "target": "user",
+      "effect_text": {
+        "en": "Raises the user’s Defense by one stage.",
+        "ko": null
+      },
+      "implemented_in_runtime": true
+    },
+    {
+      "move_id": "tail-whip",
+      "internal_key": "꼬리흔들기",
+      "names": {
+        "ko": "꼬리흔들기",
+        "en": "Tail Whip"
+      },
+      "type": "normal",
+      "localized_type": "노말",
+      "damage_class": "status",
+      "localized_damage_class": "변화",
+      "power": null,
+      "accuracy": 100,
+      "pp": 30,
+      "priority": 0,
+      "target": "all-opponents",
+      "effect_text": {
+        "en": "Lowers the target’s Defense by one stage.",
+        "ko": null
+      },
+      "implemented_in_runtime": true
+    },
+    {
+      "move_id": "wing-attack",
+      "internal_key": "날개치기",
+      "names": {
+        "ko": "날개치기",
+        "en": "Wing Attack"
+      },
+      "type": "flying",
+      "localized_type": "비행",
+      "damage_class": "physical",
+      "localized_damage_class": "물리",
+      "power": 60,
+      "accuracy": 100,
+      "pp": 35,
+      "priority": 0,
+      "target": "selected-pokemon",
+      "effect_text": {
+        "en": "Inflicts regular damage with no additional effect.",
+        "ko": null
+      },
+      "implemented_in_runtime": true
+    },
+    {
+      "move_id": "sweet-scent",
+      "internal_key": "달콤한향기",
+      "names": {
+        "ko": "달콤한향기",
+        "en": "Sweet Scent"
+      },
+      "type": "normal",
+      "localized_type": "노말",
+      "damage_class": "status",
+      "localized_damage_class": "변화",
+      "power": null,
+      "accuracy": 100,
+      "pp": 20,
+      "priority": 0,
+      "target": "all-opponents",
+      "effect_text": {
+        "en": "Lowers the target’s evasion by one stage.",
+        "ko": null
+      },
+      "implemented_in_runtime": true
+    },
+    {
+      "move_id": "vine-whip",
+      "internal_key": "덩굴채찍",
+      "names": {
+        "ko": "덩굴채찍",
+        "en": "Vine Whip"
+      },
+      "type": "grass",
+      "localized_type": "풀",
+      "damage_class": "physical",
+      "localized_damage_class": "물리",
+      "power": 45,
+      "accuracy": 100,
+      "pp": 25,
+      "priority": 0,
+      "target": "selected-pokemon",
+      "effect_text": {
+        "en": "Inflicts regular damage with no additional effect.",
+        "ko": null
+      },
+      "implemented_in_runtime": true
+    },
+    {
+      "move_id": "poison-powder",
+      "internal_key": "독가루",
+      "names": {
+        "ko": "독가루",
+        "en": "Poison Powder"
+      },
+      "type": "poison",
+      "localized_type": "독",
+      "damage_class": "status",
+      "localized_damage_class": "변화",
+      "power": null,
+      "accuracy": 75,
+      "pp": 35,
+      "priority": 0,
+      "target": "selected-pokemon",
+      "effect_text": {
+        "en": "Poisons the target.",
+        "ko": null
+      },
+      "implemented_in_runtime": true
+    },
+    {
+      "move_id": "take-down",
+      "internal_key": "돌진",
+      "names": {
+        "ko": "돌진",
+        "en": "Take Down"
+      },
+      "type": "normal",
+      "localized_type": "노말",
+      "damage_class": "physical",
+      "localized_damage_class": "물리",
+      "power": 90,
+      "accuracy": 85,
+      "pp": 20,
+      "priority": 0,
+      "target": "selected-pokemon",
+      "effect_text": {
+        "en": "User receives 1/4 the damage it inflicts in recoil.",
+        "ko": null
+      },
+      "implemented_in_runtime": true
+    },
+    {
+      "move_id": "skull-bash",
+      "internal_key": "로케트박치기",
+      "names": {
+        "ko": "로케트박치기",
+        "en": "Skull Bash"
+      },
+      "type": "normal",
+      "localized_type": "노말",
+      "damage_class": "physical",
+      "localized_damage_class": "물리",
+      "power": 130,
+      "accuracy": 100,
+      "pp": 10,
+      "priority": 0,
+      "target": "selected-pokemon",
+      "effect_text": {
+        "en": "Raises the user’s Defense by one stage.  User charges for one turn before attacking.",
+        "ko": null
+      },
+      "implemented_in_runtime": true
+    },
+    {
+      "move_id": "calm-mind",
+      "internal_key": "명상",
+      "names": {
+        "ko": "명상",
+        "en": "Calm Mind"
+      },
+      "type": "psychic",
+      "localized_type": "에스퍼",
+      "damage_class": "status",
+      "localized_damage_class": "변화",
+      "power": null,
+      "accuracy": null,
+      "pp": 20,
+      "priority": 0,
+      "target": "user",
+      "effect_text": {
+        "en": "Raises the user’s Special Attack and Special Defense by one stage.",
+        "ko": null
+      },
+      "implemented_in_runtime": true
+    },
+    {
+      "move_id": "sand-attack",
+      "internal_key": "모래뿌리기",
+      "names": {
+        "ko": "모래뿌리기",
+        "en": "Sand Attack"
+      },
+      "type": "ground",
+      "localized_type": "땅",
+      "damage_class": "status",
+      "localized_damage_class": "변화",
+      "power": null,
+      "accuracy": 100,
+      "pp": 15,
+      "priority": 0,
+      "target": "selected-pokemon",
+      "effect_text": {
+        "en": "Lowers the target’s accuracy by one stage.",
+        "ko": null
+      },
+      "implemented_in_runtime": true
+    },
+    {
+      "move_id": "tackle",
+      "internal_key": "몸통박치기",
+      "names": {
+        "ko": "몸통박치기",
+        "en": "Tackle"
+      },
+      "type": "normal",
+      "localized_type": "노말",
+      "damage_class": "physical",
+      "localized_damage_class": "물리",
+      "power": 40,
+      "accuracy": 100,
+      "pp": 35,
+      "priority": 0,
+      "target": "selected-pokemon",
+      "effect_text": {
+        "en": "Inflicts regular damage with no additional effect.",
+        "ko": null
+      },
+      "implemented_in_runtime": true
+    },
+    {
+      "move_id": "scary-face",
+      "internal_key": "무서운얼굴",
+      "names": {
+        "ko": "겁나는얼굴",
+        "en": "Scary Face"
+      },
+      "type": "normal",
+      "localized_type": "노말",
+      "damage_class": "status",
+      "localized_damage_class": "변화",
+      "power": null,
+      "accuracy": 100,
+      "pp": 10,
+      "priority": 0,
+      "target": "selected-pokemon",
+      "effect_text": {
+        "en": "Lowers the target’s Speed by two stages.",
+        "ko": null
+      },
+      "implemented_in_runtime": true
+    },
+    {
+      "move_id": "bite",
+      "internal_key": "물기",
+      "names": {
+        "ko": "물기",
+        "en": "Bite"
+      },
+      "type": "dark",
+      "localized_type": "악",
+      "damage_class": "physical",
+      "localized_damage_class": "물리",
+      "power": 60,
+      "accuracy": 100,
+      "pp": 25,
+      "priority": 0,
+      "target": "selected-pokemon",
+      "effect_text": {
+        "en": "Has a $effect_chance% chance to make the target flinch.",
+        "ko": null
+      },
+      "implemented_in_runtime": true
+    },
+    {
+      "move_id": "water-gun",
+      "internal_key": "물대포",
+      "names": {
+        "ko": "물대포",
+        "en": "Water Gun"
+      },
+      "type": "water",
+      "localized_type": "물",
+      "damage_class": "special",
+      "localized_damage_class": "특수",
+      "power": 40,
+      "accuracy": 100,
+      "pp": 25,
+      "priority": 0,
+      "target": "selected-pokemon",
+      "effect_text": {
+        "en": "Inflicts regular damage with no additional effect.",
+        "ko": null
+      },
+      "implemented_in_runtime": true
+    },
+    {
+      "move_id": "water-pulse",
+      "internal_key": "물의파동",
+      "names": {
+        "ko": "물의파동",
+        "en": "Water Pulse"
+      },
+      "type": "water",
+      "localized_type": "물",
+      "damage_class": "special",
+      "localized_damage_class": "특수",
+      "power": 60,
+      "accuracy": 100,
+      "pp": 20,
+      "priority": 0,
+      "target": "selected-pokemon",
+      "effect_text": {
+        "en": "Has a $effect_chance% chance to confuse the target.",
+        "ko": null
+      },
+      "implemented_in_runtime": true
+    },
+    {
+      "move_id": "gust",
+      "internal_key": "바람일으키기",
+      "names": {
+        "ko": "바람일으키기",
+        "en": "Gust"
+      },
+      "type": "flying",
+      "localized_type": "비행",
+      "damage_class": "special",
+      "localized_damage_class": "특수",
+      "power": 40,
+      "accuracy": 100,
+      "pp": 35,
+      "priority": 0,
+      "target": "selected-pokemon",
+      "effect_text": {
+        "en": "Inflicts regular damage and can hit Pokémon in the air.",
+        "ko": null
+      },
+      "implemented_in_runtime": true
+    },
+    {
+      "move_id": "headbutt",
+      "internal_key": "박치기",
+      "names": {
+        "ko": "박치기",
+        "en": "Headbutt"
+      },
+      "type": "normal",
+      "localized_type": "노말",
+      "damage_class": "physical",
+      "localized_damage_class": "물리",
+      "power": 70,
+      "accuracy": 100,
+      "pp": 15,
+      "priority": 0,
+      "target": "selected-pokemon",
+      "effect_text": {
+        "en": "Has a $effect_chance% chance to make the target flinch.",
+        "ko": null
+      },
+      "implemented_in_runtime": true
+    },
+    {
+      "move_id": "protect",
+      "internal_key": "방어",
+      "names": {
+        "ko": "방어",
+        "en": "Protect"
+      },
+      "type": "normal",
+      "localized_type": "노말",
+      "damage_class": "status",
+      "localized_damage_class": "변화",
+      "power": null,
+      "accuracy": null,
+      "pp": 10,
+      "priority": 4,
+      "target": "user",
+      "effect_text": {
+        "en": "Prevents any moves from hitting the user this turn.",
+        "ko": null
+      },
+      "implemented_in_runtime": true
+    },
+    {
+      "move_id": "bug-bite",
+      "internal_key": "벌레먹기",
+      "names": {
+        "ko": "벌레먹음",
+        "en": "Bug Bite"
+      },
+      "type": "bug",
+      "localized_type": "벌레",
+      "damage_class": "physical",
+      "localized_damage_class": "물리",
+      "power": 60,
+      "accuracy": 100,
+      "pp": 20,
+      "priority": 0,
+      "target": "selected-pokemon",
+      "effect_text": {
+        "en": "If target has a berry, inflicts double damage and uses the berry.",
+        "ko": null
+      },
+      "implemented_in_runtime": true
+    },
+    {
+      "move_id": "slash",
+      "internal_key": "베어가르기",
+      "names": {
+        "ko": "베어가르기",
+        "en": "Slash"
+      },
+      "type": "normal",
+      "localized_type": "노말",
+      "damage_class": "physical",
+      "localized_damage_class": "물리",
+      "power": 70,
+      "accuracy": 100,
+      "pp": 20,
+      "priority": 0,
+      "target": "selected-pokemon",
+      "effect_text": {
+        "en": "Has an increased chance for a critical hit.",
+        "ko": null
+      },
+      "implemented_in_runtime": true
+    },
+    {
+      "move_id": "rage",
+      "internal_key": "분노",
+      "names": {
+        "ko": "분노",
+        "en": "Rage"
+      },
+      "type": "normal",
+      "localized_type": "노말",
+      "damage_class": "physical",
+      "localized_damage_class": "물리",
+      "power": 20,
+      "accuracy": 100,
+      "pp": 20,
+      "priority": 0,
+      "target": "selected-pokemon",
+      "effect_text": {
+        "en": "If the user is hit after using this move, its Attack rises by one stage.",
+        "ko": null
+      },
+      "implemented_in_runtime": true
+    },
+    {
+      "move_id": "work-up",
+      "internal_key": "분발",
+      "names": {
+        "ko": "분발",
+        "en": "Work Up"
+      },
+      "type": "normal",
+      "localized_type": "노말",
+      "damage_class": "status",
+      "localized_damage_class": "변화",
+      "power": null,
+      "accuracy": null,
+      "pp": 30,
+      "priority": 0,
+      "target": "user",
+      "effect_text": {
+        "en": "Raises the user’s Attack and Special Attack by one stage each.",
+        "ko": null
+      },
+      "implemented_in_runtime": true
+    },
+    {
+      "move_id": "ember",
+      "internal_key": "불꽃세례",
+      "names": {
+        "ko": "불꽃세례",
+        "en": "Ember"
+      },
+      "type": "fire",
+      "localized_type": "불꽃",
+      "damage_class": "special",
+      "localized_damage_class": "특수",
+      "power": 40,
+      "accuracy": 100,
+      "pp": 25,
+      "priority": 0,
+      "target": "selected-pokemon",
+      "effect_text": {
+        "en": "Has a $effect_chance% chance to burn the target.",
+        "ko": null
+      },
+      "implemented_in_runtime": true
+    },
+    {
+      "move_id": "fire-fang",
+      "internal_key": "불꽃엄니",
+      "names": {
+        "ko": "불꽃엄니",
+        "en": "Fire Fang"
+      },
+      "type": "fire",
+      "localized_type": "불꽃",
+      "damage_class": "physical",
+      "localized_damage_class": "물리",
+      "power": 65,
+      "accuracy": 95,
+      "pp": 15,
+      "priority": 0,
+      "target": "selected-pokemon",
+      "effect_text": {
+        "en": "Has a $effect_chance% chance to burn the target and a $effect_chance% chance to make the target flinch.",
+        "ko": null
+      },
+      "implemented_in_runtime": true
+    },
+    {
+      "move_id": "rain-dance",
+      "internal_key": "비바라기",
+      "names": {
+        "ko": "비바라기",
+        "en": "Rain Dance"
+      },
+      "type": "water",
+      "localized_type": "물",
+      "damage_class": "status",
+      "localized_damage_class": "변화",
+      "power": null,
+      "accuracy": null,
+      "pp": 5,
+      "priority": 0,
+      "target": "entire-field",
+      "effect_text": {
+        "en": "Changes the weather to rain for five turns.",
+        "ko": null
+      },
+      "implemented_in_runtime": true
+    },
+    {
+      "move_id": "psychic",
+      "internal_key": "사이코키네시스",
+      "names": {
+        "ko": "사이코키네시스",
+        "en": "Psychic"
+      },
+      "type": "psychic",
+      "localized_type": "에스퍼",
+      "damage_class": "special",
+      "localized_damage_class": "특수",
+      "power": 90,
+      "accuracy": 100,
+      "pp": 10,
+      "priority": 0,
+      "target": "selected-pokemon",
+      "effect_text": {
+        "en": "Has a $effect_chance% chance to lower the target’s Special Defense by one stage.",
+        "ko": null
+      },
+      "implemented_in_runtime": true
+    },
+    {
+      "move_id": "growth",
+      "internal_key": "성장",
+      "names": {
+        "ko": "성장",
+        "en": "Growth"
+      },
+      "type": "normal",
+      "localized_type": "노말",
+      "damage_class": "status",
+      "localized_damage_class": "변화",
+      "power": null,
+      "accuracy": null,
+      "pp": 20,
+      "priority": 0,
+      "target": "user",
+      "effect_text": {
+        "en": "Raises the user’s Attack and Special Attack by one stage.",
+        "ko": null
+      },
+      "implemented_in_runtime": true
+    },
+    {
+      "move_id": "fake-out",
+      "internal_key": "속이다",
+      "names": {
+        "ko": "속이다",
+        "en": "Fake Out"
+      },
+      "type": "normal",
+      "localized_type": "노말",
+      "damage_class": "physical",
+      "localized_damage_class": "물리",
+      "power": 40,
+      "accuracy": 100,
+      "pp": 10,
+      "priority": 3,
+      "target": "selected-pokemon",
+      "effect_text": {
+        "en": "Can only be used as the first move after the user enters battle.  Causes the target to flinch.",
+        "ko": null
+      },
+      "implemented_in_runtime": true
+    },
+    {
+      "move_id": "hone-claws",
+      "internal_key": "손톱갈기",
+      "names": {
+        "ko": "손톱갈기",
+        "en": "Hone Claws"
+      },
+      "type": "dark",
+      "localized_type": "악",
+      "damage_class": "status",
+      "localized_damage_class": "변화",
+      "power": null,
+      "accuracy": null,
+      "pp": 15,
+      "priority": 0,
+      "target": "user",
+      "effect_text": {
+        "en": "Raises the user’s Attack and accuracy by one stage.",
+        "ko": null
+      },
+      "implemented_in_runtime": true
+    },
+    {
+      "move_id": "solar-beam",
+      "internal_key": "솔라빔",
+      "names": {
+        "ko": "솔라빔",
+        "en": "Solar Beam"
+      },
+      "type": "grass",
+      "localized_type": "풀",
+      "damage_class": "special",
+      "localized_damage_class": "특수",
+      "power": 120,
+      "accuracy": 100,
+      "pp": 10,
+      "priority": 0,
+      "target": "selected-pokemon",
+      "effect_text": {
+        "en": "Requires a turn to charge before attacking.",
+        "ko": null
+      },
+      "implemented_in_runtime": true
+    },
+    {
+      "move_id": "sleep-powder",
+      "internal_key": "수면가루",
+      "names": {
+        "ko": "수면가루",
+        "en": "Sleep Powder"
+      },
+      "type": "grass",
+      "localized_type": "풀",
+      "damage_class": "status",
+      "localized_damage_class": "변화",
+      "power": null,
+      "accuracy": 75,
+      "pp": 15,
+      "priority": 0,
+      "target": "selected-pokemon",
+      "effect_text": {
+        "en": "Puts the target to sleep.",
+        "ko": null
+      },
+      "implemented_in_runtime": true
+    },
+    {
+      "move_id": "teleport",
+      "internal_key": "순간이동",
+      "names": {
+        "ko": "순간이동",
+        "en": "Teleport"
+      },
+      "type": "psychic",
+      "localized_type": "에스퍼",
+      "damage_class": "status",
+      "localized_damage_class": "변화",
+      "power": null,
+      "accuracy": null,
+      "pp": 20,
+      "priority": -6,
+      "target": "user",
+      "effect_text": {
+        "en": "Immediately ends wild battles.  No effect otherwise.",
+        "ko": null
+      },
+      "implemented_in_runtime": true
+    },
+    {
+      "move_id": "spark",
+      "internal_key": "스파크",
+      "names": {
+        "ko": "스파크",
+        "en": "Spark"
+      },
+      "type": "electric",
+      "localized_type": "전기",
+      "damage_class": "physical",
+      "localized_damage_class": "물리",
+      "power": 65,
+      "accuracy": 100,
+      "pp": 20,
+      "priority": 0,
+      "target": "selected-pokemon",
+      "effect_text": {
+        "en": "Has a $effect_chance% chance to paralyze the target.",
+        "ko": null
+      },
+      "implemented_in_runtime": true
+    },
+    {
+      "move_id": "string-shot",
+      "internal_key": "실뿜기",
+      "names": {
+        "ko": "실뿜기",
+        "en": "String Shot"
+      },
+      "type": "bug",
+      "localized_type": "벌레",
+      "damage_class": "status",
+      "localized_damage_class": "변화",
+      "power": null,
+      "accuracy": 95,
+      "pp": 40,
+      "priority": 0,
+      "target": "all-opponents",
+      "effect_text": {
+        "en": "Lowers the target’s Speed by two stages.",
+        "ko": null
+      },
+      "implemented_in_runtime": true
+    },
+    {
+      "move_id": "leech-seed",
+      "internal_key": "씨뿌리기",
+      "names": {
+        "ko": "씨뿌리기",
+        "en": "Leech Seed"
+      },
+      "type": "grass",
+      "localized_type": "풀",
+      "damage_class": "status",
+      "localized_damage_class": "변화",
+      "power": null,
+      "accuracy": 90,
+      "pp": 10,
+      "priority": 0,
+      "target": "selected-pokemon",
+      "effect_text": {
+        "en": "Seeds the target, stealing HP from it every turn.",
+        "ko": null
+      },
+      "implemented_in_runtime": true
+    },
+    {
+      "move_id": "echoed-voice",
+      "internal_key": "에코보이스",
+      "names": {
+        "ko": "에코보이스",
+        "en": "Echoed Voice"
+      },
+      "type": "normal",
+      "localized_type": "노말",
+      "damage_class": "special",
+      "localized_damage_class": "특수",
+      "power": 40,
+      "accuracy": 100,
+      "pp": 15,
+      "priority": 0,
+      "target": "selected-pokemon",
+      "effect_text": {
+        "en": "Power increases by 100% for each consecutive use by any friendly Pokémon, to a maximum of 200.",
+        "ko": null
+      },
+      "implemented_in_runtime": true
+    },
+    {
+      "move_id": "smokescreen",
+      "internal_key": "연막",
+      "names": {
+        "ko": "연막",
+        "en": "Smokescreen"
+      },
+      "type": "normal",
+      "localized_type": "노말",
+      "damage_class": "status",
+      "localized_damage_class": "변화",
+      "power": null,
+      "accuracy": 100,
+      "pp": 20,
+      "priority": 0,
+      "target": "selected-pokemon",
+      "effect_text": {
+        "en": "Lowers the target’s accuracy by one stage.",
+        "ko": null
+      },
+      "implemented_in_runtime": true
+    },
+    {
+      "move_id": "confusion",
+      "internal_key": "염동력",
+      "names": {
+        "ko": "염동력",
+        "en": "Confusion"
+      },
+      "type": "psychic",
+      "localized_type": "에스퍼",
+      "damage_class": "special",
+      "localized_damage_class": "특수",
+      "power": 50,
+      "accuracy": 100,
+      "pp": 25,
+      "priority": 0,
+      "target": "selected-pokemon",
+      "effect_text": {
+        "en": "Has a $effect_chance% chance to confuse the target.",
+        "ko": null
+      },
+      "implemented_in_runtime": true
+    },
+    {
+      "move_id": "dragon-rage",
+      "internal_key": "용의분노",
+      "names": {
+        "ko": "용의분노",
+        "en": "Dragon Rage"
+      },
+      "type": "dragon",
+      "localized_type": "드래곤",
+      "damage_class": "special",
+      "localized_damage_class": "특수",
+      "power": null,
+      "accuracy": 100,
+      "pp": 10,
+      "priority": 0,
+      "target": "selected-pokemon",
+      "effect_text": {
+        "en": "Inflicts 40 points of damage.",
+        "ko": null
+      },
+      "implemented_in_runtime": true
+    },
+    {
+      "move_id": "growl",
+      "internal_key": "울음소리",
+      "names": {
+        "ko": "울음소리",
+        "en": "Growl"
+      },
+      "type": "normal",
+      "localized_type": "노말",
+      "damage_class": "status",
+      "localized_damage_class": "변화",
+      "power": null,
+      "accuracy": 100,
+      "pp": 40,
+      "priority": 0,
+      "target": "all-opponents",
+      "effect_text": {
+        "en": "Lowers the target’s Attack by one stage.",
+        "ko": null
+      },
+      "implemented_in_runtime": true
+    },
+    {
+      "move_id": "defense-curl",
+      "internal_key": "웅크리기",
+      "names": {
+        "ko": "웅크리기",
+        "en": "Defense Curl"
+      },
+      "type": "normal",
+      "localized_type": "노말",
+      "damage_class": "status",
+      "localized_damage_class": "변화",
+      "power": null,
+      "accuracy": null,
+      "pp": 40,
+      "priority": 0,
+      "target": "user",
+      "effect_text": {
+        "en": "Raises user’s Defense by one stage.",
+        "ko": null
+      },
+      "implemented_in_runtime": true
+    },
+    {
+      "move_id": "razor-leaf",
+      "internal_key": "잎날가르기",
+      "names": {
+        "ko": "잎날가르기",
+        "en": "Razor Leaf"
+      },
+      "type": "grass",
+      "localized_type": "풀",
+      "damage_class": "physical",
+      "localized_damage_class": "물리",
+      "power": 55,
+      "accuracy": 95,
+      "pp": 25,
+      "priority": 0,
+      "target": "all-opponents",
+      "effect_text": {
+        "en": "Has an increased chance for a critical hit.",
+        "ko": null
+      },
+      "implemented_in_runtime": true
+    },
+    {
+      "move_id": "quick-attack",
+      "internal_key": "전광석화",
+      "names": {
+        "ko": "전광석화",
+        "en": "Quick Attack"
+      },
+      "type": "normal",
+      "localized_type": "노말",
+      "damage_class": "physical",
+      "localized_damage_class": "물리",
+      "power": 40,
+      "accuracy": 100,
+      "pp": 30,
+      "priority": 1,
+      "target": "selected-pokemon",
+      "effect_text": {
+        "en": "Inflicts regular damage with no additional effect.",
+        "ko": null
+      },
+      "implemented_in_runtime": true
+    },
+    {
+      "move_id": "thunder-wave",
+      "internal_key": "전기자석파",
+      "names": {
+        "ko": "전기자석파",
+        "en": "Thunder Wave"
+      },
+      "type": "electric",
+      "localized_type": "전기",
+      "damage_class": "status",
+      "localized_damage_class": "변화",
+      "power": null,
+      "accuracy": 90,
+      "pp": 20,
+      "priority": 0,
+      "target": "selected-pokemon",
+      "effect_text": {
+        "en": "Paralyzes the target.",
+        "ko": null
+      },
+      "implemented_in_runtime": true
+    },
+    {
+      "move_id": "thunder-shock",
+      "internal_key": "전기충격",
+      "names": {
+        "ko": "전기쇼크",
+        "en": "Thunder Shock"
+      },
+      "type": "electric",
+      "localized_type": "전기",
+      "damage_class": "special",
+      "localized_damage_class": "특수",
+      "power": 40,
+      "accuracy": 100,
+      "pp": 30,
+      "priority": 0,
+      "target": "selected-pokemon",
+      "effect_text": {
+        "en": "Has a $effect_chance% chance to paralyze the target.",
+        "ko": null
+      },
+      "implemented_in_runtime": true
+    },
+    {
+      "move_id": "beat-up",
+      "internal_key": "집단구타",
+      "names": {
+        "ko": "집단구타",
+        "en": "Beat Up"
+      },
+      "type": "dark",
+      "localized_type": "악",
+      "damage_class": "physical",
+      "localized_damage_class": "물리",
+      "power": null,
+      "accuracy": 100,
+      "pp": 10,
+      "priority": 0,
+      "target": "selected-pokemon",
+      "effect_text": {
+        "en": "Hits once for every conscious Pokémon the trainer has.",
+        "ko": null
+      },
+      "implemented_in_runtime": false
+    },
+    {
+      "move_id": "leer",
+      "internal_key": "째려보기",
+      "names": {
+        "ko": "째려보기",
+        "en": "Leer"
+      },
+      "type": "normal",
+      "localized_type": "노말",
+      "damage_class": "status",
+      "localized_damage_class": "변화",
+      "power": null,
+      "accuracy": 100,
+      "pp": 30,
+      "priority": 0,
+      "target": "all-opponents",
+      "effect_text": {
+        "en": "Lowers the target’s Defense by one stage.",
+        "ko": null
+      },
+      "implemented_in_runtime": true
+    },
+    {
+      "move_id": "peck",
+      "internal_key": "쪼기",
+      "names": {
+        "ko": "쪼기",
+        "en": "Peck"
+      },
+      "type": "flying",
+      "localized_type": "비행",
+      "damage_class": "physical",
+      "localized_damage_class": "물리",
+      "power": 35,
+      "accuracy": 100,
+      "pp": 35,
+      "priority": 0,
+      "target": "selected-pokemon",
+      "effect_text": {
+        "en": "Inflicts regular damage with no additional effect.",
+        "ko": null
+      },
+      "implemented_in_runtime": true
+    },
+    {
+      "move_id": "disarming-voice",
+      "internal_key": "차밍보이스",
+      "names": {
+        "ko": "차밍보이스",
+        "en": "Disarming Voice"
+      },
+      "type": "fairy",
+      "localized_type": "페어리",
+      "damage_class": "special",
+      "localized_damage_class": "특수",
+      "power": 40,
+      "accuracy": null,
+      "pp": 15,
+      "priority": 0,
+      "target": "all-opponents",
+      "effect_text": {
+        "en": "Never misses.",
+        "ko": null
+      },
+      "implemented_in_runtime": true
+    },
+    {
+      "move_id": "hypnosis",
+      "internal_key": "최면술",
+      "names": {
+        "ko": "최면술",
+        "en": "Hypnosis"
+      },
+      "type": "psychic",
+      "localized_type": "에스퍼",
+      "damage_class": "status",
+      "localized_damage_class": "변화",
+      "power": null,
+      "accuracy": 60,
+      "pp": 20,
+      "priority": 0,
+      "target": "selected-pokemon",
+      "effect_text": {
+        "en": "Puts the target to sleep.",
+        "ko": null
+      },
+      "implemented_in_runtime": true
+    },
+    {
+      "move_id": "charge",
+      "internal_key": "충전",
+      "names": {
+        "ko": "충전",
+        "en": "Charge"
+      },
+      "type": "electric",
+      "localized_type": "전기",
+      "damage_class": "status",
+      "localized_damage_class": "변화",
+      "power": null,
+      "accuracy": null,
+      "pp": 20,
+      "priority": 0,
+      "target": "user",
+      "effect_text": {
+        "en": "Raises the user’s Special Defense by one stage.  User’s Electric moves have doubled power next turn.",
+        "ko": null
+      },
+      "implemented_in_runtime": true
+    },
+    {
+      "move_id": "surf",
+      "internal_key": "파도타기",
+      "names": {
+        "ko": "파도타기",
+        "en": "Surf"
+      },
+      "type": "water",
+      "localized_type": "물",
+      "damage_class": "special",
+      "localized_damage_class": "특수",
+      "power": 90,
+      "accuracy": 100,
+      "pp": 15,
+      "priority": 0,
+      "target": "all-other-pokemon",
+      "effect_text": {
+        "en": "Inflicts regular damage and can hit Dive users.",
+        "ko": null
+      },
+      "implemented_in_runtime": true
+    },
+    {
+      "move_id": "hydro-pump",
+      "internal_key": "하이드로펌프",
+      "names": {
+        "ko": "하이드로펌프",
+        "en": "Hydro Pump"
+      },
+      "type": "water",
+      "localized_type": "물",
+      "damage_class": "special",
+      "localized_damage_class": "특수",
+      "power": 110,
+      "accuracy": 80,
+      "pp": 5,
+      "priority": 0,
+      "target": "selected-pokemon",
+      "effect_text": {
+        "en": "Inflicts regular damage with no additional effect.",
+        "ko": null
+      },
+      "implemented_in_runtime": true
+    },
+    {
+      "move_id": "scratch",
+      "internal_key": "할퀴기",
+      "names": {
+        "ko": "할퀴기",
+        "en": "Scratch"
+      },
+      "type": "normal",
+      "localized_type": "노말",
+      "damage_class": "physical",
+      "localized_damage_class": "물리",
+      "power": 40,
+      "accuracy": 100,
+      "pp": 35,
+      "priority": 0,
+      "target": "selected-pokemon",
+      "effect_text": {
+        "en": "Inflicts regular damage with no additional effect.",
+        "ko": null
+      },
+      "implemented_in_runtime": true
+    },
+    {
+      "move_id": "flamethrower",
+      "internal_key": "화염방사",
+      "names": {
+        "ko": "화염방사",
+        "en": "Flamethrower"
+      },
+      "type": "fire",
+      "localized_type": "불꽃",
+      "damage_class": "special",
+      "localized_damage_class": "특수",
+      "power": 90,
+      "accuracy": 100,
+      "pp": 15,
+      "priority": 0,
+      "target": "selected-pokemon",
+      "effect_text": {
+        "en": "Has a $effect_chance% chance to burn the target.",
+        "ko": null
+      },
+      "implemented_in_runtime": true
+    },
+    {
+      "move_id": "fire-spin",
+      "internal_key": "회오리불꽃",
+      "names": {
+        "ko": "회오리불꽃",
+        "en": "Fire Spin"
+      },
+      "type": "fire",
+      "localized_type": "불꽃",
+      "damage_class": "special",
+      "localized_damage_class": "특수",
+      "power": 35,
+      "accuracy": 85,
+      "pp": 15,
+      "priority": 0,
+      "target": "selected-pokemon",
+      "effect_text": {
+        "en": "Prevents the target from fleeing and inflicts damage for 2-5 turns.",
+        "ko": null
+      },
+      "implemented_in_runtime": true
+    },
+    {
+      "move_id": "copycat",
+      "internal_key": "흉내쟁이",
+      "names": {
+        "ko": "흉내쟁이",
+        "en": "Copycat"
+      },
+      "type": "normal",
+      "localized_type": "노말",
+      "damage_class": "status",
+      "localized_damage_class": "변화",
+      "power": null,
+      "accuracy": null,
+      "pp": 20,
+      "priority": 0,
+      "target": "user",
+      "effect_text": {
+        "en": "Uses the target’s last used move.",
+        "ko": null
+      },
+      "implemented_in_runtime": false
+    }
   ],
-  "unsupported_move_refs": [
-    { "move_id": "beat-up", "internal_key": "집단구타", "reason": "Referenced by species data but not implemented in current runtime move table." },
-    { "move_id": "copycat", "internal_key": "흉내쟁이", "reason": "Referenced by species data but not implemented in current runtime move table." }
-  ]
+  "unresolved_internal_keys": []
 }

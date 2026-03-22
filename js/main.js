@@ -77,39 +77,44 @@ function updateTitle() {
 function renderTitle() {
   ctx.fillStyle = C.white;
   ctx.fillRect(0, 0, W, H);
+  const menuWidth = 260;
+  const menuX = Math.floor((W - menuWidth) / 2);
+  const titleY = 96;
+  const subtitleY = 124;
+  const menuStartY = 200;
 
   for (let i = 0; i < 6; i += 1) {
-    const ballX = (i * 50 + titleState.ballAnim * 30) % (W + 40) - 20;
-    const ballY = 20 + Math.sin(titleState.ballAnim * 2 + i * 1.2) * 15 + i * 25;
+    const ballX = (i * 110 + titleState.ballAnim * 40) % (W + 80) - 40;
+    const ballY = 60 + Math.sin(titleState.ballAnim * 2 + i * 1.2) * 24 + i * 34;
     ctx.globalAlpha = 0.15;
-    drawPokeball(ballX, ballY, 24);
+    drawPokeball(ballX, ballY, 32);
     ctx.globalAlpha = 1;
   }
 
-  drawTextCentered(t("title.name"), 50, GS.lang === "ko" ? 16 : 10, C.titleBlue);
+  drawTextCentered(t("title.name"), titleY, GS.lang === "ko" ? 22 : 14, C.titleBlue);
 
   ctx.fillStyle = C.hint;
-  ctx.font = `8px "${GS.lang === "ko" ? "DotGothic16" : "Press Start 2P"}"`;
+  ctx.font = `10px "${GS.lang === "ko" ? "DotGothic16" : "Press Start 2P"}"`;
   const subtitle = GS.lang === "ko" ? "캐나다 토론토를 배경으로 한 포켓몬 팬게임" : "A Pokémon fan game set in Toronto";
   const width = ctx.measureText(subtitle).width;
-  ctx.fillText(subtitle, (W - width) / 2, 65);
+  ctx.fillText(subtitle, (W - width) / 2, subtitleY);
 
   if (titleState.phase === "press") {
     if (Math.floor(titleState.pressTimer / 30) % 2 === 0) {
-      drawTextCentered(t("title.press"), 140, GS.lang === "ko" ? 12 : 8, C.text);
+      drawTextCentered(t("title.press"), H - 90, GS.lang === "ko" ? 14 : 9, C.text);
     }
     return;
   }
 
   const items = ["title.new", "title.continue", "title.options", "title.credits"];
   for (let i = 0; i < items.length; i += 1) {
-    const y = 85 + i * 22;
+    const y = menuStartY + i * 34;
     if (i === titleState.sel) {
-      drawWin(60, y - 4, W - 120, 20);
+      drawWin(menuX, y - 10, menuWidth, 28);
       const bounce = Math.sin(Date.now() / 150) * 1;
-      drawText("▶", 65 + bounce, y + 9, 10, C.pokered);
+      drawText("▶", menuX + 10 + bounce, y + 9, 12, C.pokered);
     }
-    drawText(t(items[i]), 80, y + 10, GS.lang === "ko" ? 12 : 8, i === titleState.sel ? C.text : C.textDis);
+    drawText(t(items[i]), menuX + 28, y + 10, GS.lang === "ko" ? 14 : 9, i === titleState.sel ? C.text : C.textDis);
   }
 }
 
@@ -137,8 +142,12 @@ function updateOptions() {
 function renderOptions() {
   ctx.fillStyle = C.sky;
   ctx.fillRect(0, 0, W, H);
-  drawWin(16, 10, W - 32, H - 20);
-  drawTextCentered(t("opt.title"), 30, GS.lang === "ko" ? 14 : 10, C.titleBlue);
+  const panelWidth = Math.min(W - 48, 420);
+  const panelHeight = 248;
+  const panelX = Math.floor((W - panelWidth) / 2);
+  const panelY = Math.floor((H - panelHeight) / 2);
+  drawWin(panelX, panelY, panelWidth, panelHeight);
+  drawTextCentered(t("opt.title"), panelY + 26, GS.lang === "ko" ? 16 : 10, C.titleBlue);
 
   const items = [
     { label: "opt.lang", val: GS.lang === "ko" ? "한국어" : "English" },
@@ -150,14 +159,14 @@ function renderOptions() {
   ];
 
   for (let i = 0; i < items.length; i += 1) {
-    const y = 46 + i * 22;
+    const y = panelY + 52 + i * 30;
     if (i === optState.sel) {
       const bounce = Math.sin(Date.now() / 150) * 1;
-      drawText("▶", 24 + bounce, y + 10, 10, C.pokered);
+      drawText("▶", panelX + 16 + bounce, y + 11, 10, C.pokered);
     }
-    drawText(t(items[i].label), 38, y + 10, GS.lang === "ko" ? 11 : 7, i === optState.sel ? C.text : C.textDis);
+    drawText(t(items[i].label), panelX + 34, y + 11, GS.lang === "ko" ? 12 : 7, i === optState.sel ? C.text : C.textDis);
     if (items[i].val) {
-      drawText(items[i].val, 120, y + 10, 7, C.text, "Press Start 2P");
+      drawText(items[i].val, panelX + 200, y + 11, 7, C.text, "Press Start 2P");
     }
   }
 }

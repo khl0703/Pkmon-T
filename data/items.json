@@ -1,93 +1,305 @@
 {
-  "schema": "items.v1",
-  "source_model": "project-local-normalized",
+  "schema": "items.v2",
+  "source_model": "pokeapi-compatible",
   "categories": [
-    { "id": "items", "label": { "ko": "도구", "en": "Items" } },
-    { "id": "balls", "label": { "ko": "볼", "en": "Balls" } },
-    { "id": "battle", "label": { "ko": "배틀도구", "en": "Battle" } },
-    { "id": "machines", "label": { "ko": "기술머신", "en": "Machines" } },
-    { "id": "keyItems", "label": { "ko": "중요한 도구", "en": "Key Items" } }
+    {
+      "id": "items",
+      "bag_key": "items",
+      "label_key": "bag.items"
+    },
+    {
+      "id": "balls",
+      "bag_key": "pokeballs",
+      "label_key": "bag.balls"
+    },
+    {
+      "id": "battle",
+      "bag_key": "battleItems",
+      "label_key": "bag.battle"
+    },
+    {
+      "id": "machines",
+      "bag_key": "machines",
+      "label_key": "bag.machines"
+    },
+    {
+      "id": "keyItems",
+      "bag_key": "keyItems",
+      "label_key": "bag.keyItems"
+    }
   ],
   "items": [
     {
-      "id": "potion",
-      "names": { "ko": "상처약", "en": "Potion" },
-      "category": "items",
-      "description": { "ko": "포켓몬 1마리의 HP를 20 회복한다.", "en": "Restores 20 HP to one Pokémon." },
-      "usable_in_field": true,
-      "usable_in_battle": true,
-      "key_item": false,
-      "effect_type": "heal_20"
-    },
-    {
-      "id": "superpotion",
-      "names": { "ko": "좋은상처약", "en": "Super Potion" },
-      "category": "items",
-      "description": { "ko": "포켓몬 1마리의 HP를 50 회복한다.", "en": "Restores 50 HP to one Pokémon." },
-      "usable_in_field": true,
-      "usable_in_battle": true,
-      "key_item": false,
-      "effect_type": "heal_50"
-    },
-    {
       "id": "antidote",
-      "names": { "ko": "해독제", "en": "Antidote" },
-      "category": "items",
-      "description": { "ko": "포켓몬 1마리의 독 상태를 회복한다.", "en": "Cures poison for one Pokémon." },
+      "api_id": "antidote",
+      "names": {
+        "ko": "해독제",
+        "en": "Antidote"
+      },
+      "official_names": {
+        "ko": "해독제",
+        "en": "Antidote"
+      },
+      "project_category": "items",
+      "description": {
+        "ko": "포켓몬 1마리의 독 상태를 회복한다.",
+        "en": "Cures poison for one Pokémon."
+      },
+      "pocket": "status-cures",
+      "category": "status-cures",
+      "effect_text": {
+        "en": "Cures poison.",
+        "ko": null
+      },
+      "fling": {
+        "power": 30,
+        "effect": null
+      },
       "usable_in_field": true,
       "usable_in_battle": true,
       "key_item": false,
       "effect_type": "cure_poison"
     },
     {
-      "id": "fullheal",
-      "names": { "ko": "만병통치약", "en": "Full Heal" },
-      "category": "items",
-      "description": { "ko": "포켓몬 1마리의 상태 이상을 전부 회복한다.", "en": "Cures all status conditions on one Pokémon." },
-      "usable_in_field": true,
-      "usable_in_battle": true,
-      "key_item": false,
-      "effect_type": "cure_all"
-    },
-    {
-      "id": "pokeball",
-      "names": { "ko": "포켓볼", "en": "Poké Ball" },
-      "category": "balls",
-      "description": { "ko": "야생 포켓몬을 잡을 때 던지는 기본 볼.", "en": "A standard Ball used to catch wild Pokémon." },
-      "usable_in_field": false,
-      "usable_in_battle": true,
-      "key_item": false,
-      "effect_type": "catch_basic"
-    },
-    {
-      "id": "greatball",
-      "names": { "ko": "슈퍼볼", "en": "Great Ball" },
-      "category": "balls",
-      "description": { "ko": "포켓볼보다 잡기 쉬운 성능 좋은 볼.", "en": "A higher-performance Ball with a better catch rate." },
-      "usable_in_field": false,
-      "usable_in_battle": true,
-      "key_item": false,
-      "effect_type": "catch_great"
-    },
-    {
       "id": "escapeRope",
-      "names": { "ko": "탈출로프", "en": "Escape Rope" },
-      "category": "items",
-      "description": { "ko": "동굴이나 던전에서 밖으로 빠져나오는 로프.", "en": "Lets you escape from caves or dungeons." },
+      "api_id": "escape-rope",
+      "names": {
+        "ko": "탈출로프",
+        "en": "Escape Rope"
+      },
+      "official_names": {
+        "ko": "동굴탈출로프",
+        "en": "Escape Rope"
+      },
+      "project_category": "items",
+      "description": {
+        "ko": "동굴이나 던전에서 밖으로 빠져나오는 로프.",
+        "en": "Lets you escape from caves or dungeons."
+      },
+      "pocket": "spelunking",
+      "category": "spelunking",
+      "effect_text": {
+        "en": "Transports user to the outside entrance of a cave.",
+        "ko": null
+      },
+      "fling": {
+        "power": 30,
+        "effect": null
+      },
       "usable_in_field": true,
       "usable_in_battle": false,
       "key_item": false,
       "effect_type": "escape"
     },
     {
+      "id": "fullheal",
+      "api_id": "full-heal",
+      "names": {
+        "ko": "만병통치약",
+        "en": "Full Heal"
+      },
+      "official_names": {
+        "ko": "만병통치제",
+        "en": "Full Heal"
+      },
+      "project_category": "items",
+      "description": {
+        "ko": "포켓몬 1마리의 상태 이상을 전부 회복한다.",
+        "en": "Cures all status conditions on one Pokémon."
+      },
+      "pocket": "status-cures",
+      "category": "status-cures",
+      "effect_text": {
+        "en": "Cures any status ailment and confusion.",
+        "ko": null
+      },
+      "fling": {
+        "power": 30,
+        "effect": null
+      },
+      "usable_in_field": true,
+      "usable_in_battle": true,
+      "key_item": false,
+      "effect_type": "cure_all"
+    },
+    {
+      "id": "greatball",
+      "api_id": "great-ball",
+      "names": {
+        "ko": "슈퍼볼",
+        "en": "Great Ball"
+      },
+      "official_names": {
+        "ko": "수퍼볼",
+        "en": "Great Ball"
+      },
+      "project_category": "balls",
+      "description": {
+        "ko": "포켓볼보다 잡기 쉬운 성능 좋은 볼.",
+        "en": "A higher-performance Ball with a better catch rate."
+      },
+      "pocket": "standard-balls",
+      "category": "standard-balls",
+      "effect_text": {
+        "en": "Tries to catch a wild Pokémon.  Success rate is 1.5×.",
+        "ko": null
+      },
+      "fling": null,
+      "usable_in_field": false,
+      "usable_in_battle": true,
+      "key_item": false,
+      "effect_type": "catch_great"
+    },
+    {
+      "id": "hyperpotion",
+      "api_id": "hyper-potion",
+      "names": {
+        "ko": "고급상처약",
+        "en": "Hyper Potion"
+      },
+      "official_names": {
+        "ko": "고급상처약",
+        "en": "Hyper Potion"
+      },
+      "project_category": "items",
+      "description": {
+        "ko": "포켓몬 1마리의 HP를 120 회복한다.",
+        "en": "Restores 120 HP to one Pokémon."
+      },
+      "pocket": "healing",
+      "category": "healing",
+      "effect_text": {
+        "en": "Restores 120 HP.",
+        "ko": "스프레이식의 상처약. 포켓몬 1마리의 HP를 120만큼 회복한다."
+      },
+      "fling": {
+        "power": 30,
+        "effect": null
+      },
+      "usable_in_field": true,
+      "usable_in_battle": true,
+      "key_item": false,
+      "effect_type": "heal_120"
+    },
+    {
+      "id": "pokeball",
+      "api_id": "poke-ball",
+      "names": {
+        "ko": "포켓볼",
+        "en": "Poké Ball"
+      },
+      "official_names": {
+        "ko": "몬스터볼",
+        "en": "Poké Ball"
+      },
+      "project_category": "balls",
+      "description": {
+        "ko": "야생 포켓몬을 잡을 때 던지는 기본 볼.",
+        "en": "A standard Ball used to catch wild Pokémon."
+      },
+      "pocket": "standard-balls",
+      "category": "standard-balls",
+      "effect_text": {
+        "en": "Tries to catch a wild Pokémon.",
+        "ko": null
+      },
+      "fling": null,
+      "usable_in_field": false,
+      "usable_in_battle": true,
+      "key_item": false,
+      "effect_type": "catch_basic"
+    },
+    {
+      "id": "potion",
+      "api_id": "potion",
+      "names": {
+        "ko": "상처약",
+        "en": "Potion"
+      },
+      "official_names": {
+        "ko": "상처약",
+        "en": "Potion"
+      },
+      "project_category": "items",
+      "description": {
+        "ko": "포켓몬 1마리의 HP를 20 회복한다.",
+        "en": "Restores 20 HP to one Pokémon."
+      },
+      "pocket": "healing",
+      "category": "healing",
+      "effect_text": {
+        "en": "A spray-type wound medicine. It restores the HP of one Pokémon by 20 points",
+        "ko": "스프레이식의 상처약. 포켓몬 1마리의 HP를 20만큼 회복한다."
+      },
+      "fling": {
+        "power": 30,
+        "effect": null
+      },
+      "usable_in_field": true,
+      "usable_in_battle": true,
+      "key_item": false,
+      "effect_type": "heal_20"
+    },
+    {
       "id": "studentCard",
-      "names": { "ko": "학생증", "en": "Student Card" },
-      "category": "keyItems",
-      "description": { "ko": "토론토 세계에서 신분을 증명하는 중요한 도구.", "en": "An important ID used around Toronto." },
+      "api_id": null,
+      "names": {
+        "ko": "학생증",
+        "en": "Student Card"
+      },
+      "official_names": {
+        "ko": null,
+        "en": null
+      },
+      "project_category": "keyItems",
+      "description": {
+        "ko": "토론토 세계에서 신분을 증명하는 중요한 도구.",
+        "en": "An important ID used around Toronto."
+      },
+      "pocket": "key-items",
+      "category": null,
+      "effect_text": {
+        "en": null,
+        "ko": null
+      },
+      "fling": null,
       "usable_in_field": false,
       "usable_in_battle": false,
       "key_item": true,
-      "effect_type": "key_item"
+      "effect_type": "key_item",
+      "source": "project-local",
+      "notes": "No PokéAPI item match for \"Student Card\"."
+    },
+    {
+      "id": "superpotion",
+      "api_id": "super-potion",
+      "names": {
+        "ko": "좋은상처약",
+        "en": "Super Potion"
+      },
+      "official_names": {
+        "ko": "좋은상처약",
+        "en": "Super Potion"
+      },
+      "project_category": "items",
+      "description": {
+        "ko": "포켓몬 1마리의 HP를 50 회복한다.",
+        "en": "Restores 50 HP to one Pokémon."
+      },
+      "pocket": "healing",
+      "category": "healing",
+      "effect_text": {
+        "en": "Restores 50 HP.",
+        "ko": "스프레이식의 상처약. 포켓몬 1마리의 HP를 50만큼 회복한다."
+      },
+      "fling": {
+        "power": 30,
+        "effect": null
+      },
+      "usable_in_field": true,
+      "usable_in_battle": true,
+      "key_item": false,
+      "effect_type": "heal_50"
     }
   ]
 }

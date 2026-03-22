@@ -1,6 +1,6 @@
 // Shared constants that are used across rendering, gameplay, and UI modules.
-export const W = 256;
-export const H = 192;
+export const W = 640;
+export const H = 480;
 export const TILE = 16;
 export const TICK = 1000 / 60;
 

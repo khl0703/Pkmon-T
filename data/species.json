@@ -1,396 +1,1467 @@
 {
-  "schema": "species.v1",
+  "schema": "species.v2",
   "source_model": "pokeapi-compatible",
-  "notes": {
-    "complete_fields": [
-      "id",
-      "slug",
-      "names",
-      "types",
-      "base_stats",
-      "capture_rate",
-      "base_experience",
-      "level_up_moves"
+  "import_scope": {
+    "species_ids": [
+      1,
+      4,
+      7,
+      10,
+      19,
+      63,
+      65,
+      179,
+      263,
+      280,
+      396,
+      403,
+      506,
+      519,
+      677,
+      827,
+      831,
+      915
     ],
-    "manual_review_fields": [
-      "abilities",
-      "growth_rate_id",
-      "evolution"
-    ]
+    "source": "https://pokeapi.co/api/v2",
+    "learnsets": "project runtime learnsets preserved for compatibility"
   },
   "species": [
     {
       "id": 1,
       "slug": "bulbasaur",
-      "names": { "ko": "이상해씨", "en": "Bulbasaur" },
-      "types": ["grass", "poison"],
-      "localized_types": ["풀", "독"],
-      "base_stats": { "hp": 45, "attack": 49, "defense": 49, "special_attack": 65, "special_defense": 65, "speed": 45 },
+      "names": {
+        "ko": "이상해씨",
+        "en": "Bulbasaur"
+      },
+      "types": [
+        "grass",
+        "poison"
+      ],
+      "localized_types": [
+        "풀",
+        "독"
+      ],
+      "base_stats": {
+        "hp": 45,
+        "attack": 49,
+        "defense": 49,
+        "special_attack": 65,
+        "special_defense": 65,
+        "speed": 45
+      },
+      "abilities": [
+        {
+          "id": "overgrow",
+          "names": {
+            "ko": "심록",
+            "en": "Overgrow"
+          },
+          "is_hidden": false,
+          "slot": 1
+        },
+        {
+          "id": "chlorophyll",
+          "names": {
+            "ko": "엽록소",
+            "en": "Chlorophyll"
+          },
+          "is_hidden": true,
+          "slot": 3
+        }
+      ],
+      "hidden_ability": "chlorophyll",
       "capture_rate": 45,
       "base_experience": 64,
-      "abilities": { "values": [], "needs_manual_review": true },
-      "growth_rate_id": null,
-      "growth_rate_needs_manual_review": true,
-      "evolution": { "chain": [], "needs_manual_review": true },
-      "learnset_basis": "scarlet-violet",
-      "level_up_moves": [
-        { "level": 1, "move_id": "growl", "internal_key": "울음소리" },
-        { "level": 1, "move_id": "tackle", "internal_key": "몸통박치기" },
-        { "level": 3, "move_id": "vine-whip", "internal_key": "덩굴채찍" },
-        { "level": 6, "move_id": "growth", "internal_key": "성장" }
+      "growth_rate_id": "medium-slow",
+      "evolution_chain_id": 1,
+      "project_level_up_moves": [
+        {
+          "level": 1,
+          "move_id": "tackle",
+          "internal_key": "몸통박치기"
+        },
+        {
+          "level": 4,
+          "move_id": "growl",
+          "internal_key": "울음소리"
+        },
+        {
+          "level": 7,
+          "move_id": "leech-seed",
+          "internal_key": "씨뿌리기"
+        },
+        {
+          "level": 10,
+          "move_id": "vine-whip",
+          "internal_key": "덩굴채찍"
+        },
+        {
+          "level": 15,
+          "move_id": "poison-powder",
+          "internal_key": "독가루"
+        },
+        {
+          "level": 15,
+          "move_id": "sleep-powder",
+          "internal_key": "수면가루"
+        },
+        {
+          "level": 20,
+          "move_id": "razor-leaf",
+          "internal_key": "잎날가르기"
+        },
+        {
+          "level": 25,
+          "move_id": "sweet-scent",
+          "internal_key": "달콤한향기"
+        },
+        {
+          "level": 32,
+          "move_id": "growth",
+          "internal_key": "성장"
+        },
+        {
+          "level": 39,
+          "move_id": "synthesis",
+          "internal_key": "광합성"
+        },
+        {
+          "level": 46,
+          "move_id": "solar-beam",
+          "internal_key": "솔라빔"
+        }
       ]
     },
     {
       "id": 4,
       "slug": "charmander",
-      "names": { "ko": "파이리", "en": "Charmander" },
-      "types": ["fire"],
-      "localized_types": ["불꽃"],
-      "base_stats": { "hp": 39, "attack": 52, "defense": 43, "special_attack": 60, "special_defense": 50, "speed": 65 },
+      "names": {
+        "ko": "파이리",
+        "en": "Charmander"
+      },
+      "types": [
+        "fire"
+      ],
+      "localized_types": [
+        "불꽃"
+      ],
+      "base_stats": {
+        "hp": 39,
+        "attack": 52,
+        "defense": 43,
+        "special_attack": 60,
+        "special_defense": 50,
+        "speed": 65
+      },
+      "abilities": [
+        {
+          "id": "blaze",
+          "names": {
+            "ko": "맹화",
+            "en": "Blaze"
+          },
+          "is_hidden": false,
+          "slot": 1
+        },
+        {
+          "id": "solar-power",
+          "names": {
+            "ko": "선파워",
+            "en": "Solar Power"
+          },
+          "is_hidden": true,
+          "slot": 3
+        }
+      ],
+      "hidden_ability": "solar-power",
       "capture_rate": 45,
       "base_experience": 62,
-      "abilities": { "values": [], "needs_manual_review": true },
-      "growth_rate_id": null,
-      "growth_rate_needs_manual_review": true,
-      "evolution": { "chain": [], "needs_manual_review": true },
-      "learnset_basis": "sword-shield",
-      "level_up_moves": [
-        { "level": 1, "move_id": "growl", "internal_key": "울음소리" },
-        { "level": 1, "move_id": "scratch", "internal_key": "할퀴기" },
-        { "level": 4, "move_id": "ember", "internal_key": "불꽃세례" },
-        { "level": 8, "move_id": "smokescreen", "internal_key": "연막" }
+      "growth_rate_id": "medium-slow",
+      "evolution_chain_id": 2,
+      "project_level_up_moves": [
+        {
+          "level": 1,
+          "move_id": "scratch",
+          "internal_key": "할퀴기"
+        },
+        {
+          "level": 1,
+          "move_id": "growl",
+          "internal_key": "울음소리"
+        },
+        {
+          "level": 7,
+          "move_id": "ember",
+          "internal_key": "불꽃세례"
+        },
+        {
+          "level": 13,
+          "move_id": "smokescreen",
+          "internal_key": "연막"
+        },
+        {
+          "level": 19,
+          "move_id": "rage",
+          "internal_key": "분노"
+        },
+        {
+          "level": 25,
+          "move_id": "scary-face",
+          "internal_key": "무서운얼굴"
+        },
+        {
+          "level": 31,
+          "move_id": "flamethrower",
+          "internal_key": "화염방사"
+        },
+        {
+          "level": 37,
+          "move_id": "slash",
+          "internal_key": "베어가르기"
+        },
+        {
+          "level": 43,
+          "move_id": "dragon-rage",
+          "internal_key": "용의분노"
+        },
+        {
+          "level": 49,
+          "move_id": "fire-spin",
+          "internal_key": "회오리불꽃"
+        }
       ]
     },
     {
       "id": 7,
       "slug": "squirtle",
-      "names": { "ko": "꼬부기", "en": "Squirtle" },
-      "types": ["water"],
-      "localized_types": ["물"],
-      "base_stats": { "hp": 44, "attack": 48, "defense": 65, "special_attack": 50, "special_defense": 64, "speed": 43 },
+      "names": {
+        "ko": "꼬부기",
+        "en": "Squirtle"
+      },
+      "types": [
+        "water"
+      ],
+      "localized_types": [
+        "물"
+      ],
+      "base_stats": {
+        "hp": 44,
+        "attack": 48,
+        "defense": 65,
+        "special_attack": 50,
+        "special_defense": 64,
+        "speed": 43
+      },
+      "abilities": [
+        {
+          "id": "torrent",
+          "names": {
+            "ko": "급류",
+            "en": "Torrent"
+          },
+          "is_hidden": false,
+          "slot": 1
+        },
+        {
+          "id": "rain-dish",
+          "names": {
+            "ko": "젖은접시",
+            "en": "Rain Dish"
+          },
+          "is_hidden": true,
+          "slot": 3
+        }
+      ],
+      "hidden_ability": "rain-dish",
       "capture_rate": 45,
       "base_experience": 63,
-      "abilities": { "values": [], "needs_manual_review": true },
-      "growth_rate_id": null,
-      "growth_rate_needs_manual_review": true,
-      "evolution": { "chain": [], "needs_manual_review": true },
-      "learnset_basis": "sword-shield",
-      "level_up_moves": [
-        { "level": 1, "move_id": "tackle", "internal_key": "몸통박치기" },
-        { "level": 1, "move_id": "tail-whip", "internal_key": "꼬리흔들기" },
-        { "level": 3, "move_id": "water-gun", "internal_key": "물대포" },
-        { "level": 6, "move_id": "withdraw", "internal_key": "껍질에숨기" }
+      "growth_rate_id": "medium-slow",
+      "evolution_chain_id": 3,
+      "project_level_up_moves": [
+        {
+          "level": 1,
+          "move_id": "tackle",
+          "internal_key": "몸통박치기"
+        },
+        {
+          "level": 4,
+          "move_id": "tail-whip",
+          "internal_key": "꼬리흔들기"
+        },
+        {
+          "level": 7,
+          "move_id": "bubble",
+          "internal_key": "거품"
+        },
+        {
+          "level": 10,
+          "move_id": "withdraw",
+          "internal_key": "껍질에숨기"
+        },
+        {
+          "level": 13,
+          "move_id": "water-gun",
+          "internal_key": "물대포"
+        },
+        {
+          "level": 18,
+          "move_id": "bite",
+          "internal_key": "물기"
+        },
+        {
+          "level": 23,
+          "move_id": "rapid-spin",
+          "internal_key": "고속스핀"
+        },
+        {
+          "level": 28,
+          "move_id": "protect",
+          "internal_key": "방어"
+        },
+        {
+          "level": 33,
+          "move_id": "rain-dance",
+          "internal_key": "비바라기"
+        },
+        {
+          "level": 40,
+          "move_id": "skull-bash",
+          "internal_key": "로케트박치기"
+        },
+        {
+          "level": 47,
+          "move_id": "hydro-pump",
+          "internal_key": "하이드로펌프"
+        }
       ]
     },
     {
       "id": 10,
       "slug": "caterpie",
-      "names": { "ko": "캐터피", "en": "Caterpie" },
-      "types": ["bug"],
-      "localized_types": ["벌레"],
-      "base_stats": { "hp": 45, "attack": 30, "defense": 35, "special_attack": 20, "special_defense": 20, "speed": 45 },
+      "names": {
+        "ko": "캐터피",
+        "en": "Caterpie"
+      },
+      "types": [
+        "bug"
+      ],
+      "localized_types": [
+        "벌레"
+      ],
+      "base_stats": {
+        "hp": 45,
+        "attack": 30,
+        "defense": 35,
+        "special_attack": 20,
+        "special_defense": 20,
+        "speed": 45
+      },
+      "abilities": [
+        {
+          "id": "shield-dust",
+          "names": {
+            "ko": "인분",
+            "en": "Shield Dust"
+          },
+          "is_hidden": false,
+          "slot": 1
+        },
+        {
+          "id": "run-away",
+          "names": {
+            "ko": "도주",
+            "en": "Run Away"
+          },
+          "is_hidden": true,
+          "slot": 3
+        }
+      ],
+      "hidden_ability": "run-away",
       "capture_rate": 255,
       "base_experience": 39,
-      "abilities": { "values": [], "needs_manual_review": true },
-      "growth_rate_id": null,
-      "growth_rate_needs_manual_review": true,
-      "evolution": { "chain": [], "needs_manual_review": true },
-      "learnset_basis": "sword-shield",
-      "level_up_moves": [
-        { "level": 1, "move_id": "string-shot", "internal_key": "실뿜기" },
-        { "level": 1, "move_id": "tackle", "internal_key": "몸통박치기" },
-        { "level": 9, "move_id": "bug-bite", "internal_key": "벌레먹기" }
+      "growth_rate_id": "medium",
+      "evolution_chain_id": 4,
+      "project_level_up_moves": [
+        {
+          "level": 1,
+          "move_id": "string-shot",
+          "internal_key": "실뿜기"
+        },
+        {
+          "level": 1,
+          "move_id": "tackle",
+          "internal_key": "몸통박치기"
+        },
+        {
+          "level": 9,
+          "move_id": "bug-bite",
+          "internal_key": "벌레먹기"
+        }
       ]
     },
     {
       "id": 19,
       "slug": "rattata",
-      "names": { "ko": "꼬렛", "en": "Rattata" },
-      "types": ["normal"],
-      "localized_types": ["노말"],
-      "base_stats": { "hp": 30, "attack": 56, "defense": 35, "special_attack": 25, "special_defense": 35, "speed": 72 },
+      "names": {
+        "ko": "꼬렛",
+        "en": "Rattata"
+      },
+      "types": [
+        "normal"
+      ],
+      "localized_types": [
+        "노말"
+      ],
+      "base_stats": {
+        "hp": 30,
+        "attack": 56,
+        "defense": 35,
+        "special_attack": 25,
+        "special_defense": 35,
+        "speed": 72
+      },
+      "abilities": [
+        {
+          "id": "run-away",
+          "names": {
+            "ko": "도주",
+            "en": "Run Away"
+          },
+          "is_hidden": false,
+          "slot": 1
+        },
+        {
+          "id": "guts",
+          "names": {
+            "ko": "근성",
+            "en": "Guts"
+          },
+          "is_hidden": false,
+          "slot": 2
+        },
+        {
+          "id": "hustle",
+          "names": {
+            "ko": "의욕",
+            "en": "Hustle"
+          },
+          "is_hidden": true,
+          "slot": 3
+        }
+      ],
+      "hidden_ability": "hustle",
       "capture_rate": 255,
       "base_experience": 51,
-      "abilities": { "values": [], "needs_manual_review": true },
-      "growth_rate_id": null,
-      "growth_rate_needs_manual_review": true,
-      "evolution": { "chain": [], "needs_manual_review": true },
-      "learnset_basis": "lets-go-pikachu-lets-go-eevee",
-      "level_up_moves": [
-        { "level": 1, "move_id": "tackle", "internal_key": "몸통박치기" },
-        { "level": 3, "move_id": "tail-whip", "internal_key": "꼬리흔들기" },
-        { "level": 6, "move_id": "quick-attack", "internal_key": "전광석화" },
-        { "level": 9, "move_id": "focus-energy", "internal_key": "기충전" }
+      "growth_rate_id": "medium",
+      "evolution_chain_id": 7,
+      "project_level_up_moves": [
+        {
+          "level": 1,
+          "move_id": "tackle",
+          "internal_key": "몸통박치기"
+        },
+        {
+          "level": 3,
+          "move_id": "tail-whip",
+          "internal_key": "꼬리흔들기"
+        },
+        {
+          "level": 6,
+          "move_id": "quick-attack",
+          "internal_key": "전광석화"
+        },
+        {
+          "level": 9,
+          "move_id": "focus-energy",
+          "internal_key": "기충전"
+        }
       ]
     },
     {
       "id": 63,
       "slug": "abra",
-      "names": { "ko": "캐이시", "en": "Abra" },
-      "types": ["psychic"],
-      "localized_types": ["에스퍼"],
-      "base_stats": { "hp": 25, "attack": 20, "defense": 15, "special_attack": 105, "special_defense": 55, "speed": 90 },
+      "names": {
+        "ko": "캐이시",
+        "en": "Abra"
+      },
+      "types": [
+        "psychic"
+      ],
+      "localized_types": [
+        "에스퍼"
+      ],
+      "base_stats": {
+        "hp": 25,
+        "attack": 20,
+        "defense": 15,
+        "special_attack": 105,
+        "special_defense": 55,
+        "speed": 90
+      },
+      "abilities": [
+        {
+          "id": "synchronize",
+          "names": {
+            "ko": "싱크로",
+            "en": "Synchronize"
+          },
+          "is_hidden": false,
+          "slot": 1
+        },
+        {
+          "id": "inner-focus",
+          "names": {
+            "ko": "정신력",
+            "en": "Inner Focus"
+          },
+          "is_hidden": false,
+          "slot": 2
+        },
+        {
+          "id": "magic-guard",
+          "names": {
+            "ko": "매직가드",
+            "en": "Magic Guard"
+          },
+          "is_hidden": true,
+          "slot": 3
+        }
+      ],
+      "hidden_ability": "magic-guard",
       "capture_rate": 200,
       "base_experience": 62,
-      "abilities": { "values": [], "needs_manual_review": true },
-      "growth_rate_id": null,
-      "growth_rate_needs_manual_review": true,
-      "evolution": { "chain": [], "needs_manual_review": true },
-      "learnset_basis": "legends-arceus",
-      "level_up_moves": [
-        { "level": 1, "move_id": "teleport", "internal_key": "순간이동" }
+      "growth_rate_id": "medium-slow",
+      "evolution_chain_id": 27,
+      "project_level_up_moves": [
+        {
+          "level": 1,
+          "move_id": "teleport",
+          "internal_key": "순간이동"
+        }
       ]
     },
     {
       "id": 65,
       "slug": "alakazam",
-      "names": { "ko": "후딘", "en": "Alakazam" },
-      "types": ["psychic"],
-      "localized_types": ["에스퍼"],
-      "base_stats": { "hp": 55, "attack": 50, "defense": 45, "special_attack": 135, "special_defense": 95, "speed": 120 },
+      "names": {
+        "ko": "후딘",
+        "en": "Alakazam"
+      },
+      "types": [
+        "psychic"
+      ],
+      "localized_types": [
+        "에스퍼"
+      ],
+      "base_stats": {
+        "hp": 55,
+        "attack": 50,
+        "defense": 45,
+        "special_attack": 135,
+        "special_defense": 95,
+        "speed": 120
+      },
+      "abilities": [
+        {
+          "id": "synchronize",
+          "names": {
+            "ko": "싱크로",
+            "en": "Synchronize"
+          },
+          "is_hidden": false,
+          "slot": 1
+        },
+        {
+          "id": "inner-focus",
+          "names": {
+            "ko": "정신력",
+            "en": "Inner Focus"
+          },
+          "is_hidden": false,
+          "slot": 2
+        },
+        {
+          "id": "magic-guard",
+          "names": {
+            "ko": "매직가드",
+            "en": "Magic Guard"
+          },
+          "is_hidden": true,
+          "slot": 3
+        }
+      ],
+      "hidden_ability": "magic-guard",
       "capture_rate": 50,
       "base_experience": 225,
-      "abilities": { "values": [], "needs_manual_review": true },
-      "growth_rate_id": null,
-      "growth_rate_needs_manual_review": true,
-      "evolution": { "chain": [], "needs_manual_review": true },
-      "learnset_basis": "legends-arceus",
-      "level_up_moves": [
-        { "level": 1, "move_id": "teleport", "internal_key": "순간이동" },
-        { "level": 6, "move_id": "confusion", "internal_key": "염동력" },
-        { "level": 6, "move_id": "hypnosis", "internal_key": "최면술" },
-        { "level": 11, "move_id": "calm-mind", "internal_key": "명상" }
+      "growth_rate_id": "medium-slow",
+      "evolution_chain_id": 27,
+      "project_level_up_moves": [
+        {
+          "level": 1,
+          "move_id": "teleport",
+          "internal_key": "순간이동"
+        },
+        {
+          "level": 6,
+          "move_id": "confusion",
+          "internal_key": "염동력"
+        },
+        {
+          "level": 6,
+          "move_id": "hypnosis",
+          "internal_key": "최면술"
+        },
+        {
+          "level": 11,
+          "move_id": "calm-mind",
+          "internal_key": "명상"
+        }
       ]
     },
     {
       "id": 179,
       "slug": "mareep",
-      "names": { "ko": "메리프", "en": "Mareep" },
-      "types": ["electric"],
-      "localized_types": ["전기"],
-      "base_stats": { "hp": 55, "attack": 40, "defense": 40, "special_attack": 65, "special_defense": 45, "speed": 35 },
+      "names": {
+        "ko": "메리프",
+        "en": "Mareep"
+      },
+      "types": [
+        "electric"
+      ],
+      "localized_types": [
+        "전기"
+      ],
+      "base_stats": {
+        "hp": 55,
+        "attack": 40,
+        "defense": 40,
+        "special_attack": 65,
+        "special_defense": 45,
+        "speed": 35
+      },
+      "abilities": [
+        {
+          "id": "static",
+          "names": {
+            "ko": "정전기",
+            "en": "Static"
+          },
+          "is_hidden": false,
+          "slot": 1
+        },
+        {
+          "id": "plus",
+          "names": {
+            "ko": "플러스",
+            "en": "Plus"
+          },
+          "is_hidden": true,
+          "slot": 3
+        }
+      ],
+      "hidden_ability": "plus",
       "capture_rate": 235,
       "base_experience": 56,
-      "abilities": { "values": [], "needs_manual_review": true },
-      "growth_rate_id": null,
-      "growth_rate_needs_manual_review": true,
-      "evolution": { "chain": [], "needs_manual_review": true },
-      "learnset_basis": "scarlet-violet",
-      "level_up_moves": [
-        { "level": 1, "move_id": "growl", "internal_key": "울음소리" },
-        { "level": 1, "move_id": "tackle", "internal_key": "몸통박치기" },
-        { "level": 4, "move_id": "thunder-wave", "internal_key": "전기자석파" },
-        { "level": 8, "move_id": "thunder-shock", "internal_key": "전기충격" }
+      "growth_rate_id": "medium-slow",
+      "evolution_chain_id": 89,
+      "project_level_up_moves": [
+        {
+          "level": 1,
+          "move_id": "growl",
+          "internal_key": "울음소리"
+        },
+        {
+          "level": 1,
+          "move_id": "tackle",
+          "internal_key": "몸통박치기"
+        },
+        {
+          "level": 4,
+          "move_id": "thunder-wave",
+          "internal_key": "전기자석파"
+        },
+        {
+          "level": 8,
+          "move_id": "thunder-shock",
+          "internal_key": "전기충격"
+        }
       ]
     },
     {
       "id": 263,
       "slug": "zigzagoon",
-      "names": { "ko": "지그제구리", "en": "Zigzagoon" },
-      "types": ["normal"],
-      "localized_types": ["노말"],
-      "base_stats": { "hp": 38, "attack": 30, "defense": 41, "special_attack": 30, "special_defense": 41, "speed": 60 },
+      "names": {
+        "ko": "지그제구리",
+        "en": "Zigzagoon"
+      },
+      "types": [
+        "normal"
+      ],
+      "localized_types": [
+        "노말"
+      ],
+      "base_stats": {
+        "hp": 38,
+        "attack": 30,
+        "defense": 41,
+        "special_attack": 30,
+        "special_defense": 41,
+        "speed": 60
+      },
+      "abilities": [
+        {
+          "id": "pickup",
+          "names": {
+            "ko": "픽업",
+            "en": "Pickup"
+          },
+          "is_hidden": false,
+          "slot": 1
+        },
+        {
+          "id": "gluttony",
+          "names": {
+            "ko": "먹보",
+            "en": "Gluttony"
+          },
+          "is_hidden": false,
+          "slot": 2
+        },
+        {
+          "id": "quick-feet",
+          "names": {
+            "ko": "속보",
+            "en": "Quick Feet"
+          },
+          "is_hidden": true,
+          "slot": 3
+        }
+      ],
+      "hidden_ability": "quick-feet",
       "capture_rate": 255,
       "base_experience": 56,
-      "abilities": { "values": [], "needs_manual_review": true },
-      "growth_rate_id": null,
-      "growth_rate_needs_manual_review": true,
-      "evolution": { "chain": [], "needs_manual_review": true },
-      "learnset_basis": "sword-shield",
-      "level_up_moves": [
-        { "level": 1, "move_id": "growl", "internal_key": "울음소리" },
-        { "level": 1, "move_id": "tackle", "internal_key": "몸통박치기" },
-        { "level": 3, "move_id": "sand-attack", "internal_key": "모래뿌리기" },
-        { "level": 6, "move_id": "tail-whip", "internal_key": "꼬리흔들기" }
+      "growth_rate_id": "medium",
+      "evolution_chain_id": 134,
+      "project_level_up_moves": [
+        {
+          "level": 1,
+          "move_id": "growl",
+          "internal_key": "울음소리"
+        },
+        {
+          "level": 1,
+          "move_id": "tackle",
+          "internal_key": "몸통박치기"
+        },
+        {
+          "level": 3,
+          "move_id": "sand-attack",
+          "internal_key": "모래뿌리기"
+        },
+        {
+          "level": 6,
+          "move_id": "tail-whip",
+          "internal_key": "꼬리흔들기"
+        }
       ]
     },
     {
       "id": 280,
       "slug": "ralts",
-      "names": { "ko": "랄토스", "en": "Ralts" },
-      "types": ["psychic", "fairy"],
-      "localized_types": ["에스퍼", "페어리"],
-      "base_stats": { "hp": 28, "attack": 25, "defense": 25, "special_attack": 45, "special_defense": 35, "speed": 40 },
+      "names": {
+        "ko": "랄토스",
+        "en": "Ralts"
+      },
+      "types": [
+        "psychic",
+        "fairy"
+      ],
+      "localized_types": [
+        "에스퍼",
+        "페어리"
+      ],
+      "base_stats": {
+        "hp": 28,
+        "attack": 25,
+        "defense": 25,
+        "special_attack": 45,
+        "special_defense": 35,
+        "speed": 40
+      },
+      "abilities": [
+        {
+          "id": "synchronize",
+          "names": {
+            "ko": "싱크로",
+            "en": "Synchronize"
+          },
+          "is_hidden": false,
+          "slot": 1
+        },
+        {
+          "id": "trace",
+          "names": {
+            "ko": "트레이스",
+            "en": "Trace"
+          },
+          "is_hidden": false,
+          "slot": 2
+        },
+        {
+          "id": "telepathy",
+          "names": {
+            "ko": "텔레파시",
+            "en": "Telepathy"
+          },
+          "is_hidden": true,
+          "slot": 3
+        }
+      ],
+      "hidden_ability": "telepathy",
       "capture_rate": 235,
       "base_experience": 40,
-      "abilities": { "values": [], "needs_manual_review": true },
-      "growth_rate_id": null,
-      "growth_rate_needs_manual_review": true,
-      "evolution": { "chain": [], "needs_manual_review": true },
-      "learnset_basis": "scarlet-violet",
-      "level_up_moves": [
-        { "level": 1, "move_id": "disarming-voice", "internal_key": "차밍보이스" },
-        { "level": 1, "move_id": "growl", "internal_key": "울음소리" },
-        { "level": 3, "move_id": "double-team", "internal_key": "그림자분신" },
-        { "level": 6, "move_id": "confusion", "internal_key": "염동력" }
+      "growth_rate_id": "slow",
+      "evolution_chain_id": 140,
+      "project_level_up_moves": [
+        {
+          "level": 1,
+          "move_id": "disarming-voice",
+          "internal_key": "차밍보이스"
+        },
+        {
+          "level": 1,
+          "move_id": "growl",
+          "internal_key": "울음소리"
+        },
+        {
+          "level": 3,
+          "move_id": "double-team",
+          "internal_key": "그림자분신"
+        },
+        {
+          "level": 6,
+          "move_id": "confusion",
+          "internal_key": "염동력"
+        }
       ]
     },
     {
       "id": 396,
       "slug": "starly",
-      "names": { "ko": "찌르꼬", "en": "Starly" },
-      "types": ["normal", "flying"],
-      "localized_types": ["노말", "비행"],
-      "base_stats": { "hp": 40, "attack": 55, "defense": 30, "special_attack": 30, "special_defense": 30, "speed": 60 },
+      "names": {
+        "ko": "찌르꼬",
+        "en": "Starly"
+      },
+      "types": [
+        "normal",
+        "flying"
+      ],
+      "localized_types": [
+        "노말",
+        "비행"
+      ],
+      "base_stats": {
+        "hp": 40,
+        "attack": 55,
+        "defense": 30,
+        "special_attack": 30,
+        "special_defense": 30,
+        "speed": 60
+      },
+      "abilities": [
+        {
+          "id": "keen-eye",
+          "names": {
+            "ko": "날카로운눈",
+            "en": "Keen Eye"
+          },
+          "is_hidden": false,
+          "slot": 1
+        },
+        {
+          "id": "reckless",
+          "names": {
+            "ko": "이판사판",
+            "en": "Reckless"
+          },
+          "is_hidden": true,
+          "slot": 3
+        }
+      ],
+      "hidden_ability": "reckless",
       "capture_rate": 255,
       "base_experience": 49,
-      "abilities": { "values": [], "needs_manual_review": true },
-      "growth_rate_id": null,
-      "growth_rate_needs_manual_review": true,
-      "evolution": { "chain": [], "needs_manual_review": true },
-      "learnset_basis": "scarlet-violet",
-      "level_up_moves": [
-        { "level": 1, "move_id": "growl", "internal_key": "울음소리" },
-        { "level": 1, "move_id": "tackle", "internal_key": "몸통박치기" },
-        { "level": 5, "move_id": "quick-attack", "internal_key": "전광석화" },
-        { "level": 9, "move_id": "wing-attack", "internal_key": "날개치기" }
+      "growth_rate_id": "medium-slow",
+      "evolution_chain_id": 206,
+      "project_level_up_moves": [
+        {
+          "level": 1,
+          "move_id": "growl",
+          "internal_key": "울음소리"
+        },
+        {
+          "level": 1,
+          "move_id": "tackle",
+          "internal_key": "몸통박치기"
+        },
+        {
+          "level": 5,
+          "move_id": "quick-attack",
+          "internal_key": "전광석화"
+        },
+        {
+          "level": 9,
+          "move_id": "wing-attack",
+          "internal_key": "날개치기"
+        }
       ]
     },
     {
       "id": 403,
       "slug": "shinx",
-      "names": { "ko": "꼬링크", "en": "Shinx" },
-      "types": ["electric"],
-      "localized_types": ["전기"],
-      "base_stats": { "hp": 45, "attack": 65, "defense": 34, "special_attack": 40, "special_defense": 34, "speed": 45 },
+      "names": {
+        "ko": "꼬링크",
+        "en": "Shinx"
+      },
+      "types": [
+        "electric"
+      ],
+      "localized_types": [
+        "전기"
+      ],
+      "base_stats": {
+        "hp": 45,
+        "attack": 65,
+        "defense": 34,
+        "special_attack": 40,
+        "special_defense": 34,
+        "speed": 45
+      },
+      "abilities": [
+        {
+          "id": "rivalry",
+          "names": {
+            "ko": "투쟁심",
+            "en": "Rivalry"
+          },
+          "is_hidden": false,
+          "slot": 1
+        },
+        {
+          "id": "intimidate",
+          "names": {
+            "ko": "위협",
+            "en": "Intimidate"
+          },
+          "is_hidden": false,
+          "slot": 2
+        },
+        {
+          "id": "guts",
+          "names": {
+            "ko": "근성",
+            "en": "Guts"
+          },
+          "is_hidden": true,
+          "slot": 3
+        }
+      ],
+      "hidden_ability": "guts",
       "capture_rate": 235,
       "base_experience": 53,
-      "abilities": { "values": [], "needs_manual_review": true },
-      "growth_rate_id": null,
-      "growth_rate_needs_manual_review": true,
-      "evolution": { "chain": [], "needs_manual_review": true },
-      "learnset_basis": "scarlet-violet",
-      "level_up_moves": [
-        { "level": 1, "move_id": "leer", "internal_key": "째려보기" },
-        { "level": 1, "move_id": "tackle", "internal_key": "몸통박치기" },
-        { "level": 4, "move_id": "thunder-shock", "internal_key": "전기충격" },
-        { "level": 8, "move_id": "charge", "internal_key": "충전" }
+      "growth_rate_id": "medium-slow",
+      "evolution_chain_id": 209,
+      "project_level_up_moves": [
+        {
+          "level": 1,
+          "move_id": "leer",
+          "internal_key": "째려보기"
+        },
+        {
+          "level": 1,
+          "move_id": "tackle",
+          "internal_key": "몸통박치기"
+        },
+        {
+          "level": 4,
+          "move_id": "thunder-shock",
+          "internal_key": "전기충격"
+        },
+        {
+          "level": 8,
+          "move_id": "charge",
+          "internal_key": "충전"
+        }
       ]
     },
     {
       "id": 506,
       "slug": "lillipup",
-      "names": { "ko": "요테리", "en": "Lillipup" },
-      "types": ["normal"],
-      "localized_types": ["노말"],
-      "base_stats": { "hp": 45, "attack": 60, "defense": 45, "special_attack": 25, "special_defense": 45, "speed": 55 },
+      "names": {
+        "ko": "요테리",
+        "en": "Lillipup"
+      },
+      "types": [
+        "normal"
+      ],
+      "localized_types": [
+        "노말"
+      ],
+      "base_stats": {
+        "hp": 45,
+        "attack": 60,
+        "defense": 45,
+        "special_attack": 25,
+        "special_defense": 45,
+        "speed": 55
+      },
+      "abilities": [
+        {
+          "id": "vital-spirit",
+          "names": {
+            "ko": "의기양양",
+            "en": "Vital Spirit"
+          },
+          "is_hidden": false,
+          "slot": 1
+        },
+        {
+          "id": "pickup",
+          "names": {
+            "ko": "픽업",
+            "en": "Pickup"
+          },
+          "is_hidden": false,
+          "slot": 2
+        },
+        {
+          "id": "run-away",
+          "names": {
+            "ko": "도주",
+            "en": "Run Away"
+          },
+          "is_hidden": true,
+          "slot": 3
+        }
+      ],
+      "hidden_ability": "run-away",
       "capture_rate": 255,
       "base_experience": 55,
-      "abilities": { "values": [], "needs_manual_review": true },
-      "growth_rate_id": null,
-      "growth_rate_needs_manual_review": true,
-      "evolution": { "chain": [], "needs_manual_review": true },
-      "learnset_basis": "sword-shield",
-      "level_up_moves": [
-        { "level": 1, "move_id": "leer", "internal_key": "째려보기" },
-        { "level": 1, "move_id": "tackle", "internal_key": "몸통박치기" },
-        { "level": 4, "move_id": "work-up", "internal_key": "분발" },
-        { "level": 8, "move_id": "bite", "internal_key": "물기" }
+      "growth_rate_id": "medium-slow",
+      "evolution_chain_id": 260,
+      "project_level_up_moves": [
+        {
+          "level": 1,
+          "move_id": "leer",
+          "internal_key": "째려보기"
+        },
+        {
+          "level": 1,
+          "move_id": "tackle",
+          "internal_key": "몸통박치기"
+        },
+        {
+          "level": 4,
+          "move_id": "work-up",
+          "internal_key": "분발"
+        },
+        {
+          "level": 8,
+          "move_id": "bite",
+          "internal_key": "물기"
+        }
       ]
     },
     {
       "id": 519,
       "slug": "pidove",
-      "names": { "ko": "콩둘기", "en": "Pidove" },
-      "types": ["normal", "flying"],
-      "localized_types": ["노말", "비행"],
-      "base_stats": { "hp": 50, "attack": 55, "defense": 50, "special_attack": 36, "special_defense": 30, "speed": 43 },
+      "names": {
+        "ko": "콩둘기",
+        "en": "Pidove"
+      },
+      "types": [
+        "normal",
+        "flying"
+      ],
+      "localized_types": [
+        "노말",
+        "비행"
+      ],
+      "base_stats": {
+        "hp": 50,
+        "attack": 55,
+        "defense": 50,
+        "special_attack": 36,
+        "special_defense": 30,
+        "speed": 43
+      },
+      "abilities": [
+        {
+          "id": "big-pecks",
+          "names": {
+            "ko": "부풀린가슴",
+            "en": "Big Pecks"
+          },
+          "is_hidden": false,
+          "slot": 1
+        },
+        {
+          "id": "super-luck",
+          "names": {
+            "ko": "대운",
+            "en": "Super Luck"
+          },
+          "is_hidden": false,
+          "slot": 2
+        },
+        {
+          "id": "rivalry",
+          "names": {
+            "ko": "투쟁심",
+            "en": "Rivalry"
+          },
+          "is_hidden": true,
+          "slot": 3
+        }
+      ],
+      "hidden_ability": "rivalry",
       "capture_rate": 255,
       "base_experience": 53,
-      "abilities": { "values": [], "needs_manual_review": true },
-      "growth_rate_id": null,
-      "growth_rate_needs_manual_review": true,
-      "evolution": { "chain": [], "needs_manual_review": true },
-      "learnset_basis": "sword-shield",
-      "level_up_moves": [
-        { "level": 1, "move_id": "growl", "internal_key": "울음소리" },
-        { "level": 1, "move_id": "gust", "internal_key": "바람일으키기" },
-        { "level": 4, "move_id": "leer", "internal_key": "째려보기" },
-        { "level": 8, "move_id": "quick-attack", "internal_key": "전광석화" }
+      "growth_rate_id": "medium-slow",
+      "evolution_chain_id": 266,
+      "project_level_up_moves": [
+        {
+          "level": 1,
+          "move_id": "growl",
+          "internal_key": "울음소리"
+        },
+        {
+          "level": 1,
+          "move_id": "gust",
+          "internal_key": "바람일으키기"
+        },
+        {
+          "level": 4,
+          "move_id": "leer",
+          "internal_key": "째려보기"
+        },
+        {
+          "level": 8,
+          "move_id": "quick-attack",
+          "internal_key": "전광석화"
+        }
       ]
     },
     {
       "id": 677,
       "slug": "espurr",
-      "names": { "ko": "냐스퍼", "en": "Espurr" },
-      "types": ["psychic"],
-      "localized_types": ["에스퍼"],
-      "base_stats": { "hp": 62, "attack": 48, "defense": 54, "special_attack": 63, "special_defense": 60, "speed": 68 },
+      "names": {
+        "ko": "냐스퍼",
+        "en": "Espurr"
+      },
+      "types": [
+        "psychic"
+      ],
+      "localized_types": [
+        "에스퍼"
+      ],
+      "base_stats": {
+        "hp": 62,
+        "attack": 48,
+        "defense": 54,
+        "special_attack": 63,
+        "special_defense": 60,
+        "speed": 68
+      },
+      "abilities": [
+        {
+          "id": "keen-eye",
+          "names": {
+            "ko": "날카로운눈",
+            "en": "Keen Eye"
+          },
+          "is_hidden": false,
+          "slot": 1
+        },
+        {
+          "id": "infiltrator",
+          "names": {
+            "ko": "틈새포착",
+            "en": "Infiltrator"
+          },
+          "is_hidden": false,
+          "slot": 2
+        },
+        {
+          "id": "own-tempo",
+          "names": {
+            "ko": "마이페이스",
+            "en": "Own Tempo"
+          },
+          "is_hidden": true,
+          "slot": 3
+        }
+      ],
+      "hidden_ability": "own-tempo",
       "capture_rate": 190,
       "base_experience": 71,
-      "abilities": { "values": [], "needs_manual_review": true },
-      "growth_rate_id": null,
-      "growth_rate_needs_manual_review": true,
-      "evolution": { "chain": [], "needs_manual_review": true },
-      "learnset_basis": "scarlet-violet",
-      "level_up_moves": [
-        { "level": 1, "move_id": "leer", "internal_key": "째려보기" },
-        { "level": 1, "move_id": "scratch", "internal_key": "할퀴기" },
-        { "level": 3, "move_id": "fake-out", "internal_key": "속이다" },
-        { "level": 6, "move_id": "disarming-voice", "internal_key": "차밍보이스" }
+      "growth_rate_id": "medium",
+      "evolution_chain_id": 348,
+      "project_level_up_moves": [
+        {
+          "level": 1,
+          "move_id": "leer",
+          "internal_key": "째려보기"
+        },
+        {
+          "level": 1,
+          "move_id": "scratch",
+          "internal_key": "할퀴기"
+        },
+        {
+          "level": 3,
+          "move_id": "fake-out",
+          "internal_key": "속이다"
+        },
+        {
+          "level": 6,
+          "move_id": "disarming-voice",
+          "internal_key": "차밍보이스"
+        }
       ]
     },
     {
       "id": 827,
       "slug": "nickit",
-      "names": { "ko": "훔처우", "en": "Nickit" },
-      "types": ["dark"],
-      "localized_types": ["악"],
-      "base_stats": { "hp": 40, "attack": 28, "defense": 28, "special_attack": 47, "special_defense": 52, "speed": 50 },
+      "names": {
+        "ko": "훔처우",
+        "en": "Nickit"
+      },
+      "types": [
+        "dark"
+      ],
+      "localized_types": [
+        "악"
+      ],
+      "base_stats": {
+        "hp": 40,
+        "attack": 28,
+        "defense": 28,
+        "special_attack": 47,
+        "special_defense": 52,
+        "speed": 50
+      },
+      "abilities": [
+        {
+          "id": "run-away",
+          "names": {
+            "ko": "도주",
+            "en": "Run Away"
+          },
+          "is_hidden": false,
+          "slot": 1
+        },
+        {
+          "id": "unburden",
+          "names": {
+            "ko": "곡예",
+            "en": "Unburden"
+          },
+          "is_hidden": false,
+          "slot": 2
+        },
+        {
+          "id": "stakeout",
+          "names": {
+            "ko": "잠복",
+            "en": "Stakeout"
+          },
+          "is_hidden": true,
+          "slot": 3
+        }
+      ],
+      "hidden_ability": "stakeout",
       "capture_rate": 255,
       "base_experience": 49,
-      "abilities": { "values": [], "needs_manual_review": true },
-      "growth_rate_id": null,
-      "growth_rate_needs_manual_review": true,
-      "evolution": { "chain": [], "needs_manual_review": true },
-      "learnset_basis": "sword-shield",
-      "level_up_moves": [
-        { "level": 1, "move_id": "quick-attack", "internal_key": "전광석화" },
-        { "level": 1, "move_id": "tail-whip", "internal_key": "꼬리흔들기" },
-        { "level": 4, "move_id": "beat-up", "internal_key": "집단구타" },
-        { "level": 8, "move_id": "hone-claws", "internal_key": "손톱갈기" }
+      "growth_rate_id": "fast",
+      "evolution_chain_id": 436,
+      "project_level_up_moves": [
+        {
+          "level": 1,
+          "move_id": "quick-attack",
+          "internal_key": "전광석화"
+        },
+        {
+          "level": 1,
+          "move_id": "tail-whip",
+          "internal_key": "꼬리흔들기"
+        },
+        {
+          "level": 4,
+          "move_id": "beat-up",
+          "internal_key": "집단구타"
+        },
+        {
+          "level": 8,
+          "move_id": "hone-claws",
+          "internal_key": "손톱갈기"
+        }
       ]
     },
     {
       "id": 831,
       "slug": "wooloo",
-      "names": { "ko": "우르", "en": "Wooloo" },
-      "types": ["normal"],
-      "localized_types": ["노말"],
-      "base_stats": { "hp": 42, "attack": 40, "defense": 55, "special_attack": 40, "special_defense": 45, "speed": 48 },
+      "names": {
+        "ko": "우르",
+        "en": "Wooloo"
+      },
+      "types": [
+        "normal"
+      ],
+      "localized_types": [
+        "노말"
+      ],
+      "base_stats": {
+        "hp": 42,
+        "attack": 40,
+        "defense": 55,
+        "special_attack": 40,
+        "special_defense": 45,
+        "speed": 48
+      },
+      "abilities": [
+        {
+          "id": "fluffy",
+          "names": {
+            "ko": "복슬복슬",
+            "en": "Fluffy"
+          },
+          "is_hidden": false,
+          "slot": 1
+        },
+        {
+          "id": "run-away",
+          "names": {
+            "ko": "도주",
+            "en": "Run Away"
+          },
+          "is_hidden": false,
+          "slot": 2
+        },
+        {
+          "id": "bulletproof",
+          "names": {
+            "ko": "방탄",
+            "en": "Bulletproof"
+          },
+          "is_hidden": true,
+          "slot": 3
+        }
+      ],
+      "hidden_ability": "bulletproof",
       "capture_rate": 255,
       "base_experience": 122,
-      "abilities": { "values": [], "needs_manual_review": true },
-      "growth_rate_id": null,
-      "growth_rate_needs_manual_review": true,
-      "evolution": { "chain": [], "needs_manual_review": true },
-      "learnset_basis": "sword-shield",
-      "level_up_moves": [
-        { "level": 1, "move_id": "growl", "internal_key": "울음소리" },
-        { "level": 1, "move_id": "tackle", "internal_key": "몸통박치기" },
-        { "level": 4, "move_id": "defense-curl", "internal_key": "웅크리기" },
-        { "level": 8, "move_id": "copycat", "internal_key": "흉내쟁이" }
+      "growth_rate_id": "medium",
+      "evolution_chain_id": 438,
+      "project_level_up_moves": [
+        {
+          "level": 1,
+          "move_id": "growl",
+          "internal_key": "울음소리"
+        },
+        {
+          "level": 1,
+          "move_id": "tackle",
+          "internal_key": "몸통박치기"
+        },
+        {
+          "level": 4,
+          "move_id": "defense-curl",
+          "internal_key": "웅크리기"
+        },
+        {
+          "level": 8,
+          "move_id": "copycat",
+          "internal_key": "흉내쟁이"
+        }
       ]
     },
     {
       "id": 915,
       "slug": "lechonk",
-      "names": { "ko": "맛보돈", "en": "Lechonk" },
-      "types": ["normal"],
-      "localized_types": ["노말"],
-      "base_stats": { "hp": 54, "attack": 45, "defense": 40, "special_attack": 35, "special_defense": 45, "speed": 35 },
+      "names": {
+        "ko": "맛보돈",
+        "en": "Lechonk"
+      },
+      "types": [
+        "normal"
+      ],
+      "localized_types": [
+        "노말"
+      ],
+      "base_stats": {
+        "hp": 54,
+        "attack": 45,
+        "defense": 40,
+        "special_attack": 35,
+        "special_defense": 45,
+        "speed": 35
+      },
+      "abilities": [
+        {
+          "id": "aroma-veil",
+          "names": {
+            "ko": "아로마베일",
+            "en": "Aroma Veil"
+          },
+          "is_hidden": false,
+          "slot": 1
+        },
+        {
+          "id": "gluttony",
+          "names": {
+            "ko": "먹보",
+            "en": "Gluttony"
+          },
+          "is_hidden": false,
+          "slot": 2
+        },
+        {
+          "id": "thick-fat",
+          "names": {
+            "ko": "두꺼운지방",
+            "en": "Thick Fat"
+          },
+          "is_hidden": true,
+          "slot": 3
+        }
+      ],
+      "hidden_ability": "thick-fat",
       "capture_rate": 255,
       "base_experience": 51,
-      "abilities": { "values": [], "needs_manual_review": true },
-      "growth_rate_id": null,
-      "growth_rate_needs_manual_review": true,
-      "evolution": { "chain": [], "needs_manual_review": true },
-      "learnset_basis": "scarlet-violet",
-      "level_up_moves": [
-        { "level": 1, "move_id": "tackle", "internal_key": "몸통박치기" },
-        { "level": 1, "move_id": "tail-whip", "internal_key": "꼬리흔들기" },
-        { "level": 5, "move_id": "disarming-voice", "internal_key": "차밍보이스" },
-        { "level": 8, "move_id": "echoed-voice", "internal_key": "에코보이스" }
+      "growth_rate_id": "medium",
+      "evolution_chain_id": 481,
+      "project_level_up_moves": [
+        {
+          "level": 1,
+          "move_id": "tackle",
+          "internal_key": "몸통박치기"
+        },
+        {
+          "level": 1,
+          "move_id": "tail-whip",
+          "internal_key": "꼬리흔들기"
+        },
+        {
+          "level": 5,
+          "move_id": "disarming-voice",
+          "internal_key": "차밍보이스"
+        },
+        {
+          "level": 8,
+          "move_id": "echoed-voice",
+          "internal_key": "에코보이스"
+        }
       ]
     }
   ]

@@ -1,0 +1,694 @@
+{
+  "schema": "evolutions.v1",
+  "source_model": "pokeapi-compatible",
+  "chains": [
+    {
+      "chain_id": 1,
+      "baby_trigger_item": null,
+      "chain": {
+        "species_id": 1,
+        "species_slug": "bulbasaur",
+        "evolution_details": [],
+        "evolves_to": [
+          {
+            "species_id": 2,
+            "species_slug": "ivysaur",
+            "evolution_details": [
+              {
+                "trigger": "level-up",
+                "min_level": 16,
+                "item": null,
+                "held_item": null,
+                "known_move": null,
+                "minimum_happiness": null,
+                "time_of_day": null
+              }
+            ],
+            "evolves_to": [
+              {
+                "species_id": 3,
+                "species_slug": "venusaur",
+                "evolution_details": [
+                  {
+                    "trigger": "level-up",
+                    "min_level": 32,
+                    "item": null,
+                    "held_item": null,
+                    "known_move": null,
+                    "minimum_happiness": null,
+                    "time_of_day": null
+                  }
+                ],
+                "evolves_to": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "chain_id": 2,
+      "baby_trigger_item": null,
+      "chain": {
+        "species_id": 4,
+        "species_slug": "charmander",
+        "evolution_details": [],
+        "evolves_to": [
+          {
+            "species_id": 5,
+            "species_slug": "charmeleon",
+            "evolution_details": [
+              {
+                "trigger": "level-up",
+                "min_level": 16,
+                "item": null,
+                "held_item": null,
+                "known_move": null,
+                "minimum_happiness": null,
+                "time_of_day": null
+              }
+            ],
+            "evolves_to": [
+              {
+                "species_id": 6,
+                "species_slug": "charizard",
+                "evolution_details": [
+                  {
+                    "trigger": "level-up",
+                    "min_level": 36,
+                    "item": null,
+                    "held_item": null,
+                    "known_move": null,
+                    "minimum_happiness": null,
+                    "time_of_day": null
+                  }
+                ],
+                "evolves_to": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "chain_id": 3,
+      "baby_trigger_item": null,
+      "chain": {
+        "species_id": 7,
+        "species_slug": "squirtle",
+        "evolution_details": [],
+        "evolves_to": [
+          {
+            "species_id": 8,
+            "species_slug": "wartortle",
+            "evolution_details": [
+              {
+                "trigger": "level-up",
+                "min_level": 16,
+                "item": null,
+                "held_item": null,
+                "known_move": null,
+                "minimum_happiness": null,
+                "time_of_day": null
+              }
+            ],
+            "evolves_to": [
+              {
+                "species_id": 9,
+                "species_slug": "blastoise",
+                "evolution_details": [
+                  {
+                    "trigger": "level-up",
+                    "min_level": 36,
+                    "item": null,
+                    "held_item": null,
+                    "known_move": null,
+                    "minimum_happiness": null,
+                    "time_of_day": null
+                  }
+                ],
+                "evolves_to": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "chain_id": 4,
+      "baby_trigger_item": null,
+      "chain": {
+        "species_id": 10,
+        "species_slug": "caterpie",
+        "evolution_details": [],
+        "evolves_to": [
+          {
+            "species_id": 11,
+            "species_slug": "metapod",
+            "evolution_details": [
+              {
+                "trigger": "level-up",
+                "min_level": 7,
+                "item": null,
+                "held_item": null,
+                "known_move": null,
+                "minimum_happiness": null,
+                "time_of_day": null
+              }
+            ],
+            "evolves_to": [
+              {
+                "species_id": 12,
+                "species_slug": "butterfree",
+                "evolution_details": [
+                  {
+                    "trigger": "level-up",
+                    "min_level": 10,
+                    "item": null,
+                    "held_item": null,
+                    "known_move": null,
+                    "minimum_happiness": null,
+                    "time_of_day": null
+                  }
+                ],
+                "evolves_to": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "chain_id": 7,
+      "baby_trigger_item": null,
+      "chain": {
+        "species_id": 19,
+        "species_slug": "rattata",
+        "evolution_details": [],
+        "evolves_to": [
+          {
+            "species_id": 20,
+            "species_slug": "raticate",
+            "evolution_details": [
+              {
+                "trigger": "level-up",
+                "min_level": 20,
+                "item": null,
+                "held_item": null,
+                "known_move": null,
+                "minimum_happiness": null,
+                "time_of_day": null
+              },
+              {
+                "trigger": "level-up",
+                "min_level": 20,
+                "item": null,
+                "held_item": null,
+                "known_move": null,
+                "minimum_happiness": null,
+                "time_of_day": "night"
+              }
+            ],
+            "evolves_to": []
+          }
+        ]
+      }
+    },
+    {
+      "chain_id": 27,
+      "baby_trigger_item": null,
+      "chain": {
+        "species_id": 63,
+        "species_slug": "abra",
+        "evolution_details": [],
+        "evolves_to": [
+          {
+            "species_id": 64,
+            "species_slug": "kadabra",
+            "evolution_details": [
+              {
+                "trigger": "level-up",
+                "min_level": 16,
+                "item": null,
+                "held_item": null,
+                "known_move": null,
+                "minimum_happiness": null,
+                "time_of_day": null
+              }
+            ],
+            "evolves_to": [
+              {
+                "species_id": 65,
+                "species_slug": "alakazam",
+                "evolution_details": [
+                  {
+                    "trigger": "trade",
+                    "min_level": null,
+                    "item": null,
+                    "held_item": null,
+                    "known_move": null,
+                    "minimum_happiness": null,
+                    "time_of_day": null
+                  }
+                ],
+                "evolves_to": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "chain_id": 89,
+      "baby_trigger_item": null,
+      "chain": {
+        "species_id": 179,
+        "species_slug": "mareep",
+        "evolution_details": [],
+        "evolves_to": [
+          {
+            "species_id": 180,
+            "species_slug": "flaaffy",
+            "evolution_details": [
+              {
+                "trigger": "level-up",
+                "min_level": 15,
+                "item": null,
+                "held_item": null,
+                "known_move": null,
+                "minimum_happiness": null,
+                "time_of_day": null
+              }
+            ],
+            "evolves_to": [
+              {
+                "species_id": 181,
+                "species_slug": "ampharos",
+                "evolution_details": [
+                  {
+                    "trigger": "level-up",
+                    "min_level": 30,
+                    "item": null,
+                    "held_item": null,
+                    "known_move": null,
+                    "minimum_happiness": null,
+                    "time_of_day": null
+                  }
+                ],
+                "evolves_to": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "chain_id": 134,
+      "baby_trigger_item": null,
+      "chain": {
+        "species_id": 263,
+        "species_slug": "zigzagoon",
+        "evolution_details": [],
+        "evolves_to": [
+          {
+            "species_id": 264,
+            "species_slug": "linoone",
+            "evolution_details": [
+              {
+                "trigger": "level-up",
+                "min_level": 20,
+                "item": null,
+                "held_item": null,
+                "known_move": null,
+                "minimum_happiness": null,
+                "time_of_day": null
+              }
+            ],
+            "evolves_to": [
+              {
+                "species_id": 862,
+                "species_slug": "obstagoon",
+                "evolution_details": [
+                  {
+                    "trigger": "level-up",
+                    "min_level": 35,
+                    "item": null,
+                    "held_item": null,
+                    "known_move": null,
+                    "minimum_happiness": null,
+                    "time_of_day": "night"
+                  }
+                ],
+                "evolves_to": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "chain_id": 140,
+      "baby_trigger_item": null,
+      "chain": {
+        "species_id": 280,
+        "species_slug": "ralts",
+        "evolution_details": [],
+        "evolves_to": [
+          {
+            "species_id": 281,
+            "species_slug": "kirlia",
+            "evolution_details": [
+              {
+                "trigger": "level-up",
+                "min_level": 20,
+                "item": null,
+                "held_item": null,
+                "known_move": null,
+                "minimum_happiness": null,
+                "time_of_day": null
+              }
+            ],
+            "evolves_to": [
+              {
+                "species_id": 282,
+                "species_slug": "gardevoir",
+                "evolution_details": [
+                  {
+                    "trigger": "level-up",
+                    "min_level": 30,
+                    "item": null,
+                    "held_item": null,
+                    "known_move": null,
+                    "minimum_happiness": null,
+                    "time_of_day": null
+                  }
+                ],
+                "evolves_to": []
+              },
+              {
+                "species_id": 475,
+                "species_slug": "gallade",
+                "evolution_details": [
+                  {
+                    "trigger": "use-item",
+                    "min_level": null,
+                    "item": "dawn-stone",
+                    "held_item": null,
+                    "known_move": null,
+                    "minimum_happiness": null,
+                    "time_of_day": null
+                  }
+                ],
+                "evolves_to": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "chain_id": 206,
+      "baby_trigger_item": null,
+      "chain": {
+        "species_id": 396,
+        "species_slug": "starly",
+        "evolution_details": [],
+        "evolves_to": [
+          {
+            "species_id": 397,
+            "species_slug": "staravia",
+            "evolution_details": [
+              {
+                "trigger": "level-up",
+                "min_level": 14,
+                "item": null,
+                "held_item": null,
+                "known_move": null,
+                "minimum_happiness": null,
+                "time_of_day": null
+              }
+            ],
+            "evolves_to": [
+              {
+                "species_id": 398,
+                "species_slug": "staraptor",
+                "evolution_details": [
+                  {
+                    "trigger": "level-up",
+                    "min_level": 34,
+                    "item": null,
+                    "held_item": null,
+                    "known_move": null,
+                    "minimum_happiness": null,
+                    "time_of_day": null
+                  }
+                ],
+                "evolves_to": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "chain_id": 209,
+      "baby_trigger_item": null,
+      "chain": {
+        "species_id": 403,
+        "species_slug": "shinx",
+        "evolution_details": [],
+        "evolves_to": [
+          {
+            "species_id": 404,
+            "species_slug": "luxio",
+            "evolution_details": [
+              {
+                "trigger": "level-up",
+                "min_level": 15,
+                "item": null,
+                "held_item": null,
+                "known_move": null,
+                "minimum_happiness": null,
+                "time_of_day": null
+              }
+            ],
+            "evolves_to": [
+              {
+                "species_id": 405,
+                "species_slug": "luxray",
+                "evolution_details": [
+                  {
+                    "trigger": "level-up",
+                    "min_level": 30,
+                    "item": null,
+                    "held_item": null,
+                    "known_move": null,
+                    "minimum_happiness": null,
+                    "time_of_day": null
+                  }
+                ],
+                "evolves_to": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "chain_id": 260,
+      "baby_trigger_item": null,
+      "chain": {
+        "species_id": 506,
+        "species_slug": "lillipup",
+        "evolution_details": [],
+        "evolves_to": [
+          {
+            "species_id": 507,
+            "species_slug": "herdier",
+            "evolution_details": [
+              {
+                "trigger": "level-up",
+                "min_level": 16,
+                "item": null,
+                "held_item": null,
+                "known_move": null,
+                "minimum_happiness": null,
+                "time_of_day": null
+              }
+            ],
+            "evolves_to": [
+              {
+                "species_id": 508,
+                "species_slug": "stoutland",
+                "evolution_details": [
+                  {
+                    "trigger": "level-up",
+                    "min_level": 32,
+                    "item": null,
+                    "held_item": null,
+                    "known_move": null,
+                    "minimum_happiness": null,
+                    "time_of_day": null
+                  }
+                ],
+                "evolves_to": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "chain_id": 266,
+      "baby_trigger_item": null,
+      "chain": {
+        "species_id": 519,
+        "species_slug": "pidove",
+        "evolution_details": [],
+        "evolves_to": [
+          {
+            "species_id": 520,
+            "species_slug": "tranquill",
+            "evolution_details": [
+              {
+                "trigger": "level-up",
+                "min_level": 21,
+                "item": null,
+                "held_item": null,
+                "known_move": null,
+                "minimum_happiness": null,
+                "time_of_day": null
+              }
+            ],
+            "evolves_to": [
+              {
+                "species_id": 521,
+                "species_slug": "unfezant",
+                "evolution_details": [
+                  {
+                    "trigger": "level-up",
+                    "min_level": 32,
+                    "item": null,
+                    "held_item": null,
+                    "known_move": null,
+                    "minimum_happiness": null,
+                    "time_of_day": null
+                  }
+                ],
+                "evolves_to": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "chain_id": 348,
+      "baby_trigger_item": null,
+      "chain": {
+        "species_id": 677,
+        "species_slug": "espurr",
+        "evolution_details": [],
+        "evolves_to": [
+          {
+            "species_id": 678,
+            "species_slug": "meowstic",
+            "evolution_details": [
+              {
+                "trigger": "level-up",
+                "min_level": 25,
+                "item": null,
+                "held_item": null,
+                "known_move": null,
+                "minimum_happiness": null,
+                "time_of_day": null
+              }
+            ],
+            "evolves_to": []
+          }
+        ]
+      }
+    },
+    {
+      "chain_id": 436,
+      "baby_trigger_item": null,
+      "chain": {
+        "species_id": 827,
+        "species_slug": "nickit",
+        "evolution_details": [],
+        "evolves_to": [
+          {
+            "species_id": 828,
+            "species_slug": "thievul",
+            "evolution_details": [
+              {
+                "trigger": "level-up",
+                "min_level": 18,
+                "item": null,
+                "held_item": null,
+                "known_move": null,
+                "minimum_happiness": null,
+                "time_of_day": null
+              }
+            ],
+            "evolves_to": []
+          }
+        ]
+      }
+    },
+    {
+      "chain_id": 438,
+      "baby_trigger_item": null,
+      "chain": {
+        "species_id": 831,
+        "species_slug": "wooloo",
+        "evolution_details": [],
+        "evolves_to": [
+          {
+            "species_id": 832,
+            "species_slug": "dubwool",
+            "evolution_details": [
+              {
+                "trigger": "level-up",
+                "min_level": 24,
+                "item": null,
+                "held_item": null,
+                "known_move": null,
+                "minimum_happiness": null,
+                "time_of_day": null
+              }
+            ],
+            "evolves_to": []
+          }
+        ]
+      }
+    },
+    {
+      "chain_id": 481,
+      "baby_trigger_item": null,
+      "chain": {
+        "species_id": 915,
+        "species_slug": "lechonk",
+        "evolution_details": [],
+        "evolves_to": [
+          {
+            "species_id": 916,
+            "species_slug": "oinkologne",
+            "evolution_details": [
+              {
+                "trigger": "level-up",
+                "min_level": 18,
+                "item": null,
+                "held_item": null,
+                "known_move": null,
+                "minimum_happiness": null,
+                "time_of_day": null
+              }
+            ],
+            "evolves_to": []
+          }
+        ]
+      }
+    }
+  ]
+}

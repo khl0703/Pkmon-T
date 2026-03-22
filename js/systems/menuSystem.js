@@ -1,4 +1,4 @@
-import { C, W } from "../core/constants.js";
+import { C, H, W } from "../core/constants.js";
 import { ck, ckDir } from "../core/input.js";
 import { ctx, drawHPBar, drawPokemonSprite, drawText, drawTextCentered, drawWin } from "../core/renderer.js";
 import { bagState, battleState, GS, menuState, optState, partyState, PD, setScreen } from "../core/state.js";
@@ -48,8 +48,12 @@ export function updateMenu() {
 export function renderMenu() {
   renderField();
   ctx.fillStyle = "rgba(0,0,0,0.35)";
-  ctx.fillRect(0, 0, W, 192);
-  drawWin(W - 108, 4, 104, 150);
+  ctx.fillRect(0, 0, W, H);
+  const menuWidth = 176;
+  const menuHeight = 196;
+  const menuX = W - menuWidth - 16;
+  const menuY = 16;
+  drawWin(menuX, menuY, menuWidth, menuHeight);
 
   const items = [
     "menu.pokemon",
@@ -61,13 +65,13 @@ export function renderMenu() {
     "menu.close",
   ];
   for (let i = 0; i < items.length; i += 1) {
-    const y = 14 + i * 19;
+    const y = menuY + 18 + i * 25;
     if (i === menuState.sel) {
       const bounce = Math.sin(Date.now() / 150) * 1;
-      drawText("▶", W - 102 + bounce, y + 10, 8, C.pokered);
+      drawText("▶", menuX + 10 + bounce, y + 11, 10, C.pokered);
     }
     const isStub = i === 2 || i === 3;
-    drawText(t(items[i]), W - 90, y + 10, GS.lang === "ko" ? 10 : 7, i === menuState.sel ? C.text : isStub ? C.textDis : C.text);
+    drawText(t(items[i]), menuX + 28, y + 11, GS.lang === "ko" ? 11 : 7, i === menuState.sel ? C.text : isStub ? C.textDis : C.text);
   }
 }
 
@@ -97,9 +101,12 @@ export function updateParty() {
 
 export function renderParty() {
   ctx.fillStyle = C.sky;
-  ctx.fillRect(0, 0, W, 192);
-  drawWin(4, 4, W - 8, 184);
+  ctx.fillRect(0, 0, W, H);
+  drawWin(4, 4, W - 8, H - 8);
   drawText(t("menu.pokemon"), 12, 20, GS.lang === "ko" ? 12 : 8, C.titleBlue);
+  const hpBarX = W - 132;
+  const hpTextX = W - 118;
+  const levelX = W - 200;
 
   for (let i = 0; i < PD.party.length; i += 1) {
     const pokemon = PD.party[i];
@@ -112,9 +119,9 @@ export function renderParty() {
     }
     drawPokemonSprite(22, y + 2, pokemon.id, 20);
     drawText(getPkDisplayName(pokemon), 46, y + 12, GS.lang === "ko" ? 9 : 7, C.text);
-    drawText(`Lv.${pokemon.level}`, 140, y + 12, 7, C.text, "Press Start 2P");
-    drawHPBar(180, y + 8, 60, pokemon.curHP, pokemon.stats.hp);
-    drawText(`${pokemon.curHP}/${pokemon.stats.hp}`, 190, y + 22, 6, C.hint, "Press Start 2P");
+    drawText(`Lv.${pokemon.level}`, levelX, y + 12, 7, C.text, "Press Start 2P");
+    drawHPBar(hpBarX, y + 8, 90, pokemon.curHP, pokemon.stats.hp);
+    drawText(`${pokemon.curHP}/${pokemon.stats.hp}`, hpTextX, y + 22, 6, C.hint, "Press Start 2P");
   }
 
   if (PD.party.length === 0) {
@@ -174,64 +181,73 @@ export function updateBag() {
 
 export function renderBag() {
   ctx.fillStyle = C.sky;
-  ctx.fillRect(0, 0, W, 192);
-  drawWin(4, 4, W - 8, 184);
+  ctx.fillRect(0, 0, W, H);
+  drawWin(4, 4, W - 8, H - 8);
   drawText(t("menu.bag"), 12, 20, GS.lang === "ko" ? 12 : 8, C.titleBlue);
+  const tabGap = 6;
+  const tabWidth = Math.floor((W - 24 - tabGap * (BAG_CATEGORIES.length - 1)) / BAG_CATEGORIES.length);
+  const listX = 12;
+  const panelTop = 54;
+  const listWidth = Math.floor(W * 0.48);
+  const listHeight = H - 132;
+  const descX = listX + listWidth + 8;
+  const descWidth = W - descX - 12;
+  const descHeight = listHeight;
 
   for (let i = 0; i < BAG_CATEGORIES.length; i += 1) {
-    const x = 10 + i * 48;
+    const x = 12 + i * (tabWidth + tabGap);
     ctx.fillStyle = i === bagState.cat ? C.pokered : C.textDis;
-    ctx.fillRect(x, 26, 44, 14);
-    drawText(t(BAG_CATEGORIES[i].labelKey), x + 3, 37, GS.lang === "ko" ? 7 : 5, C.white);
+    ctx.fillRect(x, 26, tabWidth, 16);
+    drawText(t(BAG_CATEGORIES[i].labelKey), x + 6, 38, GS.lang === "ko" ? 8 : 5, C.white);
   }
 
   const items = getCurrentBagItems();
   const selectedItem = items[bagState.sel] || null;
 
-  drawWin(8, 46, 142, 108);
+  drawWin(listX, panelTop, listWidth, listHeight);
   for (let i = 0; i < items.length; i += 1) {
-    const y = 54 + i * 16;
+    const y = panelTop + 12 + i * 18;
     if (i === bagState.sel && bagState.mode !== "message") {
       ctx.fillStyle = "#e8e8d8";
-      ctx.fillRect(12, y - 10, 134, 14);
+      ctx.fillRect(listX + 4, y - 11, listWidth - 8, 16);
       const bounce = Math.sin(Date.now() / 150) * 1;
-      drawText("▶", 14 + bounce, y, 8, C.pokered);
+      drawText("▶", listX + 8 + bounce, y + 1, 8, C.pokered);
     }
-    drawText(getItemName(items[i].id, GS.lang), 26, y, GS.lang === "ko" ? 9 : 6, C.text);
-    drawText(`x${items[i].qty}`, 118, y, 7, C.text, "Press Start 2P");
+    drawText(getItemName(items[i].id, GS.lang), listX + 22, y + 1, GS.lang === "ko" ? 10 : 6, C.text);
+    drawText(`x${items[i].qty}`, listX + listWidth - 40, y + 1, 7, C.text, "Press Start 2P");
   }
 
   if (items.length === 0) {
-    drawTextCentered(t("bag.empty"), 100, GS.lang === "ko" ? 10 : 7, C.textDis);
+    drawTextCentered(t("bag.empty"), H / 2, GS.lang === "ko" ? 10 : 7, C.textDis);
   }
 
-  drawWin(154, 46, 94, 108);
-  drawText(t("bag.desc"), 162, 58, GS.lang === "ko" ? 9 : 6, C.titleBlue);
+  drawWin(descX, panelTop, descWidth, descHeight);
+  drawText(t("bag.desc"), descX + 8, panelTop + 14, GS.lang === "ko" ? 10 : 6, C.titleBlue);
   if (selectedItem) {
-    drawText(getItemName(selectedItem.id, GS.lang), 162, 74, GS.lang === "ko" ? 10 : 7, C.text);
-    drawText(`${t("bag.qty")}: ${selectedItem.qty}`, 162, 88, 7, C.hint, "Press Start 2P");
-    drawWrappedText(getItemDescription(selectedItem.id, GS.lang), 162, 104, 78, GS.lang === "ko" ? 10 : 6, C.text);
+    drawText(getItemName(selectedItem.id, GS.lang), descX + 8, panelTop + 34, GS.lang === "ko" ? 11 : 7, C.text);
+    drawText(`${t("bag.qty")}: ${selectedItem.qty}`, descX + 8, panelTop + 52, 7, C.hint, "Press Start 2P");
+    drawWrappedText(getItemDescription(selectedItem.id, GS.lang), descX + 8, panelTop + 74, descWidth - 16, GS.lang === "ko" ? 10 : 6, C.text);
   } else {
-    drawWrappedText(t("bag.empty"), 162, 88, 78, GS.lang === "ko" ? 10 : 6, C.textDis);
+    drawWrappedText(t("bag.empty"), descX + 8, panelTop + 38, descWidth - 16, GS.lang === "ko" ? 10 : 6, C.textDis);
   }
 
   if (bagState.mode === "actions" && selectedItem) {
-    drawWin(134, 98, 70, 56);
-    drawText(t("bag.choose"), 140, 110, GS.lang === "ko" ? 8 : 5, C.titleBlue);
+    drawWin(descX + 12, panelTop + descHeight - 84, 120, 72);
+    drawText(t("bag.choose"), descX + 20, panelTop + descHeight - 66, GS.lang === "ko" ? 8 : 5, C.titleBlue);
     const actions = ["bag.view", "bag.use", "bag.cancel"];
     for (let i = 0; i < actions.length; i += 1) {
-      const y = 124 + i * 10;
+      const y = panelTop + descHeight - 48 + i * 14;
       if (i === bagState.actionSel) {
         const bounce = Math.sin(Date.now() / 150) * 1;
-        drawText("▶", 140 + bounce, y, 8, C.pokered);
+        drawText("▶", descX + 20 + bounce, y, 8, C.pokered);
       }
-      drawText(t(actions[i]), 150, y, GS.lang === "ko" ? 8 : 5, i === bagState.actionSel ? C.text : C.textDis);
+      drawText(t(actions[i]), descX + 32, y, GS.lang === "ko" ? 8 : 5, i === bagState.actionSel ? C.text : C.textDis);
     }
   }
 
   if (bagState.mode === "message" && bagState.message) {
-    drawWin(28, 126, 200, 36);
-    drawWrappedText(bagState.message, 36, 141, 184, GS.lang === "ko" ? 10 : 6, C.text);
+    drawWin(48, H - 86, W - 96, 54);
+    drawWrappedText(bagState.message, 60, H - 58, W - 120, GS.lang === "ko" ? 10 : 6, C.text);
   }
 }
 

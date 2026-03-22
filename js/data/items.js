@@ -28,6 +28,16 @@ export const ITEMS = {
     keyItem: false,
     effectType: "heal_50",
   },
+  hyperpotion: {
+    id: "hyperpotion",
+    name: { ko: "고급상처약", en: "Hyper Potion" },
+    category: "items",
+    description: { ko: "포켓몬 1마리의 HP를 120 회복한다.", en: "Restores 120 HP to one Pokémon." },
+    usableInField: true,
+    usableInBattle: true,
+    keyItem: false,
+    effectType: "heal_120",
+  },
   antidote: {
     id: "antidote",
     name: { ko: "해독제", en: "Antidote" },

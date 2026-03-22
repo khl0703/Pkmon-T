@@ -61,13 +61,41 @@ export function renderDialog() {
 
   const text = typeof line === "string" ? t(line) : (GS.lang === "ko" ? line.ko : line.en);
   const shown = text.substring(0, Math.floor(dialogState.charIdx));
+  const boxHeight = 78;
+  const boxY = H - boxHeight - 8;
 
-  drawWin(4, H - 52, W - 8, 48);
-  drawText(shown, 12, H - 32, GS.lang === "ko" ? 12 : 8, C.text);
+  drawWin(8, boxY, W - 16, boxHeight);
+  drawWrappedDialogText(shown, 20, boxY + 22, W - 44, GS.lang === "ko" ? 12 : 8, C.text);
 
   if (!dialogState.typing) {
     const bounce = Math.sin(Date.now() / 200) * 2;
     ctx.fillStyle = C.textHi;
-    ctx.fillRect(W - 18, H - 12 + bounce, 6, 6);
+    ctx.fillRect(W - 24, H - 20 + bounce, 8, 8);
+  }
+}
+
+function drawWrappedDialogText(text, x, y, maxWidth, size, color) {
+  const font = GS.lang === "ko" ? "DotGothic16" : "Press Start 2P";
+  const tokens = GS.lang === "ko" ? text.split("") : text.split(" ");
+  let line = "";
+  let lineY = y;
+
+  ctx.font = `${size}px "${font}"`;
+  ctx.fillStyle = color;
+
+  for (let i = 0; i < tokens.length; i += 1) {
+    const token = GS.lang === "ko" ? tokens[i] : `${tokens[i]} `;
+    const testLine = line + token;
+    if (ctx.measureText(testLine).width > maxWidth && line) {
+      ctx.fillText(line, x, lineY);
+      line = token;
+      lineY += size + 6;
+    } else {
+      line = testLine;
+    }
+  }
+
+  if (line) {
+    ctx.fillText(line, x, lineY);
   }
 }

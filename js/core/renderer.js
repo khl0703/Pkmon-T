@@ -1,8 +1,11 @@
 import { C, H, TILE, TYPE_COLOR, W } from "./constants.js";
+import { getCharacterSprite } from "./assets.js";
 import { fadeState, GS } from "./state.js";
 import { POKEDEX } from "../data/pokedex.js";
 
 export const cv = document.getElementById("gc");
+cv.width = W;
+cv.height = H;
 export const ctx = cv.getContext("2d");
 ctx.imageSmoothingEnabled = false;
 
@@ -86,7 +89,11 @@ export function drawPokeball(x, y, size) {
   ctx.stroke();
 }
 
-export function drawCharSprite(x, y, dir, frame, isPlayer, color) {
+export function drawCharSprite(x, y, dir, frame, isPlayer, color, spriteRef, moving = false) {
+  if (spriteRef && drawSheetCharacter(x, y, dir, frame, spriteRef, moving)) {
+    return;
+  }
+
   const primaryColor = isPlayer ? "#3868b0" : color || "#c04040";
   const skin = "#f8c898";
   const hair = isPlayer ? "#483820" : "#282828";
@@ -125,6 +132,43 @@ export function drawCharSprite(x, y, dir, frame, isPlayer, color) {
   ctx.fillStyle = "#a03030";
   ctx.fillRect(x + 3, y + 28 + legOffset, 4, 3);
   ctx.fillRect(x + 9, y + 28 - legOffset, 4, 3);
+}
+
+function drawSheetCharacter(x, y, dir, frame, spriteRef, moving) {
+  const entry = getCharacterSprite(spriteRef);
+  if (!entry || entry.status !== "loaded" || !entry.image?.width || !entry.image?.height) {
+    return false;
+  }
+
+  const frameWidth = Math.floor(entry.image.width / 4);
+  const frameHeight = Math.floor(entry.image.height / 4);
+  if (!frameWidth || !frameHeight) {
+    return false;
+  }
+
+  const rowByDir = {
+    down: 0,
+    left: 1,
+    right: 2,
+    up: 3,
+  };
+  const walkCycle = [0, 1, 2, 1];
+  const sourceX = walkCycle[moving ? frame % walkCycle.length : 0] * frameWidth;
+  const sourceY = (rowByDir[dir] ?? rowByDir.down) * frameHeight;
+
+  ctx.imageSmoothingEnabled = false;
+  ctx.drawImage(
+    entry.image,
+    sourceX,
+    sourceY,
+    frameWidth,
+    frameHeight,
+    x,
+    y,
+    frameWidth,
+    frameHeight
+  );
+  return true;
 }
 
 export function drawPokemonSprite(x, y, id, size = 32, isBack = false) {

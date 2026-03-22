@@ -347,45 +347,51 @@ export function renderBattle() {
   if (!battleState.enemy) {
     return;
   }
+  const panelHeight = 96;
+  const panelY = H - panelHeight;
+  const enemyBox = { x: 20, y: 20, w: 172, h: 52 };
+  const playerBox = { x: W - 214, y: 234, w: 194, h: 76 };
+  const enemySprite = { x: Math.floor(W * 0.6), y: 70, size: 88 };
+  const playerSprite = { x: 80, y: 186, size: 108 };
 
   ctx.fillStyle = C.white;
   ctx.fillRect(0, 0, W, H);
-  ctx.fillStyle = "#c8d8c0";
-  ctx.fillRect(0, 70, W, 70);
-  ctx.fillStyle = "#a8c098";
-  ctx.fillRect(0, 100, W, 40);
+  ctx.fillStyle = "#d8e4d0";
+  ctx.fillRect(0, 110, W, 120);
+  ctx.fillStyle = "#b8d0a8";
+  ctx.fillRect(0, 150, W, 90);
 
   if (battleState.enemy.curHP > 0) {
-    drawPokemonSprite(160, 15, battleState.enemy.id, 56);
+    drawPokemonSprite(enemySprite.x, enemySprite.y, battleState.enemy.id, enemySprite.size);
   }
 
   if (battleState.playerPk.curHP > 0) {
-    drawPokemonSprite(30, 55, battleState.playerPk.id, 64, true);
+    drawPokemonSprite(playerSprite.x, playerSprite.y, battleState.playerPk.id, playerSprite.size, true);
   }
 
-  drawWin(4, 8, 120, 34);
-  drawText(getPkDisplayName(battleState.enemy), 10, 22, GS.lang === "ko" ? 10 : 7, C.text);
-  drawText(`Lv.${battleState.enemy.level}`, 85, 22, 7, C.text, "Press Start 2P");
-  drawHPBar(10, 28, 100, battleState.enemy.curHP, battleState.enemy.stats.hp);
+  drawWin(enemyBox.x, enemyBox.y, enemyBox.w, enemyBox.h);
+  drawText(getPkDisplayName(battleState.enemy), enemyBox.x + 10, enemyBox.y + 17, GS.lang === "ko" ? 11 : 7, C.text);
+  drawText(`Lv.${battleState.enemy.level}`, enemyBox.x + enemyBox.w - 52, enemyBox.y + 17, 7, C.text, "Press Start 2P");
+  drawHPBar(enemyBox.x + 10, enemyBox.y + 30, enemyBox.w - 24, battleState.enemy.curHP, battleState.enemy.stats.hp);
 
-  drawWin(132, 90, 120, 48);
-  drawText(getPkDisplayName(battleState.playerPk), 138, 104, GS.lang === "ko" ? 10 : 7, C.text);
-  drawText(`Lv.${battleState.playerPk.level}`, 212, 104, 7, C.text, "Press Start 2P");
-  drawHPBar(138, 110, 100, battleState.playerPk.curHP, battleState.playerPk.stats.hp);
-  drawText(`HP:${battleState.playerPk.curHP}/${battleState.playerPk.stats.hp}`, 138, 124, 7, C.text, "Press Start 2P");
-  drawEXPBar(138, 128, 100, battleState.playerPk.exp, battleState.playerPk.expNext);
+  drawWin(playerBox.x, playerBox.y, playerBox.w, playerBox.h);
+  drawText(getPkDisplayName(battleState.playerPk), playerBox.x + 10, playerBox.y + 17, GS.lang === "ko" ? 11 : 7, C.text);
+  drawText(`Lv.${battleState.playerPk.level}`, playerBox.x + playerBox.w - 52, playerBox.y + 17, 7, C.text, "Press Start 2P");
+  drawHPBar(playerBox.x + 10, playerBox.y + 30, playerBox.w - 24, battleState.playerPk.curHP, battleState.playerPk.stats.hp);
+  drawText(`HP:${battleState.playerPk.curHP}/${battleState.playerPk.stats.hp}`, playerBox.x + 10, playerBox.y + 48, 7, C.text, "Press Start 2P");
+  drawEXPBar(playerBox.x + 10, playerBox.y + 58, playerBox.w - 24, battleState.playerPk.exp, battleState.playerPk.expNext);
 
   if (battleState.phase === "menu") {
     ctx.fillStyle = "#282828";
-    ctx.fillRect(0, H - 52, W / 2, 52);
+    ctx.fillRect(0, panelY, W / 2, panelHeight);
     ctx.fillStyle = "#383838";
-    ctx.fillRect(2, H - 50, W / 2 - 4, 48);
-    drawWin(W / 2, H - 52, W / 2, 52);
+    ctx.fillRect(2, panelY + 2, W / 2 - 4, panelHeight - 4);
+    drawWin(W / 2, panelY, W / 2, panelHeight);
 
     const commands = ["bat.fight", "bat.bag", "bat.pokemon", "bat.run"];
     for (let i = 0; i < 4; i += 1) {
-      const x = W / 2 + 8 + (i % 2) * 58;
-      const y = H - 44 + Math.floor(i / 2) * 22;
+      const x = W / 2 + 28 + (i % 2) * 118;
+      const y = panelY + 24 + Math.floor(i / 2) * 34;
       if (i === battleState.sel) {
         const bounce = Math.sin(Date.now() / 150) * 1;
         drawText("▶", x - 8 + bounce, y + 10, 8, C.pokered);
@@ -396,41 +402,41 @@ export function renderBattle() {
   }
 
   if (battleState.phase === "fight") {
-    drawWin(0, H - 52, W, 52);
+    drawWin(0, panelY, W, panelHeight);
     for (let i = 0; i < battleState.playerPk.moves.length; i += 1) {
       const move = battleState.playerPk.moves[i];
       const moveData = MOVES[move.name];
-      const x = 12 + (i % 2) * 120;
-      const y = H - 44 + Math.floor(i / 2) * 22;
+      const x = 26 + (i % 2) * Math.floor(W / 2);
+      const y = panelY + 22 + Math.floor(i / 2) * 34;
 
       if (i === battleState.moveSel) {
         const bounce = Math.sin(Date.now() / 150) * 1;
         drawText("▶", x - 8 + bounce, y + 10, 8, C.pokered);
         if (moveData) {
           ctx.fillStyle = TYPE_COLOR[moveData.type] || "#a8a878";
-          ctx.fillRect(x + 80, y + 2, 36, 12);
-          drawText(GS.lang === "ko" ? moveData.type : TYPE_EN[moveData.type], x + 82, y + 11, 6, C.white, "Press Start 2P");
+          ctx.fillRect(x + 120, y + 1, 54, 14);
+          drawText(GS.lang === "ko" ? moveData.type : TYPE_EN[moveData.type], x + 124, y + 11, 6, C.white, "Press Start 2P");
         }
       }
 
       drawText(moveName(move.name), x, y + 10, GS.lang === "ko" ? 10 : 7, i === battleState.moveSel ? C.text : C.textDis);
-      drawText(`${move.pp}/${move.maxPP}`, x + 65, y + 10, 6, C.hint, "Press Start 2P");
+      drawText(`${move.pp}/${move.maxPP}`, x + 78, y + 10, 6, C.hint, "Press Start 2P");
     }
     return;
   }
 
   ctx.fillStyle = "#282828";
-  ctx.fillRect(0, H - 52, W, 52);
+  ctx.fillRect(0, panelY, W, panelHeight);
   ctx.fillStyle = "#383838";
-  ctx.fillRect(2, H - 50, W - 4, 48);
+  ctx.fillRect(2, panelY + 2, W - 4, panelHeight - 4);
 
   if (battleState.msgIdx < battleState.msg.length) {
     const shown = battleState.msg[battleState.msgIdx].substring(0, Math.floor(battleState.msgCharIdx));
-    drawText(shown, 10, H - 28, GS.lang === "ko" ? 11 : 8, C.white);
+    drawText(shown, 16, panelY + 34, GS.lang === "ko" ? 13 : 8, C.white);
     if (!battleState.msgTyping) {
       const bounce = Math.sin(Date.now() / 200) * 2;
       ctx.fillStyle = C.white;
-      ctx.fillRect(W - 16, H - 12 + bounce, 6, 6);
+      ctx.fillRect(W - 22, panelY + panelHeight - 18 + bounce, 8, 8);
     }
   }
 }

@@ -223,6 +223,21 @@ export function renderField() {
     camY -= offY;
   }
 
+  const mapPixelWidth = map.w * TILE;
+  const mapPixelHeight = map.h * TILE;
+
+  if (mapPixelWidth <= W) {
+    camX = -(W - mapPixelWidth) / 2;
+  } else {
+    camX = Math.max(0, Math.min(camX, mapPixelWidth - W));
+  }
+
+  if (mapPixelHeight <= H) {
+    camY = -(H - mapPixelHeight) / 2;
+  } else {
+    camY = Math.max(0, Math.min(camY, mapPixelHeight - H));
+  }
+
   ctx.save();
   ctx.translate(-Math.round(camX), -Math.round(camY));
 
@@ -244,11 +259,21 @@ export function renderField() {
       npc.dir,
       0,
       false,
-      npc.sprite === "ash" ? "#d09020" : npc.sprite === "nurse" ? "#e87898" : "#808080"
+      npc.sprite === "ash" ? "#d09020" : npc.sprite === "nurse" ? "#e87898" : "#808080",
+      npc.spriteSheet || npc.sprite
     );
   }
 
-  drawCharSprite(fieldState.px * TILE, fieldState.py * TILE - 16, fieldState.dir, fieldState.moving ? fieldState.frame : 0, true);
+  drawCharSprite(
+    fieldState.px * TILE,
+    fieldState.py * TILE - 16,
+    fieldState.dir,
+    fieldState.frame,
+    true,
+    undefined,
+    "player",
+    fieldState.moving
+  );
   ctx.restore();
 
   const mapName = GS.lang === "ko" ? map.name.ko : map.name.en;
@@ -295,23 +320,28 @@ export function renderStarter() {
   renderField();
   ctx.fillStyle = "rgba(0,0,0,0.5)";
   ctx.fillRect(0, 0, W, H);
-  drawWin(20, 20, W - 40, H - 40);
-  drawTextCentered(GS.lang === "ko" ? "파트너를 선택하세요!" : "Choose your partner!", 42, GS.lang === "ko" ? 12 : 8, C.titleBlue);
+  drawWin(32, 28, W - 64, H - 56);
+  drawTextCentered(GS.lang === "ko" ? "파트너를 선택하세요!" : "Choose your partner!", 64, GS.lang === "ko" ? 15 : 9, C.titleBlue);
 
   const ids = [4, 7, 1];
   const names = [t("npc.starter.1"), t("npc.starter.2"), t("npc.starter.3")];
+  const boxWidth = 132;
+  const gap = 24;
+  const startX = Math.floor((W - (boxWidth * 3 + gap * 2)) / 2);
+  const boxY = 118;
 
   for (let i = 0; i < 3; i += 1) {
-    const boxX = 35 + i * 70;
-    const boxY = 55;
+    const boxX = startX + i * (boxWidth + gap);
 
     if (i === starterState.sel) {
-      drawWin(boxX - 5, boxY - 5, 62, 90);
+      drawWin(boxX, boxY, boxWidth, 150);
       const bounce = Math.sin(Date.now() / 150) * 1;
-      drawText("▶", boxX - 2 + bounce, boxY + 45, 8, C.pokered);
+      drawText("▶", boxX + 8 + bounce, boxY + 80, 10, C.pokered);
+    } else {
+      drawWin(boxX, boxY, boxWidth, 150);
     }
 
-    drawPokemonSprite(boxX + 6, boxY, ids[i], 48);
-    drawText(names[i], boxX + 2, boxY + 70, GS.lang === "ko" ? 9 : 6, i === starterState.sel ? C.text : C.textDis);
+    drawPokemonSprite(boxX + 28, boxY + 18, ids[i], 76);
+    drawText(names[i], boxX + 14, boxY + 118, GS.lang === "ko" ? 10 : 6, i === starterState.sel ? C.text : C.textDis);
   }
 }
