@@ -1,0 +1,1971 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>포켓몬스터 토론토 | Pokémon Toronto</title>
+<link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:#181818; display:flex; justify-content:center; align-items:center; min-height:100vh; overflow:hidden; }
+canvas { image-rendering:pixelated; image-rendering:crisp-edges; width:768px; height:576px; border:4px solid #383838; cursor:none; }
+@media(max-width:800px){ canvas { width:100vw; height:auto; } }
+</style>
+</head>
+<body>
+<canvas id="gc" width="256" height="192"></canvas>
+<script>
+'use strict';
+// ========== CONSTANTS ==========
+const W = 256, H = 192, TILE = 16;
+const cv = document.getElementById('gc');
+const ctx = cv.getContext('2d');
+ctx.imageSmoothingEnabled = false;
+
+// ========== COLORS ==========
+const C = {
+  pokered:'#e04848', sky:'#b8c8d8', winBg:'#f8f8f0', winBrd:'#383838',
+  text:'#383838', textDis:'#a0a098', textHi:'#e04848', hint:'#8898a8',
+  titleBlue:'#3868b0', white:'#ffffff', black:'#000000',
+  hpGreen:'#48b048', hpYellow:'#d8a820', hpRed:'#e04848',
+  expBlue:'#4888d8', grassGreen:'#58a848', grassDark:'#388830',
+  water:'#5090d0', path:'#c8b888', wall:'#706858', floor:'#d8c8a0',
+  roof:'#985848', door:'#806040', bookshelf:'#604828',
+  carpet:'#b04848', desk:'#a09070', chair:'#887858',
+};
+
+// ========== i18n ==========
+const i18n = {
+  // Title
+  'title.new':{ ko:'새로운 게임', en:'NEW GAME' },
+  'title.continue':{ ko:'이어하기', en:'CONTINUE' },
+  'title.options':{ ko:'옵션', en:'OPTIONS' },
+  'title.credits':{ ko:'크레딧', en:'CREDITS' },
+  'title.press':{ ko:'아무 키를 누르세요', en:'PRESS ANY KEY' },
+  'title.name':{ ko:'포켓몬스터 토론토', en:'POKéMON TORONTO' },
+  // Options
+  'opt.title':{ ko:'옵션', en:'OPTIONS' },
+  'opt.lang':{ ko:'언어', en:'LANGUAGE' },
+  'opt.bgm':{ ko:'BGM 음량', en:'BGM VOL' },
+  'opt.sfx':{ ko:'SFX 음량', en:'SFX VOL' },
+  'opt.speed':{ ko:'게임속도', en:'SPEED' },
+  'opt.textspd':{ ko:'문자속도', en:'TEXT SPD' },
+  'opt.back':{ ko:'뒤로', en:'BACK' },
+  // Prologue
+  'pro.1':{ ko:'...기말고사 3일 전...', en:'...3 days before finals...' },
+  'pro.2':{ ko:'Robarts Commons 5층...', en:'Robarts Commons, 5th floor...' },
+  'pro.3':{ ko:'에너지 드링크를 들이켰다...', en:'You chugged an energy drink...' },
+  'pro.4':{ ko:'눈이 점점 감기고...', en:'Your eyes grow heavy...' },
+  'pro.5':{ ko:'..................', en:'..................' },
+  'pro.6':{ ko:'...여기가 어디지?', en:'...Where am I?' },
+  'pro.7':{ ko:'세계가... 바뀌었다?!', en:'The world... has changed?!' },
+  'pro.wake':{ ko:'눈을 떴다!', en:'You opened your eyes!' },
+  // Battle
+  'bat.wild':{ ko:'야생 {name}(이)가 나타났다!', en:'A wild {name} appeared!' },
+  'bat.go':{ ko:'가라! {name}!', en:'Go! {name}!' },
+  'bat.fight':{ ko:'싸우다', en:'FIGHT' },
+  'bat.bag':{ ko:'가방', en:'BAG' },
+  'bat.pokemon':{ ko:'포켓몬', en:'POKéMON' },
+  'bat.run':{ ko:'도망', en:'RUN' },
+  'bat.used':{ ko:'{name}의 {move}!', en:'{name} used {move}!' },
+  'bat.effective':{ ko:'효과가 굉장했다!', en:"It's super effective!" },
+  'bat.noteffective':{ ko:'효과가 별로인 듯하다...', en:"It's not very effective..." },
+  'bat.noeffect':{ ko:'효과가 없는 것 같다...', en:"It doesn't affect {name}..." },
+  'bat.fainted':{ ko:'{name}(이)가 쓰러졌다!', en:'{name} fainted!' },
+  'bat.exp':{ ko:'{name}(은)는 {exp} 경험치를 얻었다!', en:'{name} gained {exp} EXP. Points!' },
+  'bat.levelup':{ ko:'{name}(은)는 레벨 {lv}(이)가 되었다!', en:'{name} grew to Lv. {lv}!' },
+  'bat.ranaway':{ ko:'무사히 도망쳤다!', en:'Got away safely!' },
+  'bat.cantrun':{ ko:'도망칠 수 없었다!', en:"Can't escape!" },
+  'bat.catch.throw':{ ko:'{name}(을)를 던졌다!', en:'You threw a {name}!' },
+  'bat.catch.shake':{ ko:'...', en:'...' },
+  'bat.catch.success':{ ko:'신난다! {name}(을)를 잡았다!', en:'Gotcha! {name} was caught!' },
+  'bat.catch.fail':{ ko:'앗! 빠져나와 버렸다!', en:'Oh no! It broke free!' },
+  // Field
+  'fld.heal':{ ko:'포켓몬이 모두 건강해졌습니다!', en:'Your POKéMON are fully healed!' },
+  'fld.nurse':{ ko:'포켓몬을 맡겨주세요.', en:'Please hand over your POKéMON.' },
+  // Menu
+  'menu.pokemon':{ ko:'포켓몬', en:'POKéMON' },
+  'menu.bag':{ ko:'가방', en:'BAG' },
+  'menu.card':{ ko:'트레이너카드', en:'TRAINER CARD' },
+  'menu.save':{ ko:'세이브', en:'SAVE' },
+  'menu.option':{ ko:'옵션', en:'OPTIONS' },
+  'menu.close':{ ko:'닫기', en:'CLOSE' },
+  'menu.saved':{ ko:'세이브했습니다!', en:'Game saved!' },
+  // NPC
+  'npc.ash1':{ ko:'반가워! 나는 조교 Ash야.', en:"Hey! I'm TA Ash." },
+  'npc.ash2':{ ko:'이 세계에선 포켓몬과 함께 살아.', en:'In this world, people live with POKéMON.' },
+  'npc.ash3':{ ko:'너의 파트너를 골라봐!', en:'Choose your partner!' },
+  'npc.starter.1':{ ko:'파이리 (불꽃)', en:'Charmander (Fire)' },
+  'npc.starter.2':{ ko:'꼬부기 (물)', en:'Squirtle (Water)' },
+  'npc.starter.3':{ ko:'이상해씨 (풀)', en:'Bulbasaur (Grass)' },
+  'npc.received':{ ko:'{name}(을)를 받았다!', en:'You received {name}!' },
+  'npc.item.potion':{ ko:'상처약을 3개 받았다!', en:'Received Potion x3!' },
+  'npc.item.ball':{ ko:'포켓볼을 5개 받았다!', en:'Received POKé BALL x5!' },
+  // Items
+  'item.potion':{ ko:'상처약', en:'Potion' },
+  'item.superpotion':{ ko:'좋은상처약', en:'Super Potion' },
+  'item.pokeball':{ ko:'포켓볼', en:'POKé BALL' },
+  'item.greatball':{ ko:'슈퍼볼', en:'Great Ball' },
+  'item.antidote':{ ko:'해독제', en:'Antidote' },
+  'item.fullheal':{ ko:'만병통치약', en:'Full Heal' },
+  // Catch / Party
+  'party.hp':{ ko:'HP', en:'HP' },
+  'party.lv':{ ko:'Lv.', en:'Lv.' },
+};
+
+function t(key, vars) {
+  let s = (i18n[key] && i18n[key][GS.lang]) || key;
+  if (vars) for (let k in vars) s = s.replace('{'+k+'}', vars[k]);
+  return s;
+}
+
+// ========== GAME SETTINGS ==========
+let GS = { lang:'ko', bgm:7, sfx:7, speed:1, textSpd:2 };
+function loadSettings() {
+  try { let s = JSON.parse(localStorage.getItem('pkt_settings')); if(s) GS = {...GS,...s}; } catch(e){}
+}
+function saveSettings() { localStorage.setItem('pkt_settings', JSON.stringify(GS)); }
+loadSettings();
+
+// ========== INPUT ==========
+const keys = {};
+const kp = {}; // key pressed this frame (consumed on read)
+document.addEventListener('keydown', e => { keys[e.key] = true; kp[e.key] = true; e.preventDefault(); });
+document.addEventListener('keyup', e => { keys[e.key] = false; });
+function ck(k) { if(kp[k]){ kp[k]=false; return true; } return false; }
+function ckAny() { let r = Object.keys(kp).some(k=>kp[k]); if(r) for(let k in kp) kp[k]=false; return r; }
+function ckDir() {
+  if(ck('ArrowUp')) return 'up';
+  if(ck('ArrowDown')) return 'down';
+  if(ck('ArrowLeft')) return 'left';
+  if(ck('ArrowRight')) return 'right';
+  return null;
+}
+
+// ========== DRAW HELPERS ==========
+function drawWin(x,y,w,h) {
+  ctx.fillStyle = C.winBrd;
+  ctx.fillRect(x,y,w,h);
+  ctx.fillStyle = C.winBg;
+  ctx.fillRect(x+2,y+2,w-4,h-4);
+  ctx.fillStyle = '#e8e8e0';
+  ctx.fillRect(x+2,y+2,w-4,1);
+  ctx.fillRect(x+2,y+2,1,h-4);
+  ctx.fillStyle = '#c8c8b8';
+  ctx.fillRect(x+w-3,y+3,1,h-5);
+  ctx.fillRect(x+3,y+h-3,w-5,1);
+}
+
+function drawText(txt, x, y, size, color, font) {
+  ctx.fillStyle = color || C.text;
+  let f = font || (GS.lang==='ko' ? 'DotGothic16' : 'Press Start 2P');
+  ctx.font = size+'px "'+f+'"';
+  ctx.fillText(txt, x, y);
+}
+
+function drawTextCentered(txt, y, size, color) {
+  ctx.fillStyle = color || C.text;
+  let f = GS.lang==='ko' ? 'DotGothic16' : 'Press Start 2P';
+  ctx.font = size+'px "'+f+'"';
+  let m = ctx.measureText(txt);
+  ctx.fillText(txt, (W-m.width)/2, y);
+}
+
+function drawHPBar(x, y, w, cur, max) {
+  let ratio = Math.max(0, cur/max);
+  let col = ratio > 0.5 ? C.hpGreen : ratio > 0.2 ? C.hpYellow : C.hpRed;
+  ctx.fillStyle = '#383838';
+  ctx.fillRect(x, y, w, 4);
+  ctx.fillStyle = '#181818';
+  ctx.fillRect(x+1, y+1, w-2, 2);
+  ctx.fillStyle = col;
+  ctx.fillRect(x+1, y+1, Math.floor((w-2)*ratio), 2);
+}
+
+function drawEXPBar(x, y, w, cur, max) {
+  let ratio = max > 0 ? Math.min(1, cur/max) : 0;
+  ctx.fillStyle = '#383838';
+  ctx.fillRect(x, y, w, 3);
+  ctx.fillStyle = '#181818';
+  ctx.fillRect(x+1, y+1, w-2, 1);
+  ctx.fillStyle = C.expBlue;
+  ctx.fillRect(x+1, y+1, Math.floor((w-2)*ratio), 1);
+}
+
+// ========== POKÉMON TYPE SYSTEM ==========
+const TYPES = ['노말','불꽃','물','풀','전기','얼음','격투','독','땅','비행','에스퍼','벌레','바위','고스트','드래곤','악','강철','페어리'];
+const TYPE_EN = {'노말':'Normal','불꽃':'Fire','물':'Water','풀':'Grass','전기':'Electric','얼음':'Ice','격투':'Fighting','독':'Poison','땅':'Ground','비행':'Flying','에스퍼':'Psychic','벌레':'Bug','바위':'Rock','고스트':'Ghost','드래곤':'Dragon','악':'Dark','강철':'Steel','페어리':'Fairy'};
+const TYPE_COLOR = {'노말':'#a8a878','불꽃':'#f08030','물':'#6890f0','풀':'#78c850','전기':'#f8d030','얼음':'#98d8d8','격투':'#c03028','독':'#a040a0','땅':'#e0c068','비행':'#a890f0','에스퍼':'#f85888','벌레':'#a8b820','바위':'#b8a038','고스트':'#705898','드래곤':'#7038f8','악':'#705848','강철':'#b8b8d0','페어리':'#ee99ac'};
+
+// Type chart: typeChart[atk][def] = multiplier
+const TC = {};
+TYPES.forEach(t => { TC[t] = {}; TYPES.forEach(d => TC[t][d] = 1); });
+// Set super effective (2x)
+const SE = {
+  '불꽃':['풀','벌레','얼음','강철'], '물':['불꽃','바위','땅'], '풀':['물','바위','땅'],
+  '전기':['물','비행'], '얼음':['풀','땅','비행','드래곤'], '격투':['노말','바위','강철','얼음','악'],
+  '독':['풀','페어리'], '땅':['불꽃','전기','독','바위','강철'], '비행':['풀','격투','벌레'],
+  '에스퍼':['격투','독'], '벌레':['풀','에스퍼','악'], '바위':['불꽃','얼음','비행','벌레'],
+  '고스트':['에스퍼','고스트'], '드래곤':['드래곤'], '악':['에스퍼','고스트'],
+  '강철':['바위','얼음','페어리'], '페어리':['격투','드래곤','악'],
+};
+// Not very effective (0.5x)
+const NVE = {
+  '노말':['바위','강철'], '불꽃':['불꽃','물','바위','드래곤'], '물':['물','풀','드래곤'],
+  '풀':['불꽃','풀','독','비행','벌레','드래곤','강철'], '전기':['전기','풀','드래곤'],
+  '얼음':['불꽃','물','얼음','강철'], '격투':['독','비행','에스퍼','벌레','페어리'],
+  '독':['독','땅','바위','고스트'], '땅':['풀','벌레'], '비행':['전기','바위','강철'],
+  '에스퍼':['에스퍼','강철'], '벌레':['불꽃','격투','독','비행','고스트','강철','페어리'],
+  '바위':['격투','땅','강철'], '고스트':['악'], '드래곤':['강철'],
+  '악':['격투','악','페어리'], '강철':['불꽃','물','전기','강철'], '페어리':['불꽃','독','강철'],
+};
+// Immune (0x)
+const IMM = {
+  '노말':['고스트'], '전기':['땅'], '격투':['고스트'], '독':['강철'],
+  '땅':['비행'], '에스퍼':['악'], '고스트':['노말'], '드래곤':['페어리'],
+};
+for(let a in SE) SE[a].forEach(d => TC[a][d] = 2);
+for(let a in NVE) NVE[a].forEach(d => TC[a][d] = 0.5);
+for(let a in IMM) IMM[a].forEach(d => TC[a][d] = 0);
+
+function getTypeEff(atkType, defTypes) {
+  let m = 1;
+  defTypes.forEach(dt => { m *= TC[atkType][dt] || 1; });
+  return m;
+}
+
+// ========== MOVES DATABASE ==========
+const MOVES = {
+  '몸통박치기':{ en:'Tackle', type:'노말', cat:'물리', pow:40, acc:100, pp:35 },
+  '꼬리흔들기':{ en:'Tail Whip', type:'노말', cat:'변화', pow:0, acc:100, pp:30, effect:'def-1' },
+  '할퀴기':{ en:'Scratch', type:'노말', cat:'물리', pow:40, acc:100, pp:35 },
+  '울음소리':{ en:'Growl', type:'노말', cat:'변화', pow:0, acc:100, pp:40, effect:'atk-1' },
+  '불꽃세례':{ en:'Ember', type:'불꽃', cat:'특수', pow:40, acc:100, pp:25 },
+  '물대포':{ en:'Water Gun', type:'물', cat:'특수', pow:40, acc:100, pp:25 },
+  '덩굴채찍':{ en:'Vine Whip', type:'풀', cat:'물리', pow:45, acc:100, pp:25 },
+  '전광석화':{ en:'Quick Attack', type:'노말', cat:'물리', pow:40, acc:100, pp:30, priority:1 },
+  '물기':{ en:'Bite', type:'악', cat:'물리', pow:60, acc:100, pp:25 },
+  '불꽃엄니':{ en:'Fire Fang', type:'불꽃', cat:'물리', pow:65, acc:95, pp:15 },
+  '물의파동':{ en:'Water Pulse', type:'물', cat:'특수', pow:60, acc:100, pp:20 },
+  '씨뿌리기':{ en:'Leech Seed', type:'풀', cat:'변화', pow:0, acc:90, pp:10 },
+  '잎날가르기':{ en:'Razor Leaf', type:'풀', cat:'물리', pow:55, acc:95, pp:25 },
+  '화염방사':{ en:'Flamethrower', type:'불꽃', cat:'특수', pow:90, acc:100, pp:15 },
+  '파도타기':{ en:'Surf', type:'물', cat:'특수', pow:90, acc:100, pp:15 },
+  '솔라빔':{ en:'Solar Beam', type:'풀', cat:'특수', pow:120, acc:100, pp:10 },
+  '사이코키네시스':{ en:'Psychic', type:'에스퍼', cat:'특수', pow:90, acc:100, pp:10 },
+  '염동력':{ en:'Confusion', type:'에스퍼', cat:'특수', pow:50, acc:100, pp:25 },
+  '순간이동':{ en:'Teleport', type:'에스퍼', cat:'변화', pow:0, acc:100, pp:20, effect:'flee' },
+  '전기충격':{ en:'Thunder Shock', type:'전기', cat:'특수', pow:40, acc:100, pp:30 },
+  '스파크':{ en:'Spark', type:'전기', cat:'물리', pow:65, acc:100, pp:20 },
+  '실뿜기':{ en:'String Shot', type:'벌레', cat:'변화', pow:0, acc:95, pp:40, effect:'spe-1' },
+  '벌레먹기':{ en:'Bug Bite', type:'벌레', cat:'물리', pow:60, acc:100, pp:20 },
+  '쪼기':{ en:'Peck', type:'비행', cat:'물리', pow:35, acc:100, pp:35 },
+  '모래뿌리기':{ en:'Sand Attack', type:'땅', cat:'변화', pow:0, acc:100, pp:15, effect:'acc-1' },
+  '박치기':{ en:'Headbutt', type:'노말', cat:'물리', pow:70, acc:100, pp:15 },
+  '돌진':{ en:'Take Down', type:'노말', cat:'물리', pow:90, acc:85, pp:20 },
+  '거품':{ en:'Bubble', type:'물', cat:'특수', pow:40, acc:100, pp:30 },
+  '껍질에숨기':{ en:'Withdraw', type:'물', cat:'변화', pow:0, acc:100, pp:40, effect:'def+1' },
+  '성장':{ en:'Growth', type:'노말', cat:'변화', pow:0, acc:100, pp:20, effect:'spa+1' },
+};
+
+function moveName(m) { return GS.lang==='ko' ? m : (MOVES[m]?.en || m); }
+
+// ========== POKÉMON DATABASE ==========
+const POKEDEX = {
+  4:{ name:{ko:'파이리',en:'Charmander'}, types:['불꽃'], bs:{hp:39,atk:52,def:43,spa:60,spd:50,spe:65}, cr:45, bexp:62,
+    moves:[ {l:1,m:'할퀴기'},{l:1,m:'울음소리'},{l:7,m:'불꽃세례'},{l:13,m:'불꽃엄니'} ] },
+  7:{ name:{ko:'꼬부기',en:'Squirtle'}, types:['물'], bs:{hp:44,atk:48,def:65,spa:50,spd:64,spe:43}, cr:45, bexp:63,
+    moves:[ {l:1,m:'몸통박치기'},{l:1,m:'꼬리흔들기'},{l:7,m:'물대포'},{l:13,m:'물의파동'} ] },
+  1:{ name:{ko:'이상해씨',en:'Bulbasaur'}, types:['풀','독'], bs:{hp:45,atk:49,def:49,spa:65,spd:65,spe:45}, cr:45, bexp:64,
+    moves:[ {l:1,m:'몸통박치기'},{l:1,m:'울음소리'},{l:7,m:'덩굴채찍'},{l:13,m:'잎날가르기'} ] },
+  19:{ name:{ko:'꼬렛',en:'Rattata'}, types:['노말'], bs:{hp:30,atk:56,def:35,spa:25,spd:35,spe:72}, cr:255, bexp:57,
+    moves:[ {l:1,m:'몸통박치기'},{l:1,m:'꼬리흔들기'},{l:4,m:'전광석화'},{l:7,m:'물기'} ] },
+  10:{ name:{ko:'캐터피',en:'Caterpie'}, types:['벌레'], bs:{hp:45,atk:30,def:35,spa:20,spd:20,spe:45}, cr:255, bexp:39,
+    moves:[ {l:1,m:'몸통박치기'},{l:1,m:'실뿜기'},{l:9,m:'벌레먹기'} ] },
+  506:{ name:{ko:'요테르',en:'Lillipup'}, types:['노말'], bs:{hp:45,atk:60,def:45,spa:25,spd:45,spe:55}, cr:255, bexp:55,
+    moves:[ {l:1,m:'몸통박치기'},{l:1,m:'울음소리'},{l:5,m:'물기'},{l:8,m:'전광석화'} ] },
+  915:{ name:{ko:'두루보',en:'Lechonk'}, types:['노말'], bs:{hp:54,atk:45,def:40,spa:35,spd:45,spe:35}, cr:255, bexp:51,
+    moves:[ {l:1,m:'몸통박치기'},{l:1,m:'꼬리흔들기'},{l:5,m:'전광석화'} ] },
+  519:{ name:{ko:'콩둘기',en:'Pidove'}, types:['노말','비행'], bs:{hp:50,atk:55,def:50,spa:36,spd:30,spe:43}, cr:255, bexp:53,
+    moves:[ {l:1,m:'울음소리'},{l:1,m:'쪼기'},{l:6,m:'전광석화'} ] },
+  827:{ name:{ko:'나꼬비',en:'Nickit'}, types:['악'], bs:{hp:40,atk:28,def:28,spa:47,spd:52,spe:50}, cr:255, bexp:49,
+    moves:[ {l:1,m:'전광석화'},{l:1,m:'꼬리흔들기'},{l:4,m:'물기'} ] },
+  403:{ name:{ko:'꼬링크',en:'Shinx'}, types:['전기'], bs:{hp:45,atk:65,def:34,spa:40,spd:34,spe:45}, cr:235, bexp:53,
+    moves:[ {l:1,m:'몸통박치기'},{l:1,m:'울음소리'},{l:6,m:'전기충격'},{l:9,m:'스파크'} ] },
+  263:{ name:{ko:'지그제구리',en:'Zigzagoon'}, types:['노말'], bs:{hp:38,atk:30,def:41,spa:30,spd:41,spe:60}, cr:255, bexp:48,
+    moves:[ {l:1,m:'몸통박치기'},{l:1,m:'울음소리'},{l:5,m:'모래뿌리기'},{l:9,m:'박치기'} ] },
+  179:{ name:{ko:'메리프',en:'Mareep'}, types:['전기'], bs:{hp:55,atk:40,def:40,spa:65,spd:45,spe:35}, cr:235, bexp:56,
+    moves:[ {l:1,m:'몸통박치기'},{l:1,m:'울음소리'},{l:4,m:'전기충격'} ] },
+  63:{ name:{ko:'케이시',en:'Abra'}, types:['에스퍼'], bs:{hp:25,atk:20,def:15,spa:105,spd:55,spe:90}, cr:200, bexp:62,
+    moves:[ {l:1,m:'순간이동'},{l:16,m:'염동력'} ] },
+  280:{ name:{ko:'랄토스',en:'Ralts'}, types:['에스퍼','페어리'], bs:{hp:28,atk:25,def:25,spa:45,spd:35,spe:40}, cr:235, bexp:40,
+    moves:[ {l:1,m:'울음소리'},{l:4,m:'염동력'},{l:9,m:'전광석화'} ] },
+  677:{ name:{ko:'에스프리',en:'Espurr'}, types:['에스퍼'], bs:{hp:62,atk:48,def:54,spa:63,spd:60,spe:68}, cr:190, bexp:71,
+    moves:[ {l:1,m:'할퀴기'},{l:1,m:'울음소리'},{l:5,m:'염동력'},{l:9,m:'전광석화'} ] },
+  65:{ name:{ko:'후딘',en:'Alakazam'}, types:['에스퍼'], bs:{hp:55,atk:50,def:45,spa:135,spd:95,spe:120}, cr:50, bexp:225,
+    moves:[ {l:1,m:'염동력'},{l:1,m:'전광석화'},{l:10,m:'사이코키네시스'} ] },
+  396:{ name:{ko:'찌르꼬',en:'Starly'}, types:['노말','비행'], bs:{hp:40,atk:55,def:30,spa:30,spd:30,spe:60}, cr:255, bexp:49,
+    moves:[ {l:1,m:'몸통박치기'},{l:1,m:'울음소리'},{l:5,m:'전광석화'},{l:9,m:'쪼기'} ] },
+  831:{ name:{ko:'이어롤',en:'Wooloo'}, types:['노말'], bs:{hp:42,atk:40,def:55,spa:40,spd:45,spe:48}, cr:255, bexp:122,
+    moves:[ {l:1,m:'몸통박치기'},{l:1,m:'울음소리'},{l:4,m:'돌진'} ] },
+};
+
+function pkName(id) { return POKEDEX[id] ? (GS.lang==='ko' ? POKEDEX[id].name.ko : POKEDEX[id].name.en) : '???'; }
+
+// ========== POKÉMON INSTANCE HELPERS ==========
+function calcStat(base, lv, iv, isHP) {
+  iv = iv || 15;
+  if(isHP) return Math.floor(((2*base+iv)*lv)/100) + lv + 10;
+  return Math.floor(((2*base+iv)*lv)/100) + 5;
+}
+
+function createPokemon(id, level) {
+  let d = POKEDEX[id];
+  if(!d) return null;
+  let p = {
+    id, level, exp:0, expNext: Math.pow(level,3),
+    name: d.name, types: [...d.types],
+    stats:{}, curHP:0,
+    moves:[], iv:{hp:Math.floor(Math.random()*32), atk:Math.floor(Math.random()*32),
+      def:Math.floor(Math.random()*32), spa:Math.floor(Math.random()*32),
+      spd:Math.floor(Math.random()*32), spe:Math.floor(Math.random()*32)},
+    status:null, nickname:null,
+  };
+  // Calc stats
+  p.stats.hp = calcStat(d.bs.hp, level, p.iv.hp, true);
+  p.stats.atk = calcStat(d.bs.atk, level, p.iv.atk);
+  p.stats.def = calcStat(d.bs.def, level, p.iv.def);
+  p.stats.spa = calcStat(d.bs.spa, level, p.iv.spa);
+  p.stats.spd = calcStat(d.bs.spd, level, p.iv.spd);
+  p.stats.spe = calcStat(d.bs.spe, level, p.iv.spe);
+  p.curHP = p.stats.hp;
+  // Learn moves
+  let available = d.moves.filter(m => m.l <= level);
+  p.moves = available.slice(-4).map(m => ({ name:m.m, pp:MOVES[m.m]?.pp||10, maxPP:MOVES[m.m]?.pp||10 }));
+  p.expNext = Math.pow(level+1, 3) - Math.pow(level, 3);
+  return p;
+}
+
+function getPkDisplayName(p) {
+  if(p.nickname) return p.nickname;
+  return GS.lang==='ko' ? p.name.ko : p.name.en;
+}
+
+// ========== ENCOUNTER TABLES ==========
+const ENCOUNTERS = {
+  'robarts-2f': [
+    { id:19, rate:30, minLv:3, maxLv:5 },
+    { id:10, rate:30, minLv:3, maxLv:5 },
+    { id:506, rate:20, minLv:3, maxLv:5 },
+    { id:915, rate:20, minLv:3, maxLv:5 },
+  ],
+  'robarts-7f': [
+    { id:519, rate:40, minLv:6, maxLv:9 },
+    { id:827, rate:30, minLv:6, maxLv:9 },
+  ],
+  'robarts-10f': [
+    { id:403, rate:30, minLv:9, maxLv:12 },
+    { id:263, rate:40, minLv:9, maxLv:12 },
+    { id:179, rate:30, minLv:9, maxLv:12 },
+  ],
+};
+
+// ========== MAP DATA ==========
+// Tile types: 0=floor, 1=wall, 2=grass, 3=desk, 4=door, 5=stairs, 6=npc_block, 7=bookshelf, 8=carpet, 9=water
+const MAPS = {
+  'robarts-5f': {
+    w:16, h:12, name:{ko:'Robarts Commons 5층',en:'Robarts Commons 5F'},
+    tiles:[
+      1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+      1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+      1,0,3,3,0,0,0,0,0,0,3,3,0,0,0,1,
+      1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+      1,0,0,0,0,8,8,8,8,0,0,0,0,0,0,1,
+      1,0,0,0,0,8,8,8,8,0,0,0,6,0,0,1,
+      1,0,0,0,0,8,8,8,8,0,0,0,0,0,0,1,
+      1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+      1,0,7,7,0,0,0,0,0,0,7,7,0,0,0,1,
+      1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+      1,0,0,0,0,0,0,4,0,0,0,0,0,0,0,1,
+      1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+    ],
+    spawns:{ default:{x:7,y:5,dir:'up'} },
+    npcs:[
+      { id:'ash', x:12, y:5, dir:'left', sprite:'ash',
+        dialog:['npc.ash1','npc.ash2','npc.ash3'],
+        action:'starter_choice', flag:'ash_talked' },
+    ],
+    exits:[{ x:7, y:10, to:'robarts-4f', spawn:'from5f' }],
+    encounter:null,
+  },
+  'robarts-4f': {
+    w:16, h:12, name:{ko:'Robarts Commons 4층',en:'Robarts Commons 4F'},
+    tiles:[
+      1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+      1,0,0,0,0,0,0,4,0,0,0,0,0,0,0,1,
+      1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+      1,0,3,0,0,0,0,0,0,0,0,0,3,0,0,1,
+      1,0,0,0,0,2,2,2,2,2,0,0,0,0,0,1,
+      1,0,0,0,0,2,2,2,2,2,0,0,0,0,0,1,
+      1,0,0,0,0,2,2,2,2,2,0,0,0,0,0,1,
+      1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+      1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+      1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+      1,0,0,0,0,0,0,4,0,0,0,0,0,0,0,1,
+      1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+    ],
+    spawns:{ from5f:{x:7,y:1,dir:'down'}, from3f:{x:7,y:10,dir:'up'} },
+    npcs:[
+      { id:'student1', x:3, y:3, dir:'down', sprite:'npc',
+        dialog_raw:[
+          {ko:'여기서 공부하다 갑자기 이상한 소리를 들었어...', en:'I was studying here when I heard strange noises...'},
+        ]},
+    ],
+    exits:[
+      { x:7, y:1, to:'robarts-5f', spawn:'default' },
+      { x:7, y:10, to:'robarts-2f', spawn:'from4f' },
+    ],
+    encounter:'robarts-2f',
+  },
+  'robarts-2f': {
+    w:16, h:12, name:{ko:'Robarts Commons 2층 Study Hall',en:'Robarts Commons 2F Study Hall'},
+    tiles:[
+      1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+      1,0,0,0,0,0,0,4,0,0,0,0,0,0,0,1,
+      1,0,2,2,2,0,0,0,0,0,2,2,2,0,0,1,
+      1,0,2,2,2,0,0,0,0,0,2,2,2,0,0,1,
+      1,0,2,2,2,0,0,0,0,0,2,2,2,0,0,1,
+      1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+      1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+      1,0,2,2,2,0,0,0,0,0,2,2,2,0,0,1,
+      1,0,2,2,2,0,0,0,0,0,2,2,2,0,0,1,
+      1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+      1,0,0,0,0,0,0,4,0,0,0,0,0,0,0,1,
+      1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+    ],
+    spawns:{ from4f:{x:7,y:1,dir:'down'}, fromPCenter:{x:7,y:10,dir:'up'} },
+    npcs:[],
+    exits:[
+      { x:7, y:1, to:'robarts-4f', spawn:'from3f' },
+      { x:7, y:10, to:'pokemon-center', spawn:'entrance' },
+    ],
+    encounter:'robarts-2f',
+  },
+  'pokemon-center': {
+    w:16, h:12, name:{ko:'포켓몬 센터',en:'POKéMON CENTER'},
+    tiles:[
+      1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+      1,8,8,8,8,8,8,8,8,8,8,8,8,8,8,1,
+      1,8,8,8,8,8,8,8,8,8,8,8,8,8,8,1,
+      1,8,8,3,3,3,8,8,8,3,3,3,8,8,8,1,
+      1,8,8,8,8,8,8,8,8,8,8,8,8,8,8,1,
+      1,8,8,8,8,8,8,8,8,8,8,8,8,8,8,1,
+      1,8,8,8,8,8,8,8,8,8,8,8,8,8,8,1,
+      1,8,8,8,8,8,8,8,8,8,8,8,8,8,8,1,
+      1,8,8,8,8,8,8,8,8,8,8,8,8,8,8,1,
+      1,8,8,8,8,8,8,8,8,8,8,8,8,8,8,1,
+      1,8,8,8,8,8,8,4,8,8,8,8,8,8,8,1,
+      1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+    ],
+    spawns:{ entrance:{x:7,y:9,dir:'up'} },
+    npcs:[
+      { id:'nurse', x:7, y:3, dir:'down', sprite:'nurse',
+        dialog_raw:[
+          {ko:'포켓몬을 맡겨주세요.', en:'Please hand over your POKéMON.'},
+        ],
+        action:'heal', flag:null },
+    ],
+    exits:[
+      { x:7, y:10, to:'robarts-2f', spawn:'fromPCenter' },
+    ],
+    encounter:null,
+  },
+};
+
+// ========== SPRITE DRAWING (pixel art via code) ==========
+function drawPokeball(x, y, s) {
+  // Simple pokeball sprite
+  let r = s/2;
+  ctx.fillStyle = C.pokered;
+  ctx.beginPath(); ctx.arc(x+r,y+r,r,Math.PI,0); ctx.fill();
+  ctx.fillStyle = C.white;
+  ctx.beginPath(); ctx.arc(x+r,y+r,r,0,Math.PI); ctx.fill();
+  ctx.fillStyle = C.black;
+  ctx.fillRect(x, y+r-1, s, 2);
+  ctx.beginPath(); ctx.arc(x+r,y+r,r,0,Math.PI*2); ctx.lineWidth=1; ctx.strokeStyle=C.black; ctx.stroke();
+  ctx.fillStyle = C.white;
+  ctx.beginPath(); ctx.arc(x+r,y+r,3,0,Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.arc(x+r,y+r,3,0,Math.PI*2); ctx.stroke();
+}
+
+function drawCharSprite(x, y, dir, frame, isPlayer, color) {
+  // Simple 16x32 character sprite drawn with code
+  let c1 = isPlayer ? '#3868b0' : (color || '#c04040');
+  let skin = '#f8c898';
+  let hair = isPlayer ? '#483820' : '#282828';
+
+  // Head
+  ctx.fillStyle = hair;
+  ctx.fillRect(x+4, y, 8, 4);
+  ctx.fillStyle = skin;
+  ctx.fillRect(x+4, y+4, 8, 6);
+  // Eyes
+  ctx.fillStyle = C.black;
+  if(dir==='down'||dir===undefined) {
+    ctx.fillRect(x+5,y+6,2,2);
+    ctx.fillRect(x+9,y+6,2,2);
+  } else if(dir==='up') {
+    ctx.fillStyle = hair;
+    ctx.fillRect(x+4,y+4,8,3);
+  } else if(dir==='left') {
+    ctx.fillRect(x+4,y+6,2,2);
+  } else {
+    ctx.fillRect(x+10,y+6,2,2);
+  }
+  // Body
+  ctx.fillStyle = c1;
+  ctx.fillRect(x+3, y+10, 10, 10);
+  // Arms
+  let armOff = (frame%2===1) ? 1 : 0;
+  ctx.fillStyle = skin;
+  ctx.fillRect(x+1, y+11+armOff, 2, 6);
+  ctx.fillRect(x+13, y+11-armOff, 2, 6);
+  // Legs
+  ctx.fillStyle = '#384868';
+  let legOff = (frame===1) ? 2 : (frame===3) ? -2 : 0;
+  ctx.fillRect(x+4, y+20, 3, 8+legOff);
+  ctx.fillRect(x+9, y+20, 3, 8-legOff);
+  // Shoes
+  ctx.fillStyle = '#a03030';
+  ctx.fillRect(x+3, y+28+legOff, 4, 3);
+  ctx.fillRect(x+9, y+28-legOff, 4, 3);
+}
+
+function drawPokemonSprite(x, y, id, size, isBack) {
+  // Draw a simple pixel art representation for pokemon
+  let d = POKEDEX[id];
+  if(!d) return;
+  let tc = TYPE_COLOR[d.types[0]] || '#a8a878';
+  let s = size || 32;
+
+  // Body shape based on type color
+  ctx.fillStyle = tc;
+  let cx = x+s/2, cy = y+s/2;
+  // Main body - ellipse approximation
+  ctx.beginPath();
+  ctx.ellipse(cx, cy+2, s*0.35, s*0.4, 0, 0, Math.PI*2);
+  ctx.fill();
+
+  // Head
+  ctx.beginPath();
+  ctx.ellipse(cx, cy-s*0.2, s*0.25, s*0.25, 0, 0, Math.PI*2);
+  ctx.fill();
+
+  // Eyes (front only)
+  if(!isBack) {
+    ctx.fillStyle = C.white;
+    ctx.fillRect(cx-s*0.12, cy-s*0.25, s*0.08, s*0.08);
+    ctx.fillRect(cx+s*0.05, cy-s*0.25, s*0.08, s*0.08);
+    ctx.fillStyle = C.black;
+    ctx.fillRect(cx-s*0.1, cy-s*0.23, s*0.05, s*0.05);
+    ctx.fillRect(cx+s*0.07, cy-s*0.23, s*0.05, s*0.05);
+  }
+
+  // Type-specific features
+  if(d.types.includes('불꽃')) {
+    // Flame tail
+    ctx.fillStyle = '#f8a830';
+    ctx.beginPath(); ctx.ellipse(cx+s*0.3, cy+s*0.1, s*0.08, s*0.15, 0.3, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = '#f8d030';
+    ctx.beginPath(); ctx.ellipse(cx+s*0.32, cy+s*0.05, s*0.04, s*0.08, 0.3, 0, Math.PI*2); ctx.fill();
+  }
+  if(d.types.includes('물')) {
+    // Water drop
+    ctx.fillStyle = '#88c0f0';
+    ctx.fillRect(cx-s*0.02, cy+s*0.3, s*0.04, s*0.06);
+  }
+  if(d.types.includes('풀')) {
+    // Leaf
+    ctx.fillStyle = '#58c850';
+    ctx.beginPath(); ctx.ellipse(cx, cy-s*0.4, s*0.1, s*0.06, -0.5, 0, Math.PI*2); ctx.fill();
+  }
+  if(d.types.includes('전기')) {
+    // Lightning
+    ctx.fillStyle = '#f8d030';
+    ctx.fillRect(cx+s*0.2, cy-s*0.1, s*0.05, s*0.15);
+  }
+  if(d.types.includes('에스퍼')) {
+    // Glow
+    ctx.fillStyle = 'rgba(248,88,136,0.3)';
+    ctx.beginPath(); ctx.arc(cx, cy-s*0.15, s*0.3, 0, Math.PI*2); ctx.fill();
+  }
+}
+
+// ========== TILE RENDERING ==========
+function drawTile(x, y, type) {
+  let px = x*TILE, py = y*TILE;
+  switch(type) {
+    case 0: // floor
+      ctx.fillStyle = C.floor;
+      ctx.fillRect(px,py,TILE,TILE);
+      ctx.fillStyle = '#d0c090';
+      ctx.fillRect(px,py+TILE-1,TILE,1);
+      break;
+    case 1: // wall
+      ctx.fillStyle = C.wall;
+      ctx.fillRect(px,py,TILE,TILE);
+      ctx.fillStyle = '#605040';
+      ctx.fillRect(px,py,TILE,2);
+      ctx.fillRect(px,py,2,TILE);
+      break;
+    case 2: // grass
+      ctx.fillStyle = C.grassGreen;
+      ctx.fillRect(px,py,TILE,TILE);
+      // Grass blades
+      ctx.fillStyle = C.grassDark;
+      for(let i=0;i<4;i++) {
+        let gx = px+2+i*4, gy = py+4+((i*3)%5);
+        ctx.fillRect(gx,gy,1,4);
+        ctx.fillRect(gx+1,gy+1,1,3);
+      }
+      break;
+    case 3: // desk
+      ctx.fillStyle = C.floor;
+      ctx.fillRect(px,py,TILE,TILE);
+      ctx.fillStyle = C.desk;
+      ctx.fillRect(px+1,py+2,TILE-2,TILE-4);
+      ctx.fillStyle = '#908060';
+      ctx.fillRect(px+1,py+2,TILE-2,2);
+      break;
+    case 4: // door
+      ctx.fillStyle = C.floor;
+      ctx.fillRect(px,py,TILE,TILE);
+      ctx.fillStyle = C.door;
+      ctx.fillRect(px+2,py,TILE-4,TILE);
+      ctx.fillStyle = '#a08050';
+      ctx.fillRect(px+3,py+1,TILE-6,TILE-2);
+      // knob
+      ctx.fillStyle = '#d0b060';
+      ctx.fillRect(px+TILE-5,py+8,2,2);
+      break;
+    case 5: // stairs
+      ctx.fillStyle = C.floor;
+      ctx.fillRect(px,py,TILE,TILE);
+      ctx.fillStyle = '#b0a080';
+      for(let i=0;i<4;i++) ctx.fillRect(px,py+i*4,TILE-i*3,4);
+      break;
+    case 6: // npc block (invisible, treated as floor)
+      ctx.fillStyle = C.floor;
+      ctx.fillRect(px,py,TILE,TILE);
+      break;
+    case 7: // bookshelf
+      ctx.fillStyle = C.bookshelf;
+      ctx.fillRect(px,py,TILE,TILE);
+      ctx.fillStyle = '#e04040';
+      ctx.fillRect(px+1,py+1,4,6);
+      ctx.fillStyle = '#4060c0';
+      ctx.fillRect(px+5,py+1,4,6);
+      ctx.fillStyle = '#40a040';
+      ctx.fillRect(px+9,py+1,4,6);
+      ctx.fillStyle = '#d0a020';
+      ctx.fillRect(px+1,py+8,5,6);
+      ctx.fillStyle = '#8040a0';
+      ctx.fillRect(px+6,py+8,5,6);
+      break;
+    case 8: // carpet
+      ctx.fillStyle = C.carpet;
+      ctx.fillRect(px,py,TILE,TILE);
+      ctx.fillStyle = '#c05858';
+      ctx.fillRect(px+1,py+1,TILE-2,TILE-2);
+      break;
+    case 9: // water
+      ctx.fillStyle = C.water;
+      ctx.fillRect(px,py,TILE,TILE);
+      ctx.fillStyle = '#60a0e0';
+      ctx.fillRect(px+2,py+4,8,1);
+      ctx.fillRect(px+6,py+10,6,1);
+      break;
+  }
+}
+
+// ========== GAME STATE ==========
+let screen = 'title'; // title, options, prologue, field, battle, menu, dialog, starter, party, bag
+let titleState = { phase:'press', sel:0, pressTimer:0, ballAnim:0 };
+let optState = { sel:0 };
+let proState = { step:0, timer:0, alpha:1, textIdx:0, typing:false, text:'', charTimer:0 };
+let fieldState = { map:null, px:0, py:0, dir:'down', moving:false, moveT:0, frame:0, animTimer:0, stepCount:0 };
+let battleState = {};
+let menuState = { sel:0, open:false };
+let dialogState = { lines:[], idx:0, charIdx:0, done:false, callback:null, typing:true };
+let starterState = { sel:0 };
+let partyState = { sel:0 };
+
+// Player data
+let PD = {
+  name:'Frances', gender:'female', money:3000, badges:[],
+  playTime:0, party:[], pc:[], flags:{},
+  bag:{ items:[], pokeballs:[], keyItems:[], tms:[] },
+  pokedex:{ seen:[], caught:[] },
+};
+
+// Fade effect
+let fade = { active:false, alpha:0, dir:1, callback:null, speed:0.05 };
+
+function startFade(dir, cb, spd) {
+  fade.active = true;
+  fade.dir = dir; // 1=fade out, -1=fade in
+  fade.alpha = dir===1 ? 0 : 1;
+  fade.callback = cb;
+  fade.speed = spd || 0.05;
+}
+
+function updateFade() {
+  if(!fade.active) return;
+  fade.alpha += fade.dir * fade.speed;
+  if(fade.dir===1 && fade.alpha >= 1) {
+    fade.alpha = 1;
+    if(fade.callback) { fade.callback(); fade.callback = null; }
+    fade.dir = -1;
+  }
+  if(fade.dir===-1 && fade.alpha <= 0) {
+    fade.alpha = 0;
+    fade.active = false;
+  }
+}
+
+function drawFade() {
+  if(!fade.active && fade.alpha <= 0) return;
+  ctx.fillStyle = 'rgba(0,0,0,'+fade.alpha+')';
+  ctx.fillRect(0,0,W,H);
+}
+
+// ========== DIALOG SYSTEM ==========
+function showDialog(lines, cb) {
+  screen = 'dialog';
+  dialogState.lines = lines;
+  dialogState.idx = 0;
+  dialogState.charIdx = 0;
+  dialogState.done = false;
+  dialogState.typing = true;
+  dialogState.callback = cb;
+}
+
+function updateDialog() {
+  let line = dialogState.lines[dialogState.idx];
+  if(!line) { if(dialogState.callback) dialogState.callback(); return; }
+
+  let text = typeof line === 'string' ? t(line) : (GS.lang==='ko' ? line.ko : line.en);
+
+  if(dialogState.typing) {
+    dialogState.charIdx += [0.5, 1, 2][GS.textSpd];
+    if(dialogState.charIdx >= text.length) {
+      dialogState.charIdx = text.length;
+      dialogState.typing = false;
+    }
+  }
+
+  if(ck('x') || ck('X')) {
+    if(dialogState.typing) {
+      dialogState.charIdx = text.length;
+      dialogState.typing = false;
+    } else {
+      dialogState.idx++;
+      dialogState.charIdx = 0;
+      dialogState.typing = true;
+      if(dialogState.idx >= dialogState.lines.length) {
+        dialogState.done = true;
+        if(dialogState.callback) dialogState.callback();
+        return;
+      }
+    }
+  }
+}
+
+function renderDialog() {
+  let line = dialogState.lines[dialogState.idx];
+  if(!line) return;
+  let text = typeof line === 'string' ? t(line) : (GS.lang==='ko' ? line.ko : line.en);
+  let shown = text.substring(0, Math.floor(dialogState.charIdx));
+
+  drawWin(4, H-52, W-8, 48);
+  drawText(shown, 12, H-32, GS.lang==='ko'?12:8, C.text);
+
+  if(!dialogState.typing) {
+    let bounce = Math.sin(Date.now()/200)*2;
+    ctx.fillStyle = C.textHi;
+    ctx.fillRect(W-18, H-12+bounce, 6, 6);
+  }
+}
+
+// ========== TITLE SCREEN ==========
+function updateTitle() {
+  titleState.ballAnim += 0.02;
+  titleState.pressTimer += 1;
+
+  if(titleState.phase === 'press') {
+    if(ckAny()) titleState.phase = 'menu';
+    return;
+  }
+
+  let d = ckDir();
+  if(d==='up') titleState.sel = (titleState.sel+3)%4;
+  if(d==='down') titleState.sel = (titleState.sel+1)%4;
+  if(ck('x')||ck('X')) {
+    if(titleState.sel===0) { // New Game
+      startFade(1, () => {
+        if(PD.flags.prologue_done) {
+          screen = 'field';
+          loadMap(PD.flags.currentMap || 'robarts-5f');
+        } else {
+          screen = 'prologue';
+          proState = { step:0, timer:0, alpha:1, textIdx:0, typing:false, text:'', charTimer:0 };
+        }
+      });
+    }
+    if(titleState.sel===1) { // Continue
+      if(loadGame()) {
+        startFade(1, () => {
+          screen = 'field';
+          loadMap(PD.flags.currentMap || 'robarts-5f');
+        });
+      }
+    }
+    if(titleState.sel===2) { screen = 'options'; optState.sel = 0; }
+  }
+}
+
+function renderTitle() {
+  // Background
+  ctx.fillStyle = C.white;
+  ctx.fillRect(0,0,W,H);
+
+  // Animated pokeballs
+  for(let i=0;i<6;i++) {
+    let bx = (i*50 + titleState.ballAnim*30) % (W+40) - 20;
+    let by = 20 + Math.sin(titleState.ballAnim*2 + i*1.2)*15 + i*25;
+    ctx.globalAlpha = 0.15;
+    drawPokeball(bx, by, 24);
+    ctx.globalAlpha = 1;
+  }
+
+  // Title text
+  drawTextCentered(t('title.name'), 50, GS.lang==='ko'?16:10, C.titleBlue);
+
+  // Subtitle
+  ctx.fillStyle = C.hint;
+  let f = GS.lang==='ko' ? 'DotGothic16' : 'Press Start 2P';
+  ctx.font = '8px "'+f+'"';
+  let st = GS.lang==='ko' ? '캐나다 토론토를 배경으로 한 포켓몬 팬게임' : 'A Pokémon fan game set in Toronto';
+  let stw = ctx.measureText(st).width;
+  ctx.fillText(st, (W-stw)/2, 65);
+
+  if(titleState.phase === 'press') {
+    if(Math.floor(titleState.pressTimer/30)%2===0) {
+      drawTextCentered(t('title.press'), 140, GS.lang==='ko'?12:8, C.text);
+    }
+    return;
+  }
+
+  // Menu
+  let items = ['title.new','title.continue','title.options','title.credits'];
+  let my = 85;
+  for(let i=0;i<4;i++) {
+    let yy = my + i*22;
+    if(i===titleState.sel) {
+      drawWin(60, yy-4, W-120, 20);
+      let bounce = Math.sin(Date.now()/150)*1;
+      drawText('▶', 65+bounce, yy+9, 10, C.pokered);
+    }
+    drawText(t(items[i]), 80, yy+10, GS.lang==='ko'?12:8, i===titleState.sel ? C.text : C.textDis);
+  }
+}
+
+// ========== OPTIONS SCREEN ==========
+function updateOptions() {
+  let d = ckDir();
+  if(d==='up') optState.sel = (optState.sel+5)%6;
+  if(d==='down') optState.sel = (optState.sel+1)%6;
+
+  if(d==='left'||d==='right') {
+    let delta = d==='right' ? 1 : -1;
+    if(optState.sel===0) GS.lang = GS.lang==='ko' ? 'en' : 'ko';
+    if(optState.sel===1) GS.bgm = Math.max(0, Math.min(10, GS.bgm+delta));
+    if(optState.sel===2) GS.sfx = Math.max(0, Math.min(10, GS.sfx+delta));
+    if(optState.sel===3) GS.speed = GS.speed===1 ? 2 : GS.speed===2 ? 3 : 1;
+    if(optState.sel===4) GS.textSpd = (GS.textSpd+1)%3;
+    saveSettings();
+  }
+
+  if(ck('z')||ck('Z')||(ck('x')&&optState.sel===5)||(ck('X')&&optState.sel===5)) {
+    screen = 'title';
+    saveSettings();
+  }
+}
+
+function renderOptions() {
+  ctx.fillStyle = C.sky;
+  ctx.fillRect(0,0,W,H);
+  drawWin(16, 10, W-32, H-20);
+
+  drawTextCentered(t('opt.title'), 30, GS.lang==='ko'?14:10, C.titleBlue);
+
+  let items = [
+    { label:'opt.lang', val: GS.lang==='ko'?'한국어':'English' },
+    { label:'opt.bgm', val: '◀ '+('█'.repeat(GS.bgm)+'░'.repeat(10-GS.bgm))+' ▶' },
+    { label:'opt.sfx', val: '◀ '+('█'.repeat(GS.sfx)+'░'.repeat(10-GS.sfx))+' ▶' },
+    { label:'opt.speed', val: '◀ x'+GS.speed+' ▶' },
+    { label:'opt.textspd', val: '◀ '+['느림/Slow','보통/Mid','빠름/Fast'][GS.textSpd]+' ▶' },
+    { label:'opt.back', val:'' },
+  ];
+
+  for(let i=0;i<items.length;i++) {
+    let yy = 46 + i*22;
+    if(i===optState.sel) {
+      let bounce = Math.sin(Date.now()/150)*1;
+      drawText('▶', 24+bounce, yy+10, 10, C.pokered);
+    }
+    drawText(t(items[i].label), 38, yy+10, GS.lang==='ko'?11:7, i===optState.sel ? C.text : C.textDis);
+    if(items[i].val) {
+      drawText(items[i].val, 120, yy+10, 7, C.text, 'Press Start 2P');
+    }
+  }
+}
+
+// ========== PROLOGUE ==========
+function updatePrologue() {
+  proState.timer++;
+  let steps = ['pro.1','pro.2','pro.3','pro.4','pro.5','pro.6','pro.7'];
+
+  if(proState.step < steps.length) {
+    if(proState.timer < 30) {
+      proState.alpha = Math.max(0, 1 - proState.timer/30);
+    } else if(proState.timer < 120) {
+      proState.alpha = 0;
+      proState.typing = true;
+      proState.charTimer += [0.5,1,2][GS.textSpd];
+    } else {
+      if(ck('x')||ck('X')||ck('z')||ck('Z')||proState.timer > 240) {
+        proState.step++;
+        proState.timer = 0;
+        proState.charTimer = 0;
+      }
+    }
+  } else {
+    // Prologue done, go to starter selection
+    PD.flags.prologue_done = true;
+    startFade(1, () => {
+      screen = 'field';
+      loadMap('robarts-5f');
+    });
+  }
+}
+
+function renderPrologue() {
+  ctx.fillStyle = C.black;
+  ctx.fillRect(0,0,W,H);
+
+  let steps = ['pro.1','pro.2','pro.3','pro.4','pro.5','pro.6','pro.7'];
+  if(proState.step < steps.length) {
+    let text = t(steps[proState.step]);
+    let shown = text.substring(0, Math.floor(proState.charTimer));
+
+    if(proState.step <= 4) {
+      // Dark screen with text
+      drawTextCentered(shown, H/2+4, GS.lang==='ko'?14:9, C.white);
+    } else {
+      // Waking up - lighter
+      let brightness = Math.min(1, (proState.timer-20)/60);
+      ctx.fillStyle = `rgba(184,200,216,${brightness*0.5})`;
+      ctx.fillRect(0,0,W,H);
+      drawTextCentered(shown, H/2+4, GS.lang==='ko'?14:9, brightness>0.3 ? C.text : C.white);
+    }
+  }
+
+  // Flash effect at step transitions
+  if(proState.timer < 5 && proState.step > 0) {
+    ctx.fillStyle = `rgba(255,255,255,${1-proState.timer/5})`;
+    ctx.fillRect(0,0,W,H);
+  }
+}
+
+// ========== FIELD / MAP ==========
+function loadMap(mapId) {
+  let m = MAPS[mapId];
+  if(!m) return;
+  fieldState.map = mapId;
+  PD.flags.currentMap = mapId;
+  let spawn = m.spawns.default || m.spawns[Object.keys(m.spawns)[0]];
+  fieldState.px = spawn.x;
+  fieldState.py = spawn.y;
+  fieldState.dir = spawn.dir || 'down';
+  fieldState.moving = false;
+  fieldState.moveT = 0;
+}
+
+function loadMapAt(mapId, spawnId) {
+  let m = MAPS[mapId];
+  if(!m) return;
+  fieldState.map = mapId;
+  PD.flags.currentMap = mapId;
+  let spawn = m.spawns[spawnId] || m.spawns.default || m.spawns[Object.keys(m.spawns)[0]];
+  fieldState.px = spawn.x;
+  fieldState.py = spawn.y;
+  fieldState.dir = spawn.dir || 'down';
+  fieldState.moving = false;
+  fieldState.moveT = 0;
+}
+
+function getTile(mapId, x, y) {
+  let m = MAPS[mapId];
+  if(!m || x<0 || y<0 || x>=m.w || y>=m.h) return 1;
+  return m.tiles[y*m.w + x];
+}
+
+function isWalkable(mapId, x, y) {
+  let t = getTile(mapId, x, y);
+  if(t===1 || t===3 || t===7 || t===9) return false;
+  // Check NPCs
+  let m = MAPS[mapId];
+  if(m && m.npcs) {
+    for(let n of m.npcs) {
+      if(n.x === x && n.y === y) return false;
+    }
+  }
+  return true;
+}
+
+function updateField() {
+  if(fade.active) return;
+
+  let m = MAPS[fieldState.map];
+  if(!m) return;
+
+  // Moving animation
+  if(fieldState.moving) {
+    fieldState.moveT += (keys['z']||keys['Z']) ? 4 : 2; // B = run
+    if(fieldState.moveT >= TILE) {
+      fieldState.moveT = 0;
+      fieldState.moving = false;
+      fieldState.stepCount++;
+
+      // Check exits
+      for(let ex of (m.exits||[])) {
+        if(fieldState.px === ex.x && fieldState.py === ex.y) {
+          startFade(1, () => loadMapAt(ex.to, ex.spawn));
+          return;
+        }
+      }
+
+      // Check grass encounter
+      let tile = getTile(fieldState.map, fieldState.px, fieldState.py);
+      if(tile === 2 && m.encounter) {
+        if(Math.random() < 0.15) { // ~15% per step on grass
+          startWildBattle(m.encounter);
+          return;
+        }
+      }
+    }
+    return;
+  }
+
+  // Open menu
+  if(ck('s') || ck('S')) {
+    screen = 'menu';
+    menuState.sel = 0;
+    return;
+  }
+
+  // Interact
+  if(ck('x') || ck('X')) {
+    let fx = fieldState.px, fy = fieldState.py;
+    if(fieldState.dir==='up') fy--;
+    if(fieldState.dir==='down') fy++;
+    if(fieldState.dir==='left') fx--;
+    if(fieldState.dir==='right') fx++;
+    // Check NPC
+    for(let n of (m.npcs||[])) {
+      if(n.x===fx && n.y===fy) {
+        interactNPC(n);
+        return;
+      }
+    }
+  }
+
+  // Movement
+  let dir = null;
+  if(keys['ArrowUp']) dir='up';
+  else if(keys['ArrowDown']) dir='down';
+  else if(keys['ArrowLeft']) dir='left';
+  else if(keys['ArrowRight']) dir='right';
+
+  if(dir) {
+    if(fieldState.dir !== dir) {
+      fieldState.dir = dir;
+    }
+    let nx = fieldState.px, ny = fieldState.py;
+    if(dir==='up') ny--;
+    if(dir==='down') ny++;
+    if(dir==='left') nx--;
+    if(dir==='right') nx++;
+    if(isWalkable(fieldState.map, nx, ny)) {
+      fieldState.px = nx;
+      fieldState.py = ny;
+      fieldState.moving = true;
+      fieldState.moveT = 0;
+      fieldState.frame = (fieldState.frame+1)%4;
+    }
+  }
+}
+
+function interactNPC(npc) {
+  // Face player
+  if(fieldState.dir==='up') npc.dir='down';
+  if(fieldState.dir==='down') npc.dir='up';
+  if(fieldState.dir==='left') npc.dir='right';
+  if(fieldState.dir==='right') npc.dir='left';
+
+  let lines = npc.dialog ? npc.dialog.map(k=>t(k)) : (npc.dialog_raw || [{ko:'...',en:'...'}]);
+  if(npc.dialog_raw) lines = npc.dialog_raw;
+
+  // Special actions
+  if(npc.action === 'starter_choice' && !PD.flags.has_starter) {
+    showDialog(lines, () => {
+      screen = 'starter';
+      starterState.sel = 0;
+    });
+    return;
+  }
+
+  if(npc.action === 'heal') {
+    showDialog(lines, () => {
+      // Heal all pokemon
+      PD.party.forEach(p => {
+        p.curHP = p.stats.hp;
+        p.status = null;
+        p.moves.forEach(m => m.pp = m.maxPP);
+      });
+      showDialog([{ko:'포켓몬이 모두 건강해졌습니다!', en:'Your POKéMON are fully healed!'}], () => {
+        screen = 'field';
+      });
+    });
+    return;
+  }
+
+  if(PD.flags[npc.flag]) {
+    // Already talked — show short dialog
+    let shortDialog = npc.dialog_raw ? [npc.dialog_raw[0]] : [{ko:'...', en:'...'}];
+    showDialog(shortDialog, () => { screen = 'field'; });
+    return;
+  }
+
+  showDialog(lines, () => {
+    if(npc.flag) PD.flags[npc.flag] = true;
+    screen = 'field';
+  });
+}
+
+function renderField() {
+  let m = MAPS[fieldState.map];
+  if(!m) return;
+
+  ctx.fillStyle = C.black;
+  ctx.fillRect(0,0,W,H);
+
+  // Camera centered on player
+  let camX = fieldState.px * TILE - W/2 + TILE/2;
+  let camY = fieldState.py * TILE - H/2 + TILE/2;
+
+  // Smooth movement offset
+  let offX = 0, offY = 0;
+  if(fieldState.moving) {
+    let progress = fieldState.moveT / TILE;
+    if(fieldState.dir==='up') offY = -TILE*(1-progress);
+    if(fieldState.dir==='down') offY = TILE*(1-progress);
+    if(fieldState.dir==='left') offX = -TILE*(1-progress);
+    if(fieldState.dir==='right') offX = TILE*(1-progress);
+    // Actually we moved the position already, so offset backwards
+    if(fieldState.dir==='up') offY = TILE*(1-progress);
+    if(fieldState.dir==='down') offY = -TILE*(1-progress);
+    if(fieldState.dir==='left') offX = TILE*(1-progress);
+    if(fieldState.dir==='right') offX = -TILE*(1-progress);
+    camX -= offX;
+    camY -= offY;
+  }
+
+  ctx.save();
+  ctx.translate(-Math.round(camX), -Math.round(camY));
+
+  // Draw tiles
+  let startTX = Math.max(0, Math.floor(camX/TILE));
+  let startTY = Math.max(0, Math.floor(camY/TILE));
+  let endTX = Math.min(m.w, Math.ceil((camX+W)/TILE)+1);
+  let endTY = Math.min(m.h, Math.ceil((camY+H)/TILE)+1);
+
+  for(let ty=startTY; ty<endTY; ty++) {
+    for(let tx=startTX; tx<endTX; tx++) {
+      drawTile(tx, ty, m.tiles[ty*m.w+tx] || 0);
+    }
+  }
+
+  // Draw NPCs
+  for(let n of (m.npcs||[])) {
+    drawCharSprite(n.x*TILE, n.y*TILE-16, n.dir, 0, false,
+      n.sprite==='ash' ? '#d09020' : n.sprite==='nurse' ? '#e87898' : '#808080');
+  }
+
+  // Draw player
+  let ppx = fieldState.px*TILE;
+  let ppy = fieldState.py*TILE;
+  drawCharSprite(ppx, ppy-16, fieldState.dir, fieldState.moving?fieldState.frame:0, true);
+
+  ctx.restore();
+
+  // Map name bar
+  let mapName = GS.lang==='ko' ? m.name.ko : m.name.en;
+  ctx.fillStyle = 'rgba(0,0,0,0.6)';
+  ctx.fillRect(0,0,W,16);
+  drawText(mapName, 4, 12, GS.lang==='ko'?10:7, C.white);
+}
+
+// ========== STARTER SELECTION ==========
+function updateStarter() {
+  let d = ckDir();
+  if(d==='left') starterState.sel = (starterState.sel+2)%3;
+  if(d==='right') starterState.sel = (starterState.sel+1)%3;
+  if(d==='up') starterState.sel = (starterState.sel+2)%3;
+  if(d==='down') starterState.sel = (starterState.sel+1)%3;
+
+  if(ck('x')||ck('X')) {
+    let ids = [4, 7, 1]; // Charmander, Squirtle, Bulbasaur
+    let chosen = ids[starterState.sel];
+    let starter = createPokemon(chosen, 5);
+    PD.party.push(starter);
+    PD.flags.has_starter = true;
+    PD.pokedex.seen.push(chosen);
+    PD.pokedex.caught.push(chosen);
+
+    // Give items
+    PD.bag.items.push({ id:'potion', qty:3 });
+    PD.bag.pokeballs.push({ id:'pokeball', qty:5 });
+
+    let pname = getPkDisplayName(starter);
+    showDialog([
+      { ko:pname+'(을)를 받았다!', en:'You received '+pname+'!' },
+      { ko:'상처약을 3개 받았다!', en:'Received Potion x3!' },
+      { ko:'포켓볼을 5개 받았다!', en:'Received POKé BALL x5!' },
+      { ko:'Ash: 행운을 빌어!', en:'Ash: Good luck out there!' },
+    ], () => {
+      screen = 'field';
+    });
+  }
+
+  if(ck('z')||ck('Z')) {
+    screen = 'field';
+  }
+}
+
+function renderStarter() {
+  renderField(); // Show field behind
+
+  ctx.fillStyle = 'rgba(0,0,0,0.5)';
+  ctx.fillRect(0,0,W,H);
+
+  drawWin(20, 20, W-40, H-40);
+  drawTextCentered(GS.lang==='ko'?'파트너를 선택하세요!':'Choose your partner!', 42, GS.lang==='ko'?12:8, C.titleBlue);
+
+  let ids = [4, 7, 1];
+  let names = [t('npc.starter.1'), t('npc.starter.2'), t('npc.starter.3')];
+
+  for(let i=0;i<3;i++) {
+    let bx = 35 + i*70;
+    let by = 55;
+
+    if(i===starterState.sel) {
+      drawWin(bx-5, by-5, 62, 90);
+      let bounce = Math.sin(Date.now()/150)*1;
+      drawText('▶', bx-2+bounce, by+45, 8, C.pokered);
+    }
+
+    drawPokemonSprite(bx+6, by, ids[i], 48);
+    drawText(names[i], bx+2, by+70, GS.lang==='ko'?9:6, i===starterState.sel?C.text:C.textDis);
+  }
+}
+
+// ========== WILD BATTLE ==========
+function startWildBattle(encTable) {
+  let table = ENCOUNTERS[encTable];
+  if(!table || PD.party.length===0) return;
+
+  // Pick pokemon
+  let roll = Math.random()*100, cumul=0, chosen=table[0];
+  for(let e of table) {
+    cumul += e.rate;
+    if(roll < cumul) { chosen = e; break; }
+  }
+
+  let lv = chosen.minLv + Math.floor(Math.random()*(chosen.maxLv-chosen.minLv+1));
+  let wild = createPokemon(chosen.id, lv);
+
+  if(!PD.pokedex.seen.includes(chosen.id)) PD.pokedex.seen.push(chosen.id);
+
+  battleState = {
+    type:'wild',
+    enemy: wild,
+    playerPk: PD.party[0],
+    phase:'intro', // intro, menu, fight, animating, result, catch
+    sel:0, moveSel:0,
+    msg:[], msgIdx:0, msgCharIdx:0, msgTyping:true,
+    turn:0, animTimer:0,
+    playerAnim:{ x:0, shake:0 },
+    enemyAnim:{ x:0, shake:0, alpha:1 },
+    catchAnim:{ phase:0, shakes:0, timer:0 },
+    runAttempts:0,
+    prevScreen: screen,
+  };
+
+  let wildName = getPkDisplayName(wild);
+  let playerName = getPkDisplayName(PD.party[0]);
+  battleState.msg = [
+    t('bat.wild', {name:wildName}),
+    t('bat.go', {name:playerName}),
+  ];
+
+  startFade(1, () => {
+    screen = 'battle';
+  }, 0.08);
+}
+
+function updateBattle() {
+  if(fade.active) return;
+  let B = battleState;
+
+  // Message display
+  if(B.msg.length > 0 && B.msgIdx < B.msg.length) {
+    B.msgCharIdx += [0.5,1,2][GS.textSpd];
+    let curMsg = B.msg[B.msgIdx];
+    if(B.msgCharIdx >= curMsg.length) {
+      B.msgCharIdx = curMsg.length;
+      B.msgTyping = false;
+    }
+    if(ck('x')||ck('X')) {
+      if(B.msgTyping) {
+        B.msgCharIdx = curMsg.length;
+        B.msgTyping = false;
+      } else {
+        B.msgIdx++;
+        B.msgCharIdx = 0;
+        B.msgTyping = true;
+        if(B.msgIdx >= B.msg.length) {
+          // Messages done
+          if(B.phase === 'intro') B.phase = 'menu';
+          if(B.phase === 'result') {
+            // Check win/lose/continue
+            if(B.enemy.curHP <= 0) {
+              endBattle(true);
+              return;
+            }
+            if(B.playerPk.curHP <= 0) {
+              // Check for next pokemon
+              let next = PD.party.find(p => p.curHP > 0);
+              if(next) {
+                B.playerPk = next;
+                B.msg = [t('bat.go', {name:getPkDisplayName(next)})];
+                B.msgIdx = 0; B.msgCharIdx = 0; B.msgTyping = true;
+                B.phase = 'intro';
+              } else {
+                endBattle(false);
+              }
+              return;
+            }
+            B.phase = 'menu';
+          }
+          if(B.phase === 'ranaway') {
+            endBattle(true);
+            return;
+          }
+          if(B.phase === 'caught') {
+            endBattle(true);
+            return;
+          }
+        }
+      }
+    }
+    return;
+  }
+
+  // Battle menu
+  if(B.phase === 'menu') {
+    let d = ckDir();
+    if(d==='up'||d==='down') B.sel ^= 2;
+    if(d==='left'||d==='right') B.sel ^= 1;
+
+    if(ck('x')||ck('X')) {
+      if(B.sel===0) { B.phase='fight'; B.moveSel=0; } // Fight
+      if(B.sel===1) { // Bag
+        tryUsePokeball();
+      }
+      if(B.sel===2) { // Pokemon
+        screen = 'party';
+        partyState.sel = 0;
+        partyState.fromBattle = true;
+      }
+      if(B.sel===3) { // Run
+        tryRun();
+      }
+    }
+    if(ck('z')||ck('Z')) {} // Can't cancel main menu
+  }
+
+  // Move selection
+  if(B.phase === 'fight') {
+    let d = ckDir();
+    let mc = B.playerPk.moves.length;
+    if(d==='up'||d==='down') B.moveSel = (B.moveSel^2) % mc;
+    if(d==='left'||d==='right') {
+      let ns = B.moveSel^1;
+      if(ns < mc) B.moveSel = ns;
+    }
+
+    if(ck('z')||ck('Z')) { B.phase='menu'; return; }
+
+    if(ck('x')||ck('X')) {
+      let move = B.playerPk.moves[B.moveSel];
+      if(move && move.pp > 0) {
+        executeTurn(move.name);
+      }
+    }
+  }
+}
+
+function executeTurn(playerMove) {
+  let B = battleState;
+  let p = B.playerPk, e = B.enemy;
+  let pMove = MOVES[playerMove];
+  let eMoves = e.moves.filter(m => m.pp > 0);
+  let eMoveName = eMoves.length > 0 ? eMoves[Math.floor(Math.random()*eMoves.length)].name : '몸통박치기';
+  let eMove = MOVES[eMoveName];
+
+  B.msg = [];
+  B.msgIdx = 0; B.msgCharIdx = 0; B.msgTyping = true;
+
+  // Determine order
+  let pPri = pMove?.priority || 0;
+  let ePri = eMove?.priority || 0;
+  let playerFirst = pPri > ePri || (pPri === ePri && p.stats.spe >= e.stats.spe);
+
+  let first = playerFirst ? {pk:p, move:playerMove, md:pMove, isPlayer:true} : {pk:e, move:eMoveName, md:eMove, isPlayer:false};
+  let second = playerFirst ? {pk:e, move:eMoveName, md:eMove, isPlayer:false} : {pk:p, move:playerMove, md:pMove, isPlayer:true};
+
+  // Reduce PP
+  let pmIdx = p.moves.findIndex(m=>m.name===playerMove);
+  if(pmIdx>=0) p.moves[pmIdx].pp--;
+  let emIdx = e.moves.findIndex(m=>m.name===eMoveName);
+  if(emIdx>=0) e.moves[emIdx].pp--;
+
+  // Execute first attack
+  executeMove(first, playerFirst?e:p, B);
+
+  // Check if second attacker still alive
+  let target2 = playerFirst ? p : e;
+  let attacker2pk = second.pk;
+  if(attacker2pk.curHP > 0 && target2.curHP > 0) {
+    executeMove(second, target2, B);
+  }
+
+  // Check results
+  if(e.curHP <= 0) {
+    B.msg.push(t('bat.fainted', {name:getPkDisplayName(e)}));
+    // EXP gain
+    let expGain = Math.floor((e.stats.hp * POKEDEX[e.id].bexp) / 7);
+    B.msg.push(t('bat.exp', {name:getPkDisplayName(p), exp:expGain}));
+    p.exp += expGain;
+    // Level up check
+    while(p.exp >= p.expNext && p.level < 100) {
+      p.level++;
+      let d = POKEDEX[p.id];
+      p.stats.hp = calcStat(d.bs.hp, p.level, p.iv.hp, true);
+      p.stats.atk = calcStat(d.bs.atk, p.level, p.iv.atk);
+      p.stats.def = calcStat(d.bs.def, p.level, p.iv.def);
+      p.stats.spa = calcStat(d.bs.spa, p.level, p.iv.spa);
+      p.stats.spd = calcStat(d.bs.spd, p.level, p.iv.spd);
+      p.stats.spe = calcStat(d.bs.spe, p.level, p.iv.spe);
+      let hpDiff = p.stats.hp - (p.curHP + (calcStat(d.bs.hp, p.level, p.iv.hp, true) - p.stats.hp));
+      p.curHP = Math.min(p.stats.hp, p.curHP + Math.max(0, hpDiff));
+      p.exp -= p.expNext;
+      p.expNext = Math.pow(p.level+1,3) - Math.pow(p.level,3);
+      B.msg.push(t('bat.levelup', {name:getPkDisplayName(p), lv:p.level}));
+      // Learn new moves
+      let newMoves = POKEDEX[p.id].moves.filter(m=>m.l===p.level);
+      for(let nm of newMoves) {
+        if(p.moves.length < 4) {
+          p.moves.push({name:nm.m, pp:MOVES[nm.m]?.pp||10, maxPP:MOVES[nm.m]?.pp||10});
+          B.msg.push((GS.lang==='ko'?getPkDisplayName(p)+'(은)는 '+moveName(nm.m)+'(을)를 배웠다!':getPkDisplayName(p)+' learned '+moveName(nm.m)+'!'));
+        }
+      }
+    }
+    B.phase = 'result';
+  } else if(p.curHP <= 0) {
+    B.msg.push(t('bat.fainted', {name:getPkDisplayName(p)}));
+    B.phase = 'result';
+  } else {
+    B.phase = 'result';
+  }
+}
+
+function executeMove(attacker, defender, B) {
+  let name = getPkDisplayName(attacker.pk);
+  let mname = moveName(attacker.move);
+  B.msg.push(t('bat.used', {name:name, move:mname}));
+
+  let md = attacker.md;
+  if(!md) return;
+
+  // Status moves
+  if(md.cat === '변화') {
+    // Simple stat messages
+    return;
+  }
+
+  // Damage calc
+  let lv = attacker.pk.level;
+  let pow = md.pow;
+  let atk = md.cat==='물리' ? attacker.pk.stats.atk : attacker.pk.stats.spa;
+  let def = md.cat==='물리' ? defender.stats.def : defender.stats.spd;
+
+  // Accuracy check
+  if(Math.random()*100 > (md.acc||100)) {
+    B.msg.push(GS.lang==='ko'?'빗나갔다!':'It missed!');
+    return;
+  }
+
+  let base = Math.floor(((2*lv/5+2)*pow*atk/def)/50) + 2;
+
+  // STAB
+  let stab = 1;
+  if(attacker.pk.types.includes(md.type)) stab = 1.5;
+
+  // Type effectiveness
+  let eff = getTypeEff(md.type, defender.types);
+
+  // Critical
+  let crit = 1;
+  if(Math.random() < 0.0625) crit = 1.5;
+
+  // Random
+  let rand = 0.85 + Math.random()*0.15;
+
+  let damage = Math.max(1, Math.floor(base * stab * eff * crit * rand));
+  defender.curHP = Math.max(0, defender.curHP - damage);
+
+  if(eff > 1) B.msg.push(t('bat.effective'));
+  if(eff > 0 && eff < 1) B.msg.push(t('bat.noteffective'));
+  if(eff === 0) B.msg.push(t('bat.noeffect', {name:getPkDisplayName(defender)}));
+  if(crit > 1) B.msg.push(GS.lang==='ko'?'급소에 맞았다!':'A critical hit!');
+}
+
+function tryRun() {
+  let B = battleState;
+  B.runAttempts++;
+  let pSpe = B.playerPk.stats.spe;
+  let eSpe = B.enemy.stats.spe;
+  let f = Math.floor((pSpe*128/Math.max(1,eSpe))+30*B.runAttempts) % 256;
+  if(Math.random()*256 < f || B.type==='wild') {
+    B.msg = [t('bat.ranaway')];
+    B.phase = 'ranaway';
+  } else {
+    B.msg = [t('bat.cantrun')];
+    B.phase = 'result';
+  }
+  B.msgIdx = 0; B.msgCharIdx = 0; B.msgTyping = true;
+}
+
+function tryUsePokeball() {
+  let B = battleState;
+  if(B.type !== 'wild') return;
+
+  let ballItem = PD.bag.pokeballs.find(b => b.qty > 0);
+  if(!ballItem) {
+    B.msg = [GS.lang==='ko'?'포켓볼이 없다!':'No POKé BALLs!'];
+    B.msgIdx=0; B.msgCharIdx=0; B.msgTyping=true;
+    B.phase='result';
+    return;
+  }
+
+  ballItem.qty--;
+  let e = B.enemy;
+  let maxHP = e.stats.hp;
+  let curHP = e.curHP;
+  let catchRate = POKEDEX[e.id]?.cr || 45;
+  let ballBonus = ballItem.id==='greatball' ? 1.5 : 1;
+  let statusBonus = e.status==='sleep'||e.status==='freeze' ? 2.5 : e.status ? 1.5 : 1;
+
+  let a = Math.floor((3*maxHP - 2*curHP) * catchRate * ballBonus / (3*maxHP) * statusBonus);
+  let b = Math.floor(65536 / Math.sqrt(Math.sqrt(255*3/Math.max(1,a))));
+
+  let shakes = 0;
+  for(let i=0;i<4;i++) {
+    if(Math.random()*65536 < b) shakes++;
+    else break;
+  }
+
+  let ballName = t('item.'+ballItem.id);
+  B.msg = [t('bat.catch.throw', {name:ballName})];
+
+  for(let i=0;i<Math.min(shakes,3);i++) B.msg.push('...');
+
+  if(shakes >= 4) {
+    B.msg.push(t('bat.catch.success', {name:getPkDisplayName(e)}));
+    // Add to party or PC
+    if(PD.party.length < 6) PD.party.push(e);
+    else PD.pc.push(e);
+    if(!PD.pokedex.caught.includes(e.id)) PD.pokedex.caught.push(e.id);
+    B.phase = 'caught';
+  } else {
+    B.msg.push(t('bat.catch.fail'));
+    // Enemy attacks
+    let eMoves = e.moves.filter(m=>m.pp>0);
+    if(eMoves.length > 0) {
+      let eMoveName = eMoves[Math.floor(Math.random()*eMoves.length)].name;
+      let eMove = MOVES[eMoveName];
+      executeMove({pk:e, move:eMoveName, md:eMove, isPlayer:false}, B.playerPk, B);
+    }
+    B.phase = 'result';
+  }
+  B.msgIdx=0; B.msgCharIdx=0; B.msgTyping=true;
+}
+
+function endBattle(won) {
+  startFade(1, () => {
+    screen = 'field';
+  });
+}
+
+function renderBattle() {
+  let B = battleState;
+  if(!B.enemy) return;
+
+  // Background
+  ctx.fillStyle = C.white;
+  ctx.fillRect(0,0,W,H);
+
+  // Battle field gradient
+  ctx.fillStyle = '#c8d8c0';
+  ctx.fillRect(0, 70, W, 70);
+  ctx.fillStyle = '#a8c098';
+  ctx.fillRect(0, 100, W, 40);
+
+  // Enemy pokemon (top right area)
+  if(B.enemy.curHP > 0) {
+    drawPokemonSprite(160, 15, B.enemy.id, 56);
+  }
+
+  // Player pokemon (bottom left area)
+  if(B.playerPk.curHP > 0) {
+    drawPokemonSprite(30, 55, B.playerPk.id, 64, true);
+  }
+
+  // Enemy HP box
+  drawWin(4, 8, 120, 34);
+  let eName = getPkDisplayName(B.enemy);
+  drawText(eName, 10, 22, GS.lang==='ko'?10:7, C.text);
+  drawText('Lv.'+B.enemy.level, 85, 22, 7, C.text, 'Press Start 2P');
+  drawHPBar(10, 28, 100, B.enemy.curHP, B.enemy.stats.hp);
+
+  // Player HP box
+  drawWin(132, 90, 120, 48);
+  let pName = getPkDisplayName(B.playerPk);
+  drawText(pName, 138, 104, GS.lang==='ko'?10:7, C.text);
+  drawText('Lv.'+B.playerPk.level, 212, 104, 7, C.text, 'Press Start 2P');
+  drawHPBar(138, 110, 100, B.playerPk.curHP, B.playerPk.stats.hp);
+  drawText('HP:'+B.playerPk.curHP+'/'+B.playerPk.stats.hp, 138, 124, 7, C.text, 'Press Start 2P');
+  drawEXPBar(138, 128, 100, B.playerPk.exp, B.playerPk.expNext);
+
+  // Bottom section
+  if(B.phase === 'menu') {
+    // Message area
+    ctx.fillStyle = '#282828';
+    ctx.fillRect(0, H-52, W/2, 52);
+    ctx.fillStyle = '#383838';
+    ctx.fillRect(2, H-50, W/2-4, 48);
+    // Command menu
+    drawWin(W/2, H-52, W/2, 52);
+    let cmds = ['bat.fight','bat.bag','bat.pokemon','bat.run'];
+    for(let i=0;i<4;i++) {
+      let cx = W/2 + 8 + (i%2)*58;
+      let cy = H-44 + Math.floor(i/2)*22;
+      if(i===B.sel) {
+        let bounce = Math.sin(Date.now()/150)*1;
+        drawText('▶', cx-8+bounce, cy+10, 8, C.pokered);
+      }
+      drawText(t(cmds[i]), cx, cy+10, GS.lang==='ko'?10:7, i===B.sel?C.text:C.textDis);
+    }
+  } else if(B.phase === 'fight') {
+    // Move selection
+    drawWin(0, H-52, W, 52);
+    let moves = B.playerPk.moves;
+    for(let i=0;i<moves.length;i++) {
+      let mx = 12 + (i%2)*120;
+      let my = H-44 + Math.floor(i/2)*22;
+      let md = MOVES[moves[i].name];
+      if(i===B.moveSel) {
+        let bounce = Math.sin(Date.now()/150)*1;
+        drawText('▶', mx-8+bounce, my+10, 8, C.pokered);
+        // Type color indicator
+        if(md) {
+          ctx.fillStyle = TYPE_COLOR[md.type] || '#a8a878';
+          ctx.fillRect(mx+80, my+2, 36, 12);
+          drawText(GS.lang==='ko'?md.type:TYPE_EN[md.type], mx+82, my+11, 6, C.white, 'Press Start 2P');
+        }
+      }
+      drawText(moveName(moves[i].name), mx, my+10, GS.lang==='ko'?10:7, i===B.moveSel?C.text:C.textDis);
+      drawText(moves[i].pp+'/'+moves[i].maxPP, mx+65, my+10, 6, C.hint, 'Press Start 2P');
+    }
+  } else {
+    // Message display
+    ctx.fillStyle = '#282828';
+    ctx.fillRect(0, H-52, W, 52);
+    ctx.fillStyle = '#383838';
+    ctx.fillRect(2, H-50, W-4, 48);
+    if(B.msgIdx < B.msg.length) {
+      let shown = B.msg[B.msgIdx].substring(0, Math.floor(B.msgCharIdx));
+      drawText(shown, 10, H-28, GS.lang==='ko'?11:8, C.white);
+      if(!B.msgTyping) {
+        let bounce = Math.sin(Date.now()/200)*2;
+        ctx.fillStyle = C.white;
+        ctx.fillRect(W-16, H-12+bounce, 6, 6);
+      }
+    }
+  }
+}
+
+// ========== IN-GAME MENU ==========
+function updateMenu() {
+  let d = ckDir();
+  if(d==='up') menuState.sel = (menuState.sel+5)%6;
+  if(d==='down') menuState.sel = (menuState.sel+1)%6;
+
+  if(ck('z')||ck('Z')||ck('s')||ck('S')) { screen='field'; return; }
+
+  if(ck('x')||ck('X')) {
+    if(menuState.sel===0) { screen='party'; partyState.sel=0; partyState.fromBattle=false; }
+    if(menuState.sel===1) { screen='bag_menu'; }
+    // 2 = trainer card (TODO)
+    if(menuState.sel===3) { saveGame(); showDialog([t('menu.saved')], ()=>{ screen='menu'; }); }
+    if(menuState.sel===4) { screen='options'; optState.sel=0; }
+    if(menuState.sel===5) { screen='field'; }
+  }
+}
+
+function renderMenu() {
+  renderField(); // Show field behind
+  drawWin(W-90, 4, 86, 130);
+
+  let items = ['menu.pokemon','menu.bag','menu.card','menu.save','menu.option','menu.close'];
+  for(let i=0;i<items.length;i++) {
+    let yy = 14 + i*19;
+    if(i===menuState.sel) {
+      let bounce = Math.sin(Date.now()/150)*1;
+      drawText('▶', W-86+bounce, yy+10, 8, C.pokered);
+    }
+    drawText(t(items[i]), W-74, yy+10, GS.lang==='ko'?10:7, i===menuState.sel?C.text:C.textDis);
+  }
+}
+
+// ========== PARTY SCREEN ==========
+function updateParty() {
+  let d = ckDir();
+  if(d==='up') partyState.sel = Math.max(0, partyState.sel-1);
+  if(d==='down') partyState.sel = Math.min(PD.party.length-1, partyState.sel+1);
+
+  if(ck('z')||ck('Z')) {
+    screen = partyState.fromBattle ? 'battle' : 'menu';
+    return;
+  }
+
+  if(ck('x')||ck('X') && partyState.fromBattle) {
+    let sel = PD.party[partyState.sel];
+    if(sel && sel.curHP > 0 && sel !== battleState.playerPk) {
+      battleState.playerPk = sel;
+      battleState.msg = [t('bat.go', {name:getPkDisplayName(sel)})];
+      battleState.msgIdx=0; battleState.msgCharIdx=0; battleState.msgTyping=true;
+      battleState.phase = 'result';
+      screen = 'battle';
+    }
+  }
+}
+
+function renderParty() {
+  ctx.fillStyle = C.sky;
+  ctx.fillRect(0,0,W,H);
+  drawWin(4,4,W-8,H-8);
+  drawText(t('menu.pokemon'), 12, 20, GS.lang==='ko'?12:8, C.titleBlue);
+
+  for(let i=0;i<PD.party.length;i++) {
+    let p = PD.party[i];
+    let yy = 28 + i*26;
+    if(i===partyState.sel) {
+      ctx.fillStyle = '#e8e8d8';
+      ctx.fillRect(8, yy, W-16, 24);
+      let bounce = Math.sin(Date.now()/150)*1;
+      drawText('▶', 10+bounce, yy+16, 8, C.pokered);
+    }
+    // Mini sprite
+    drawPokemonSprite(22, yy+2, p.id, 20);
+    drawText(getPkDisplayName(p), 46, yy+12, GS.lang==='ko'?9:7, C.text);
+    drawText('Lv.'+p.level, 140, yy+12, 7, C.text, 'Press Start 2P');
+    drawHPBar(180, yy+8, 60, p.curHP, p.stats.hp);
+    drawText(p.curHP+'/'+p.stats.hp, 190, yy+22, 6, C.hint, 'Press Start 2P');
+  }
+
+  if(PD.party.length===0) {
+    drawTextCentered(GS.lang==='ko'?'포켓몬이 없습니다':'No POKéMON', 100, GS.lang==='ko'?12:8, C.textDis);
+  }
+}
+
+// ========== BAG SCREEN ==========
+let bagState = { sel:0, cat:0 };
+function updateBag() {
+  if(ck('z')||ck('Z')) { screen='menu'; return; }
+
+  let d = ckDir();
+  if(d==='left') bagState.cat = Math.max(0, bagState.cat-1);
+  if(d==='right') bagState.cat = Math.min(1, bagState.cat+1);
+
+  let items = bagState.cat===0 ? PD.bag.items : PD.bag.pokeballs;
+  if(d==='up') bagState.sel = Math.max(0, bagState.sel-1);
+  if(d==='down') bagState.sel = Math.min(items.length-1, bagState.sel+1);
+}
+
+function renderBag() {
+  ctx.fillStyle = C.sky;
+  ctx.fillRect(0,0,W,H);
+  drawWin(4,4,W-8,H-8);
+  drawText(t('menu.bag'), 12, 20, GS.lang==='ko'?12:8, C.titleBlue);
+
+  // Category tabs
+  let cats = [GS.lang==='ko'?'도구':'Items', GS.lang==='ko'?'포켓볼':'Balls'];
+  for(let i=0;i<cats.length;i++) {
+    let tx = 12+i*70;
+    ctx.fillStyle = i===bagState.cat ? C.pokered : C.textDis;
+    ctx.fillRect(tx, 26, 60, 14);
+    drawText(cats[i], tx+4, 37, GS.lang==='ko'?9:6, C.white);
+  }
+
+  let items = bagState.cat===0 ? PD.bag.items : PD.bag.pokeballs;
+  for(let i=0;i<items.length;i++) {
+    let yy = 46 + i*20;
+    if(i===bagState.sel) {
+      ctx.fillStyle = '#e8e8d8';
+      ctx.fillRect(8, yy, W-16, 18);
+      let bounce = Math.sin(Date.now()/150)*1;
+      drawText('▶', 10+bounce, yy+13, 8, C.pokered);
+    }
+    drawText(t('item.'+items[i].id), 24, yy+13, GS.lang==='ko'?10:7, C.text);
+    drawText('x'+items[i].qty, 200, yy+13, 7, C.text, 'Press Start 2P');
+  }
+
+  if(items.length===0) {
+    drawTextCentered(GS.lang==='ko'?'아이템이 없습니다':'No items', 100, GS.lang==='ko'?10:7, C.textDis);
+  }
+}
+
+// ========== SAVE / LOAD ==========
+function saveGame() {
+  let data = {
+    player: { name:PD.name, gender:PD.gender, money:PD.money, badges:PD.badges, playTime:PD.playTime },
+    party: PD.party, pc: PD.pc, bag: PD.bag,
+    pokedex: PD.pokedex, flags: PD.flags,
+    currentMap: fieldState.map,
+    playerPos: { x:fieldState.px, y:fieldState.py, dir:fieldState.dir },
+  };
+  localStorage.setItem('pkt_save', JSON.stringify(data));
+}
+
+function loadGame() {
+  try {
+    let data = JSON.parse(localStorage.getItem('pkt_save'));
+    if(!data) return false;
+    PD.name = data.player.name;
+    PD.gender = data.player.gender;
+    PD.money = data.player.money;
+    PD.badges = data.player.badges || [];
+    PD.playTime = data.player.playTime || 0;
+    PD.party = data.party || [];
+    PD.pc = data.pc || [];
+    PD.bag = data.bag || { items:[], pokeballs:[], keyItems:[], tms:[] };
+    PD.pokedex = data.pokedex || { seen:[], caught:[] };
+    PD.flags = data.flags || {};
+    fieldState.map = data.currentMap;
+    fieldState.px = data.playerPos.x;
+    fieldState.py = data.playerPos.y;
+    fieldState.dir = data.playerPos.dir;
+    return true;
+  } catch(e) { return false; }
+}
+
+// ========== GAME LOOP ==========
+let lastTime = 0;
+let accumulator = 0;
+const TICK = 1000/60;
+
+function gameLoop(time) {
+  requestAnimationFrame(gameLoop);
+  ctx.imageSmoothingEnabled = false;
+
+  let dt = time - lastTime;
+  lastTime = time;
+  accumulator += dt * GS.speed;
+
+  while(accumulator >= TICK) {
+    accumulator -= TICK;
+    update();
+  }
+
+  render();
+}
+
+function update() {
+  updateFade();
+  if(fade.active) return;
+
+  switch(screen) {
+    case 'title': updateTitle(); break;
+    case 'options': updateOptions(); break;
+    case 'prologue': updatePrologue(); break;
+    case 'field': updateField(); break;
+    case 'battle': updateBattle(); break;
+    case 'menu': updateMenu(); break;
+    case 'dialog': updateDialog(); break;
+    case 'starter': updateStarter(); break;
+    case 'party': updateParty(); break;
+    case 'bag_menu': updateBag(); break;
+  }
+}
+
+function render() {
+  ctx.clearRect(0,0,W,H);
+
+  switch(screen) {
+    case 'title': renderTitle(); break;
+    case 'options': renderOptions(); break;
+    case 'prologue': renderPrologue(); break;
+    case 'field': renderField(); break;
+    case 'battle': renderBattle(); break;
+    case 'menu': renderMenu(); break;
+    case 'dialog':
+      renderField();
+      renderDialog();
+      break;
+    case 'starter': renderStarter(); break;
+    case 'party': renderParty(); break;
+    case 'bag_menu': renderBag(); break;
+  }
+
+  drawFade();
+}
+
+// ========== START ==========
+requestAnimationFrame(gameLoop);
+</script>
+</body>
+</html>
