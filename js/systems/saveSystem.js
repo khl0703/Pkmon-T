@@ -1,5 +1,6 @@
 import { fieldState, PD } from "../core/state.js";
 import { loadSaveFromStorage, saveGameToStorage } from "../core/storage.js";
+import { createEmptyBag, normalizeBagData } from "../data/items.js";
 
 export function saveGame() {
   const data = {
@@ -35,7 +36,7 @@ export function loadGame() {
   PD.playTime = data.player?.playTime || 0;
   PD.party = data.party || [];
   PD.pc = data.pc || [];
-  PD.bag = data.bag || { items: [], pokeballs: [], keyItems: [], tms: [] };
+  PD.bag = normalizeBagData(data.bag || createEmptyBag());
   PD.pokedex = data.pokedex || { seen: [], caught: [] };
   PD.flags = data.flags || {};
 

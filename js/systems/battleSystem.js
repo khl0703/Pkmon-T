@@ -8,7 +8,8 @@ import { weightedPick } from "../core/utils.js";
 
 export function startWildBattle(encounterTableId) {
   const table = ENCOUNTERS[encounterTableId];
-  if (!table || PD.party.length === 0) {
+  const leadPokemon = PD.party.find((pokemon) => pokemon.curHP > 0);
+  if (!table || PD.party.length === 0 || !leadPokemon) {
     return;
   }
 
@@ -23,11 +24,11 @@ export function startWildBattle(encounterTableId) {
   setBattleState({
     type: "wild",
     enemy: wild,
-    playerPk: PD.party[0],
+    playerPk: leadPokemon,
     phase: "intro",
     sel: 0,
     moveSel: 0,
-    msg: [t("bat.wild", { name: getPkDisplayName(wild) }), t("bat.go", { name: getPkDisplayName(PD.party[0]) })],
+    msg: [t("bat.wild", { name: getPkDisplayName(wild) }), t("bat.go", { name: getPkDisplayName(leadPokemon) })],
     msgIdx: 0,
     msgCharIdx: 0,
     msgTyping: true,

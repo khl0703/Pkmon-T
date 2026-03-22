@@ -29,6 +29,7 @@ function saveSettings() {
 }
 
 function updateTitle() {
+  optState.returnScreen = "title";
   titleState.ballAnim += 0.02;
   titleState.pressTimer += 1;
 
@@ -67,6 +68,7 @@ function updateTitle() {
   }
 
   if (titleState.sel === 2) {
+    optState.returnScreen = "title";
     setScreen("options");
     optState.sel = 0;
   }
@@ -127,7 +129,7 @@ function updateOptions() {
   }
 
   if (ck("z") || ck("Z") || ((ck("x") || ck("X")) && optState.sel === 5)) {
-    setScreen("title");
+    setScreen(optState.returnScreen || "title");
     saveSettings();
   }
 }

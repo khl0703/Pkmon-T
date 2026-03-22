@@ -14,15 +14,15 @@ export const screenState = {
 };
 
 export const titleState = { phase: "press", sel: 0, pressTimer: 0, ballAnim: 0 };
-export const optState = { sel: 0 };
+export const optState = { sel: 0, returnScreen: "title" };
 export const proState = { step: 0, timer: 0, alpha: 1, textIdx: 0, typing: false, text: "", charTimer: 0 };
 export const fieldState = { map: null, px: 0, py: 0, dir: "down", moving: false, moveT: 0, frame: 0, animTimer: 0, stepCount: 0 };
 export const battleState = {};
-export const menuState = { sel: 0, open: false };
+export const menuState = { sel: 0, open: false, lastMessage: null };
 export const dialogState = { lines: [], idx: 0, charIdx: 0, done: false, callback: null, typing: true };
 export const starterState = { sel: 0 };
 export const partyState = { sel: 0, fromBattle: false };
-export const bagState = { sel: 0, cat: 0 };
+export const bagState = { sel: 0, cat: 0, mode: "list", actionSel: 0, message: null };
 
 export const PD = {
   name: "Frances",
@@ -33,7 +33,7 @@ export const PD = {
   party: [],
   pc: [],
   flags: {},
-  bag: { items: [], pokeballs: [], keyItems: [], tms: [] },
+  bag: { items: [], pokeballs: [], battleItems: [], machines: [], keyItems: [], tms: [] },
   pokedex: { seen: [], caught: [] },
 };
 
